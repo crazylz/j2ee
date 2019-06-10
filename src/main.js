@@ -4,8 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import qs from 'qs'
+import qs from 'qs' //跨域加密
 import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'  //element-ui的默认背景色
 
 Vue.config.productionTip = false
 
