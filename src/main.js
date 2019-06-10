@@ -3,8 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import qs from 'qs'
+import ElementUI from 'element-ui'
 
 Vue.config.productionTip = false
+
+Vue.use(ElementUI)
+// axios.defaults.baseURL = 'http://localhost:5000/api/'; //请求基地址
+// axios.defaults.withCredentials = true //使跨域session请求统一
+Vue.prototype.$ajax = axios;  //配置axios依赖发起ajax请求
+Vue.prototype.$qs = qs;
 
 /* eslint-disable no-new */
 new Vue({
