@@ -33,35 +33,35 @@ const router = new Router({
       component:userhome,
       children:[
         {
-          path:'/persondata',
+          path:'/userhome/persondata',
           component:persondata
         },
         {
-          path:'/existingloans',
+          path:'/userhome/existingloans',
           component:existingloans
         },
         {
-          path:'/newloans',
+          path:'/userhome/newloans',
           component:newloans
         },
         {
-          path:'/existingproducts',
+          path:'/userhome/existingproducts',
           component:existingproducts
         },
         {
-          path:'/newproducts',
+          path:'/userhome/newproducts',
           component:newproducts
         },
         {
-          path:'/withdraw',
+          path:'/userhome/withdraw',
           component:withdraw
         },
         {
-          path:'/invest',
+          path:'/userhome/invest',
           component:invest
         },
         {
-          path:'/repay',
+          path:'/userhome/repay',
           component:repay
         }
       ]
