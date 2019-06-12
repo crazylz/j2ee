@@ -206,10 +206,4 @@
   }
 </script>
 
-<style>
-.el-table{
-  position: absolute;
-  top: 60px;
-  left:200px;
-}
-</style>
+<style></style>

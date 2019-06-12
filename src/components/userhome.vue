@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <el-container>
         <!-- 顶栏 -->
         <el-header>Header</el-header>
 
@@ -40,7 +40,7 @@
         <el-main>
             <router-view></router-view>
         </el-main>
-    </div>
+    </el-container>
 </template>
 
 <script>
@@ -50,7 +50,7 @@
 </script>
 
 <style scoped>
-  .container{
+  .el-container{
         position: absolute;
 		top: 0;
 		bottom: 0;
@@ -67,5 +67,11 @@
   .el-aside {
     color: #333;
     height:100%;
+  }
+
+  .el-main{
+    position:absolute;
+    top:60px;
+    left:200px;
   }
 </style>
