@@ -47,15 +47,14 @@
 
   <el-pagination
   style = "position: absolute;
- left:50%;
- transform:tranfromX(-50%);
- margin-top:px;"
+           left:50%;
+           transform:tranfromX(-50%);
+           margin-top: -40px;"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page.sync="currentPage3"
     :page-size="100"
     layout="prev, pager, next, jumper"
-    :total="1000">
+    :total="100*(all_tableData.length/16)">
   </el-pagination>
 
 
@@ -68,7 +67,7 @@
   export default {
     data() {
       return {
-        tableData: [{
+        all_tableData: [{
           amount: 1000000,
           date: '2016-05-02',
           name: '王小虎',
@@ -163,13 +162,46 @@
           date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        }],
+        tableData: []
       }
     },
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
+      },
+
+      getDataByPage(pageindex){
+        var begin = pageindex * 16;
+        if(begin > this.all_tableData.length){
+          this.tableData = this.all_tableData.slice(begin-16, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(begin-16, begin);
+        }
+        // console.log(begin);
+      },
+
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.getDataByPage(val);
+      },
+      
+      getOriginalData(){
+        if(this.all_tableData.length < 16){
+          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(0, 16);
+        }
       }
+    },
+
+    mounted(){
+      this.getOriginalData();
     }
   }
 </script>
