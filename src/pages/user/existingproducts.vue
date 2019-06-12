@@ -1,9 +1,10 @@
 <template>
   <div>
   <el-table
-    :data="tableData"
-    height=896%
-    style="width: 88%">
+    ref="filterTable"
+    :data="all_tableData"
+    height=590%
+    style="width: 100%">
     <el-table-column
       label="金额"
       width="180">
@@ -13,12 +14,14 @@
     </el-table-column>
 
     <el-table-column
+      prop = "submit_date"
       label="提交时间"
-      width="180">
-      <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
+      sortable
+      width="180"
+      column-key="submit_date"
+      :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
+      :filter-method="filterHandler">
+
     </el-table-column>
 
     <el-table-column
@@ -46,15 +49,11 @@
   </el-table>
 
   <el-pagination
-  style = "position: absolute;
-           left:50%;
-           transform:tranfromX(-50%);
-           margin-top: -40px;"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
     :page-size="100"
     layout="prev, pager, next, jumper"
-    :total="100*(all_tableData.length/16)">
+    :total="100*(all_tableData.length/10)">
   </el-pagination>
 
 
@@ -69,97 +68,97 @@
       return {
         all_tableData: [{
           amount: 1000000,
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          submit_date: '2016-05-02',
+          name: '王小',
+          address: '上海市普陀区金沙江路 1518'
         }, {
           amount: 1000000,
-          date: '2016-05-04',
-          name: '王小虎',
+          submit_date: '2016-05-04',
+          name: '王中',
           address: '上海市普陀区金沙江路 1517 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-01',
-          name: '王小虎',
+          submit_date: '2016-05-01',
+          name: '王大',
           address: '上海市普陀区金沙江路 1519 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
+          name: '王大大',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }, {
+          amount: 1000000,
+          submit_date: '2016-05-03',
+          name: '王小小',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }, {
+          amount: 1000000,
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
+          name: '王小狗',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }, {
+          amount: 1000000,
+          submit_date: '2016-05-03',
+          name: '王小猫',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }, {
+          amount: 1000000,
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }, {
           amount: 1000000,
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          date: '2016-05-03',
+          submit_date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }],
@@ -172,12 +171,12 @@
       },
 
       getDataByPage(pageindex){
-        var begin = pageindex * 16;
+        var begin = pageindex * 10;
         if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-16, this.all_tableData.length);
+          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
         }
         else{
-          this.tableData = this.all_tableData.slice(begin-16, begin);
+          this.tableData = this.all_tableData.slice(begin-10, begin);
         }
         // console.log(begin);
       },
@@ -191,12 +190,16 @@
       },
       
       getOriginalData(){
-        if(this.all_tableData.length < 16){
+        if(this.all_tableData.length < 10){
           this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
         }
         else{
-          this.tableData = this.all_tableData.slice(0, 16);
+          this.tableData = this.all_tableData.slice(0, 10);
         }
+      },
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
       }
     },
 
