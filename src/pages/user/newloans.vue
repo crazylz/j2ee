@@ -1,7 +1,7 @@
 <template>
 	<div>
         <el-main>
-			<div style="margin-top: 30px; font-size: 14px">
+			<div style=" font-size: 14px">
 				<div class="login">
 					<div>
 						<h2 style="text-align: center;color: #606266; font-size:30px">新建贷款</h2>
@@ -27,14 +27,15 @@
                                 :picker-options="pickerOptions">
                                 </el-date-picker>
                             </div>
-                            &nbsp;
-							<el-form-item style="margin-right:170px; margin-bottom=0px">
-                                <!-- 跳转成功页面 -->
-								<el-button type='primary' 
-								>新建贷款</el-button>
-							</el-form-item>
 
-						</el-form>
+                                <el-form-item style="margin-right:200px;margin-top:10px">
+								    <el-button type='primary' 
+								    >贷款</el-button>
+								    <el-button type='primary' @click='set()'
+								    >保存</el-button>
+							    </el-form-item>
+                           
+                         </el-form>   
 					</div>
 				</div>
 			</div>
@@ -98,7 +99,19 @@
 			};
 		},
 		methods:{
-
+            get:function(){
+				var that=this;
+				if(that.loginRole==1){
+				that.$router.push({path:'/userhome'});
+				}else if(that.loginRole==2){
+				that.$router.push({path:'/guaranteehome'});
+				}else if(that.loginRole==3){
+				that.$router.push({path:'/adminhome'});
+				}
+			},
+			set:function(){
+				localStorage.setItem('id',this.Loan.id);
+			}
 		}
 	}
 </script>
@@ -133,5 +146,8 @@
     }
     .input{
         margin-right:140px;
+    }
+    .el-form-item__content{
+        margin-left: 0px;
     }
 </style>
