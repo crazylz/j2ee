@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
+//可以不用先加载，而是最后在routers里面进行require可以加快加载速度
 
 // 登陆、注册界面
 import login from '../pages/login.vue'
