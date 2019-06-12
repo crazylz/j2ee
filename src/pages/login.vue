@@ -22,9 +22,9 @@
 								</el-radio-group>
 							</el-form-item>
 							<el-form-item>
-								<el-button type='primary' @click='login("userLoginForm")'
+								<el-button type='primary' @click='login()'
 								>登录</el-button>
-								<el-button type='primary' @click='login("userLoginForm")'
+								<el-button type='primary' @click='register()'
 								>注册</el-button>
 							</el-form-item>
 						</el-form>
@@ -47,7 +47,7 @@
 		data(){
 				//定义了所有参数
 			return {
-				loginRole:1,
+				loginRole: 1,
 				userLogin: {
 					id: '',
 					password: ''
@@ -65,62 +65,19 @@
 			};
 		},
 		methods:{
-			// login:function(userLoginForm){
-			// 	var that=this;
-			// 	this.$refs['userLoginForm'].validate((valid)=>{
-			// 		if(valid){//表单验证成功
-			// 			var password=document.getElementById('password').value;
-			// 			var userid=document.getElementById('userid').value;
-			// 			sessionStorage.setItem('role', this.loginRole);
-			// 			sessionStorage.setItem('userid', userid);
-			// 			let postData = this.$qs.stringify({//数据数组
-			// 				id: userid,
-			// 				password: password,
-			// 			 	role: this.loginRole
-			// 			});
-			// 			this.$ajax({
-			// 				method:'post',
-			// 				url:'http://localhost:5000/login',
-			// 				data:postData
-			// 			}).then(function (response){
-			// 				if (response.data.success == 'true') {//登陆成功
-			// 					console.log(response.data);
-			// 					var sessionStorage = window.sessionStorage;
-			// 					sessionStorage.setItem('username',response.data.name);
-			// 					sessionStorage.setItem('isHead',response.data.is_head);
-			// 					sessionStorage.setItem('grade_classid',response.data.grade_classid);
-			// 					if(that.loginRole==1){
-			// 						that.$router.push({path:'/home'});
-			// 					}else if(that.loginRole==2){
-			// 						that.$router.push({path:'/business_home'})
-			// 					}else{
-			// 						that.$router.push({path:'/admin_home'})
-			// 					}
-			// 				} else {
-			// 				// console.log(response.data.success);
-			// 					that.$msgbox({
-			// 						title:'登录失败',
-			// 						message:"密码或用户名错误",
-			// 						type:'error'
-			// 					});
-			// 				}
-			// 			}).catch(function (error){
-			// 				that.$msgbox({
-			// 					title: '登录失败',
-			// 					message: '服务器异常:(',
-			// 					type: 'error'
-			// 				});
-			// 			})
-			// 		}
-					// else{//表单验证失败
-					// 	this.$msgbox({
-					// 		title: '登录失败',
-					// 		message: '请检查输入',
-					// 		type: 'error'
-					// 	});
-					// }
-			// 	});
-			// },
+			login:function(){
+				var that=this;
+				if(that.loginRole==1){
+				that.$router.push({path:'/userhome'});
+				}else if(that.loginRole==2){
+				that.$router.push({path:'/guaranteehome'});
+				}else if(that.loginRole==3){
+				that.$router.push({path:'/adminhome'});
+				}
+			},
+			register:function(){
+				this.$router.push({path:'/register'});
+			}
 		}
 	}
 </script>

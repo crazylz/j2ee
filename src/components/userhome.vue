@@ -6,30 +6,30 @@
         <!-- 侧拉栏 -->
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu :default-openeds="[]">
-            <el-submenu index="1">
-                <template slot="title"><i class="el-icon-message"></i>个人资料</template>
+            <el-submenu index="/userhome/persondata">
+                <template slot="title" ><i class="el-icon-message"></i>个人资料</template>
             </el-submenu>
-            <el-submenu index="2">
+            <el-submenu index>
                 <template slot="title"><i class="el-icon-menu"></i>借款</template>
                 <el-menu-item-group>
-                <el-menu-item index="2-1">已有借款</el-menu-item>
-                <el-menu-item index="2-2">新建借款</el-menu-item>
+                <el-menu-item index="/userhome/existingloans">已有借款</el-menu-item>
+                <el-menu-item index="/userhome/newloans">新建借款</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="3">
+            <el-submenu index>
                 <template slot="title"><i class="el-icon-setting"></i>购买产品</template>
                 <el-menu-item-group>
-                <el-menu-item index="3-1">已购产品</el-menu-item>
-                <el-menu-item index="3-2">新建购买</el-menu-item>
+                <el-menu-item index="/userhome/existingproducts">已购产品</el-menu-item>
+                <el-menu-item index="/userhome/newproducts">新建购买</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="4">
+            <el-submenu index="/userhome/withdraw">
                 <template slot="title"><i class="el-icon-setting"></i>提现</template>
             </el-submenu>
-            <el-submenu index="5">
+            <el-submenu index="/userhome/invest">
                 <template slot="title"><i class="el-icon-setting"></i>充值</template>
             </el-submenu>
-            <el-submenu index="6">
+            <el-submenu index="/userhome/repay">
                 <template slot="title"><i class="el-icon-setting"></i>还款</template>
             </el-submenu>
             </el-menu>
@@ -44,8 +44,7 @@
 
 <script>
   export default {
-    data() {
-    }
+   
   };
 </script>
 

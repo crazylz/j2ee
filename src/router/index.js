@@ -5,7 +5,7 @@ Vue.use(Router)
 
 // 登陆、注册界面
 import login from '../pages/login.vue'
-import registe from '../pages/registe.vue'
+import register from '../pages/register.vue'
 
 //用户界面
 import userhome from '../components/userhome.vue'
@@ -18,6 +18,12 @@ import persondata from '../pages/user/persondata.vue'
 import repay from '../pages/user/repay.vue'
 import withdraw from '../pages/user/withdraw.vue'
 
+//管理员界面
+import adminhome from '../pages/admin/adminhome.vue'
+
+//担保员界面
+import guaranteehome from '../pages/guarantee/guarantee..vue'
+
 const router = new Router({
   routes: [
     {
@@ -25,46 +31,54 @@ const router = new Router({
       component: login
     },
     {
-      path:'/registe',
-      component:registe
+      path:'/register',
+      component:register
     },
     {
       path:'/userhome',
       component:userhome,
       children:[
         {
-          path:'/persondata',
+          path:'/userhome/persondata',
           component:persondata
         },
         {
-          path:'/existingloans',
+          path:'/userhome/existingloans',
           component:existingloans
         },
         {
-          path:'/newloans',
+          path:'/userhome/newloans',
           component:newloans
         },
         {
-          path:'/existingproducts',
+          path:'/userhome/existingproducts',
           component:existingproducts
         },
         {
-          path:'/newproducts',
+          path:'/userhome/newproducts',
           component:newproducts
         },
         {
-          path:'/withdraw',
+          path:'/userhome/withdraw',
           component:withdraw
         },
         {
-          path:'/invest',
+          path:'/userhome/invest',
           component:invest
         },
         {
-          path:'/repay',
+          path:'/userhome/repay',
           component:repay
         }
       ]
+    },
+    {
+      path:'/adminhome',
+      component:adminhome
+    },
+    {
+      path:'/guaranteehome',
+      component:guaranteehome
     }
   ]
   })
