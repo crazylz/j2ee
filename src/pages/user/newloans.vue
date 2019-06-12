@@ -106,9 +106,9 @@
 <style >
 	.login{
 		position:absolute;
-		top:50%;
-		left:50%;
-		transform:translate(-50%,-50%);
+		top:200px;
+		left:400px; 
+		/* transform:translate(50%,50%); */
 		background: #fff;
 		border: 1px solid #999999;
 		border-radius: 30px;
@@ -121,10 +121,12 @@
 
 	.el-main {
 	    /* background-image:url('../assets/1.jpg'); */
+        height:100%;
+        width:100%;
 		color: #333;
 		text-align: center;
-		line-height: 30px;
-	    min-height:0%; 
+		/* line-height: 30px; */
+	    /* min-height:0%;  */
   }
     .repay{
         right:0px;
