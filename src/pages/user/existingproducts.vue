@@ -3,8 +3,7 @@
   <el-table
     ref="filterTable"
     :data="all_tableData"
-    height=590%
-    style="width: 100%">
+    border>
     <el-table-column
       label="金额"
       width="180">
@@ -209,4 +208,11 @@
   }
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-table{
+  /* display:inline-block;
+  text-align:center; */
+  width:fit-content;
+  margin:auto;
+}
+</style>

@@ -11,7 +11,7 @@
     :data="tableData"
     height=631%
     border
-    style="width: 100%">
+    >
     <el-table-column
       label="金额"
       width="180">
@@ -267,5 +267,11 @@
 }
 .undone{
   color: #F56C6C
+}
+.el-table{
+  /* display:inline-block;
+  text-align:center; */
+  width:fit-content;
+  margin:auto;
 }
 </style>
