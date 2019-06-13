@@ -4,7 +4,7 @@
 			<div style=" font-size: 14px">
 				<div class="login">
 					<div>
-						<h2 style="text-align: center;color: #606266; font-size:30px">购买产品</h2>
+						<h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
 					</div>
 					<div style="margin: 0px">
 						<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
@@ -139,15 +139,16 @@
 	}
 
 	.el-main {
-		background-size: 100% 100%;
-	    background-image:url("../../assets/background.jpg");
-        height:100%;
-        width:100%;
+		/* background-size: 100% 100%;
+	    background-image:url("../../assets/background.jpg"); */
+        height:93%;
+        width:85%;
 		color: #333;
 		text-align: center;
 		position:absolute;
-    	top:0px;
-    	left:0px;
+    	top:60px;
+    	left:200px;
+
 		/* line-height: 30px; */
 	    /* min-height:0%;  */
   }

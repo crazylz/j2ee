@@ -122,14 +122,6 @@
 </script>
 
 <style scoped>
-	.el-container{
-    position: absolute;
-		top: 0;
-		bottom: 0;
-		left:0;
-    right:0;
-		color: #fff;
-    } 
 	.login{
 		position:absolute;
 		/* 可以修改组件的位置 */
@@ -147,15 +139,15 @@
 	}
 
 	.el-main {
-		background-size: 100% 100%;
-	    background-image:url("../../assets/background.jpg");
+		/* background-size: 100% 100%;
+	    background-image:url("../../assets/background.jpg"); */
         height:100%;
-        width:100%;
+        width:90%;
 		color: #333;
 		text-align: center;
 		position:absolute;
-    	top:0px;
-    	left:0px;
+    	top:60px;
+    	left:200px;
 
 		/* line-height: 30px; */
 	    /* min-height:0%;  */
