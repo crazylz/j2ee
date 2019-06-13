@@ -13,6 +13,7 @@
     border
     >
     <el-table-column
+      align='center'
       label="金额"
       width="180">
       <template slot-scope="scope">
@@ -21,6 +22,7 @@
     </el-table-column>
 
     <el-table-column
+    align='center'
       label="分期"
       width="100">
       <template slot-scope="scope">
@@ -29,6 +31,7 @@
     </el-table-column>
     
     <el-table-column
+    align='center'
       label="利率"
       width="100">
       <template slot-scope="scope">
@@ -37,22 +40,25 @@
     </el-table-column>
 
     <el-table-column
+    align='center'
       label="每期还款金额"
       width="180">
       <template slot-scope="scope">
         <el-popover 
-        trigger="click"
-        placement="bottom"
+        trigger="hover"
+        placement="top-start"
         title="计算公式: 金额 × (1 + 利率) ÷ 分期数">
         <span>
           ￥{{scope.row.amount}} × (1 + {{scope.row.interest_rate}}%) ÷ {{scope.row.installment}}
         </span>
-          <el-button size="small" slot="reference">￥{{ scope.row.amount * (scope.row.interest_rate / 100 + 1) / scope.row.installment  }}</el-button>
+
+        <span slot="reference">￥{{ (scope.row.amount * (scope.row.interest_rate / 100 + 1) / scope.row.installment).toFixed(2)  }}</span>
         </el-popover>
       </template>
     </el-table-column>
 
     <el-table-column
+    align='center'
       prop = "submit_date"
       label="提交时间"
       sortable
@@ -64,6 +70,7 @@
 
 
     <el-table-column
+    align='center'
       label="状态"
       width="100">
       <template slot-scope="scope">
@@ -273,5 +280,12 @@
   text-align:center; */
   width:fit-content;
   margin:auto;
+}
+.middle{
+  width:fit-content;
+  margin:auto;
+}
+.el-table-column{
+  
 }
 </style>
