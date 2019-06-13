@@ -1,10 +1,16 @@
 <template>
   <div>
+    <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:20px;">
+    <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+    <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
+    <el-breadcrumb-item><a href="/">已有借款</a></el-breadcrumb-item>
+  </el-breadcrumb>
   <el-table
     ref="filterTable"
     :data="tableData"
     height=590%
-    style="width: 100%">
+    border
+    style="width:650px;left:200px;">
     <el-table-column
       label="金额"
       width="180">
@@ -209,4 +215,4 @@
   }
 </script>
 
-<style></style>
+<style scoped></style>

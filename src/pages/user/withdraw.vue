@@ -48,7 +48,7 @@
 	}
 </script>
 
-<style >
+<style scoped>
 	.withdraw{
 		position:absolute;
 		top:50%;

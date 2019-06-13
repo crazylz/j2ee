@@ -116,7 +116,7 @@
 	}
 </script>
 
-<style >
+<style scoped>
 	.login{
 		position:absolute;
 		top:200px;

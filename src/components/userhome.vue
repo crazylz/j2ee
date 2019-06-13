@@ -5,8 +5,8 @@
 
         <!-- 侧拉栏 -->
         <!-- 设置router使得index能够路由，设置index不同使得各自展开，采用unique-opened实现不重复展开 -->
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu  :default-active="$route.path" router unique-opened>
+        <el-aside width="200px" >
+            <el-menu :default-active="$route.path" router unique-opened style="background-color:rgb(35, 31, 56) ,color:white">
             <el-menu-item index="/userhome/persondata">
             <i class="el-icon-message"></i>个人资料
             </el-menu-item>
@@ -51,23 +51,25 @@
 
 <style scoped>
   .el-container{
-        position: absolute;
+    position: absolute;
 		top: 0;
 		bottom: 0;
 		left:0;
-        right:0;
+    right:0;
 		color: #fff;
   } 
   .el-header {
-    background-color: #B3C0D1;
-    color: #333;
+    background-color:rgba(53, 29, 29, 0.473);
+    color: white;
     line-height: 60px;
   }
   
   .el-aside {
-    color: #333;
+    background-color: rgb(35, 31, 56);
+    color:white;
     height:100%;
   }
+
 
   .el-main{
     position:absolute;
