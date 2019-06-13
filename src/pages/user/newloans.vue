@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div >
         <el-main>
 			<div style=" font-size: 14px">
 				<div class="login">
@@ -70,7 +70,7 @@
 
             pickerOptions: {
                 disabledDate(time) {
-                    return time.getTime() > Date.now();
+                    return time.getTime() < Date.now();
                 },
                 shortcuts: [{
                     text: '今天',
@@ -98,6 +98,10 @@
 
 			};
 		},
+		 mounted(){
+			this.Loan.id=localStorage.getItem('id');
+			this.Loan.loans=localStorage.getItem('loans');
+        },
 		methods:{
             get:function(){
 				var that=this;
@@ -111,14 +115,24 @@
 			},
 			set:function(){
 				localStorage.setItem('id',this.Loan.id);
+				localStorage.setItem('loans',this.Loan.loans);
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	.el-container{
+    position: absolute;
+		top: 0;
+		bottom: 0;
+		left:0;
+    right:0;
+		color: #fff;
+    } 
 	.login{
 		position:absolute;
+		/* 可以修改组件的位置 */
 		top:200px;
 		left:400px; 
 		/* transform:translate(50%,50%); */
@@ -133,11 +147,16 @@
 	}
 
 	.el-main {
-	    /* background-image:url('../assets/1.jpg'); */
+		background-size: 100% 100%;
+	    background-image:url("../../assets/background.jpg");
         height:100%;
         width:100%;
 		color: #333;
 		text-align: center;
+		position:absolute;
+    	top:0px;
+    	left:0px;
+
 		/* line-height: 30px; */
 	    /* min-height:0%;  */
   }

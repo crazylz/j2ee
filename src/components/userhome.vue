@@ -118,10 +118,10 @@ $header-height: 60px;
         height: $height;
     }
 
-    .menu-button {
+    /* .menu-button {
         width: 14px;
         cursor: pointer;
-    }
+    } */
 
     .userinfo-inner {
         cursor: pointer;
