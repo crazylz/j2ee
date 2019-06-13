@@ -1,45 +1,44 @@
 <template>
-	<div >
-        <el-main>
-			<div style=" font-size: 14px">
-				<div class="login">
-					<div>
-						<h2 style="text-align: center;color: #606266; font-size:30px">新建贷款</h2>
-					</div>
-					<div style="margin: 0px">
-						<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-							<el-form-item label='账号' prop='id' class="input">
-								<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
-							</el-form-item>
-							<el-form-item label='借款额' prop='loans' class="input">
-								<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
-							</el-form-item>
-                            <el-form-item label='利息' prop='interest' class="input">
-								<el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
-							</el-form-item>
-                            <div class="repay">
-                                <span class="demonstration">还款日期</span>
-                                <el-date-picker
-                                v-model="Loan.date"
-                                align="right"
-                                type="date"
-                                placeholder="选择日期"
-                                :picker-options="pickerOptions">
-                                </el-date-picker>
-                            </div>
+	<div class>
+		<el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
+			<el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+			<el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
+			<el-breadcrumb-item><a href="/">新建借款</a></el-breadcrumb-item>
+		</el-breadcrumb>
 
-                                <el-form-item style="margin-right:200px;margin-top:10px">
-								    <el-button type='primary' 
-								    >贷款</el-button>
-								    <el-button type='primary' @click='set()'
-								    >保存</el-button>
-							    </el-form-item>
-                           
-                         </el-form>   
+		<div class="main">
+			<div style=" font-size: 14px " class="login">
+				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
+				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
+					<el-form-item label='账号' prop='id' class="input">
+						<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
+					</el-form-item>
+					<el-form-item label='借款额' prop='loans' class="input">
+						<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
+					</el-form-item>
+					<el-form-item label='利息' prop='interest' class="input">
+						<el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
+					</el-form-item>
+					<div class="repay">
+						<span class="demonstration">还款日期</span>
+						<el-date-picker
+						v-model="Loan.date"
+						align="right"
+						type="date"
+						placeholder="选择日期"
+						:picker-options="pickerOptions">
+						</el-date-picker>
 					</div>
-				</div>
+
+					<el-form-item style="margin-right:200px;margin-top:10px">
+						<el-button type='primary' 
+						>贷款</el-button>
+						<el-button type='primary' @click='set() '  
+						>保存</el-button>
+					</el-form-item>
+				</el-form>   
 			</div>
-		</el-main>
+		</div>
 	</div>
 </template>
 
@@ -105,13 +104,13 @@
 		methods:{
             get:function(){
 				var that=this;
-				if(that.loginRole==1){
-				that.$router.push({path:'/userhome'});
-				}else if(that.loginRole==2){
-				that.$router.push({path:'/guaranteehome'});
-				}else if(that.loginRole==3){
-				that.$router.push({path:'/adminhome'});
-				}
+				// if(that.loginRole==1){
+				// that.$router.push({path:'/userhome'});
+				// }else if(that.loginRole==2){
+				// that.$router.push({path:'/guaranteehome'});
+				// }else if(that.loginRole==3){
+				// that.$router.push({path:'/adminhome'});
+				// }
 			},
 			set:function(){
 				localStorage.setItem('id',this.Loan.id);
@@ -123,35 +122,29 @@
 
 <style scoped>
 	.login{
-		position:absolute;
-		/* 可以修改组件的位置 */
-		top:200px;
-		left:400px; 
-		/* transform:translate(50%,50%); */
-		background: #fff;
+		display: table-cell;
+		vertical-align: center;
+		/* align-self: center; */
+		/* width: 700px;
+		height:500px;
+		position:relative;
+		left:50%;
+        bottom:50%; */
+		/* position:absolute;
+		left:50%;
+		top:50%;
+		transform:translate(-50%,-50%); */
+		/* margin: 0px 0px -250px -350px; */
 		border: 1px solid #999999;
 		border-radius: 30px;
 		text-align: center;
-		background-color: rgba(255,255,255,0.8);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-
-		
+		background-color: rgba(255,255,255,0.8);	
 	}
 
-	.el-main {
-		/* background-size: 100% 100%;
-	    background-image:url("../../assets/background.jpg"); */
-        height:100%;
-        width:90%;
-		color: #333;
-		text-align: center;
-		position:absolute;
-    	top:60px;
-    	left:200px;
-
-		/* line-height: 30px; */
-	    /* min-height:0%;  */
-  }
+    .main{
+         display:table;
+		
+	}
     .repay{
         right:0px;
     }

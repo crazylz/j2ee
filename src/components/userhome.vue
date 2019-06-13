@@ -1,71 +1,58 @@
 <template>
-<section>
-  <el-container class="container">
-    <!--左边-->
-    <el-aside style="width:200px;">
-      <el-container>
-        <el-header>
-          <span class="system-name">{{systemName}}</span>
-        </el-header>
- 
-        <el-main>
-          <el-menu :default-active="$route.path" router unique-opened style="background-color:rgb(35, 31, 56) ,color:white">
+  <div>
+    <!-- 需要将元素设置当一个容器里面 -->
+    <el-container class="container">
+      <!-- 顶栏 -->
+      <el-header >
+        <span  class="system-name">{{systemName}}</span>
+        <span class="username" >你好：{{userName}}用户</span>
+      </el-header>
+        
+        <!-- 需要将侧栏和主页面设置当一个容器里面 -->
+        <el-container>
+          <!-- 侧栏 -->
+          <el-aside width="200px">
+            <el-menu :default-active="$route.path" router unique-opened >
               <el-menu-item index="/userhome/persondata">
-              <i class="el-icon-message"></i>个人资料
+              <i class="el-icon-user"></i>个人资料
               </el-menu-item>
               <el-submenu index="1">
-                  <template slot="title"><i class="el-icon-menu"></i>借款</template>
+                  <template slot="title"><i class="el-icon-money"></i>借款</template>
                   <el-menu-item-group>
                   <el-menu-item index="/userhome/existingloans">已有借款</el-menu-item>
                   <el-menu-item index="/userhome/newloans">新建借款</el-menu-item>
                   </el-menu-item-group>
               </el-submenu>
               <el-submenu index="2">
-                  <template slot="title"><i class="el-icon-setting"></i>购买产品</template>
+                  <template slot="title"><i class="el-icon-shopping-cart-2"></i>购买产品</template>
                   <el-menu-item-group>
                   <el-menu-item index="/userhome/existingproducts">已购产品</el-menu-item>
                   <el-menu-item index="/userhome/newproducts">新建购买</el-menu-item>
                   </el-menu-item-group>
               </el-submenu>
               <el-menu-item index="/userhome/withdraw">
-              <i class="el-icon-message"></i>提现
+              <i class="el-icon-bank-card"></i>提现
               </el-menu-item>
               <el-menu-item index="/userhome/invest">
-              <i class="el-icon-message"></i>充值
+              <i class="el-icon-wallet"></i>充值
               </el-menu-item>
               <el-menu-item index="/userhome/repay">
-              <i class="el-icon-message"></i>还款
+              <i class="el-icon-sold-out"></i>还款
               </el-menu-item>
             </el-menu>
-        </el-main>
-   
-      </el-container>
-    </el-aside>
+          </el-aside>
 
-    <!--内容-->
-    <el-container>
-      <!--页眉-->
-      <el-header class="header">
-        <el-row>
-          <el-col :span="18" class="header-title">
-            <span >
-              <i class="fa fa-align-justify"></i>
-            </span>
-          </el-col>
-          <el-col :span="6"><span class="el-dropdown-link userinfo-inner">你好：{{userName}}用户</span></el-col>
-        </el-row>
-      </el-header>
-
-      <!--中间-->
-      <el-main class="main">
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </el-main>
+          <el-main>
+            <transition name="fade" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </el-main>
+        </el-container>
     </el-container>
-  </el-container>
-</section>
+    </div>
 </template>
+
+
 
 <script>
 let data = () => {
@@ -86,76 +73,41 @@ export default {
 }
 </script>
 
-<style scoped="scoped"
-  lang="scss">
-$width: 100%;
-$height: 100%;
-$background-color: #0b0a3e;
-$header-color: #fff;
-$header-height: 60px;
+<style scoped="scoped">
+/* 设置min-height调节最小高度来实现样式统一 */
+.el-header{
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+  
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+    min-height: 90vh;
+  }
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 30px;
+    min-height: 90vh;
+  }
 
-.container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    .el-aside {
-       line-height: $header-height;  
-        .el-header {
-            line-height: $header-height;
-            background-color: rgb(155, 187, 236); 
-            color: $header-color;
-            text-align: center;
-        }
-        .el-container {
-            height: $height;
-            .el-main {
-                padding: 0;
-            }
-        }
-    }
-
-    .main {
-        /* background-color: rgb(40, 111, 158); */
-        width: $width;
-        height: $height;
-    }
-
-    .el-menu{
-      background-color: rgb(255, 255, 255);
-    }
-
-    /* .menu-button {
-        width: 14px;
-        cursor: pointer;
-    } */
-
-    .userinfo-inner {
-        cursor: pointer;
-    }
-
-    .el-menu {
-        height: $height;
-    }
-
-    .header {
-        background-color: rgb(155, 187, 236);
-        color: $header-color;
-        text-align: center;
-        line-height: $header-height;
-        padding: 0;
-
-        .header-title {
-            text-align: left;
-            span {
-                padding: 0 20px;
-            }
-        }
-    }
-
-    .system-name {
-        font-size: large;
-        font-weight: bold;
-    }
-}
+  .system-name{
+    float:left;
+    margin-left:35px;
+    font-size:20px;
+  }
+  
+  .username{
+    float:right;
+    margin-right:100px;
+    font-size:20px;
+  }
+  
 </style>

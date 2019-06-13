@@ -1,63 +1,65 @@
 <template>
   <div>
-  <el-table
-    ref="filterTable"
-    :data="all_tableData"
-    border>
-    <el-table-column
-    align='center'
-      label="金额"
-      width="180">
-      <template slot-scope="scope">
-        <span>￥{{scope.row.amount}}</span>
-      </template>
-    </el-table-column>
+    <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
+      <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">已购产品</a></el-breadcrumb-item>
+    </el-breadcrumb>
 
-    <el-table-column
-    align='center'
-      prop = "submit_date"
-      label="提交时间"
-      sortable
-      width="180"
-      column-key="submit_date"
-      :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-      :filter-method="filterHandler">
+    <el-table
+      ref="filterTable"
+      :data="all_tableData"
+      border>
+      <el-table-column
+        label="金额"
+        align="center">
+        <template slot-scope="scope">
+          <span>￥{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
 
-    </el-table-column>
+      <el-table-column
+        align="center"
+        prop = "submit_date"
+        label="提交时间"
+        sortable
+        column-key="submit_date"
+        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
+        :filter-method="filterHandler">
 
-    <el-table-column
-    align='center'
-      label="姓名"
-      width="180">
-      <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover>
-      </template>
-    </el-table-column>
+      </el-table-column>
 
-    <el-table-column label="操作"
-    align='center'>
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">购买</el-button>
-      </template>
-    </el-table-column>
+      <el-table-column
+      align="center"
+        label="姓名">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>姓名: {{ scope.row.name }}</p>
+            <p>住址: {{ scope.row.address }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" align="center">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)">购买</el-button>
+        </template>
+      </el-table-column>
     
-  </el-table>
+   </el-table>
 
-  <el-pagination
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :page-size="100"
-    layout="prev, pager, next, jumper"
-    :total="100*(all_tableData.length/10)">
-  </el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="100*(all_tableData.length/10)">
+    </el-pagination>
 
 
   </div>
@@ -216,7 +218,11 @@
 .el-table{
   /* display:inline-block;
   text-align:center; */
-  width:fit-content;
-  margin:auto;
+  width: 100%;
+  /* width:fit-content;
+  margin:auto; */
+}
+.el-table.column{
+  width:25%;
 }
 </style>

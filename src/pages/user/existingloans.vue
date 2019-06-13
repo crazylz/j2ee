@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:20px;">
+    <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
     <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
     <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
     <el-breadcrumb-item><a href="/">已有借款</a></el-breadcrumb-item>
@@ -9,13 +9,11 @@
   <el-table
     ref="filterTable"
     :data="tableData"
-    height=631%
     border
     >
     <el-table-column
       align='center'
-      label="金额"
-      width="180">
+      label="金额">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -23,8 +21,7 @@
 
     <el-table-column
     align='center'
-      label="分期"
-      width="100">
+      label="分期">
       <template slot-scope="scope">
         <span>{{ scope.row.installment }}</span>
       </template>
@@ -32,8 +29,7 @@
     
     <el-table-column
     align='center'
-      label="利率"
-      width="100">
+      label="利率">
       <template slot-scope="scope">
         <span>{{ scope.row.interest_rate }}%</span>
       </template>
@@ -41,8 +37,7 @@
 
     <el-table-column
     align='center'
-      label="每期还款金额"
-      width="180">
+      label="每期还款金额">
       <template slot-scope="scope">
         <el-popover 
         trigger="hover"
@@ -62,7 +57,6 @@
       prop = "submit_date"
       label="提交时间"
       sortable
-      width="180"
       column-key="submit_date"
       :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
       :filter-method="filterHandler">
@@ -278,14 +272,13 @@
 .el-table{
   /* display:inline-block;
   text-align:center; */
+  width:100%;
+}
+/* .middle{
   width:fit-content;
   margin:auto;
-}
-.middle{
-  width:fit-content;
-  margin:auto;
-}
+} */
 .el-table-column{
-  
+  width:16.7%;
 }
 </style>

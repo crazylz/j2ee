@@ -1,5 +1,11 @@
 <template>
 	<div>
+		<!-- 面包屑 -->
+		<el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
+			<el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+			<el-breadcrumb-item><a href="/">充值</a></el-breadcrumb-item>
+		</el-breadcrumb>
+
         <el-main>
 			<div style="margin-top: 30px;  ">
 				<div class="invest">
@@ -69,7 +75,6 @@
 		color: #333;
 		text-align: center;
 		line-height: 30px;
-		min-height:100vh;
         
   }
 	.bottom{

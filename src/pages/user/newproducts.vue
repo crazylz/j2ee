@@ -1,12 +1,15 @@
 <template>
 	<div >
-        <el-main>
+		<el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
+			<el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+			<el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
+			<el-breadcrumb-item><a href="/">新建购买</a></el-breadcrumb-item>
+		</el-breadcrumb>
+      
 			<div style=" font-size: 14px">
+
 				<div class="login">
-					<div>
 						<h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
-					</div>
-					<div style="margin: 0px">
 						<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
 							<el-form-item label='账号' prop='id' class="input">
 								<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
@@ -39,7 +42,7 @@
 					</div>
 				</div>
 			</div>
-		</el-main>
+		
 	</div>
 </template>
 
@@ -105,13 +108,13 @@
 		methods:{
             get:function(){
 				var that=this;
-				if(that.loginRole==1){
-				that.$router.push({path:'/userhome'});
-				}else if(that.loginRole==2){
-				that.$router.push({path:'/guaranteehome'});
-				}else if(that.loginRole==3){
-				that.$router.push({path:'/adminhome'});
-				}
+				// if(that.loginRole==1){
+				// that.$router.push({path:'/userhome'});
+				// }else if(that.loginRole==2){
+				// that.$router.push({path:'/guaranteehome'});
+				// }else if(that.loginRole==3){
+				// that.$router.push({path:'/adminhome'});
+				// }
 			},
 			set:function(){
 				localStorage.setItem('id',this.Loan.id);
