@@ -7,6 +7,7 @@
         <el-header>
           <span class="system-name">{{systemName}}</span>
         </el-header>
+ 
         <el-main>
           <el-menu :default-active="$route.path" router unique-opened style="background-color:rgb(35, 31, 56) ,color:white">
               <el-menu-item index="/userhome/persondata">
@@ -35,8 +36,9 @@
               <el-menu-item index="/userhome/repay">
               <i class="el-icon-message"></i>还款
               </el-menu-item>
-              </el-menu>
+            </el-menu>
         </el-main>
+   
       </el-container>
     </el-aside>
 
@@ -46,7 +48,6 @@
       <el-header class="header">
         <el-row>
           <el-col :span="18" class="header-title">
-            <span v-if="collapsed" class="system-name">{{systemName}}</span>
             <span >
               <i class="fa fa-align-justify"></i>
             </span>
@@ -99,9 +100,10 @@ $header-height: 60px;
     bottom: 0;
     width: 100%;
     .el-aside {
+       line-height: $header-height;  
         .el-header {
             line-height: $header-height;
-            background-color: $background-color;
+            background-color: rgb(155, 187, 236); 
             color: $header-color;
             text-align: center;
         }
@@ -114,8 +116,13 @@ $header-height: 60px;
     }
 
     .main {
+        /* background-color: rgb(40, 111, 158); */
         width: $width;
         height: $height;
+    }
+
+    .el-menu{
+      background-color: rgb(255, 255, 255);
     }
 
     /* .menu-button {
@@ -132,7 +139,7 @@ $header-height: 60px;
     }
 
     .header {
-        background-color: $background-color;
+        background-color: rgb(155, 187, 236);
         color: $header-color;
         text-align: center;
         line-height: $header-height;
