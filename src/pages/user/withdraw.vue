@@ -50,16 +50,13 @@
 
 <style scoped>
 	.withdraw{
-		position:absolute;
-		top:50%;
-		left:50%;
-		transform:translate(-50%,-50%);
 		background: #fff;
 		border: 1px solid #999999;
 		border-radius: 8px;
 		text-align: center;
 		background-color: rgba(255,255,255,0.8);
-		
+        width:fit-content;
+        margin:auto;
 	}
 
 	.el-main {
@@ -74,14 +71,4 @@
 		color: #409eff;
 		margin: 10px 10px 10px 10px;
 	}
-	.fade-enter-active,
-	.fade-leave-active {
-	    transition: all 0.35s ease;
-	}
-
-	.fade-enter,
-	.fade-leave-active {
-	    opacity: 0;
-	}
-
 </style>
