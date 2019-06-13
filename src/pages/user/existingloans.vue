@@ -4,18 +4,51 @@
     <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
     <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
     <el-breadcrumb-item><a href="/">已有借款</a></el-breadcrumb-item>
-  </el-breadcrumb>
+    </el-breadcrumb>
+    
   <el-table
     ref="filterTable"
     :data="tableData"
-    height=590%
+    height=631%
     border
-    style="width:650px;left:200px;">
+    style="width: 100%">
     <el-table-column
       label="金额"
       width="180">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+      label="分期"
+      width="100">
+      <template slot-scope="scope">
+        <span>{{ scope.row.installment }}</span>
+      </template>
+    </el-table-column>
+    
+    <el-table-column
+      label="利率"
+      width="100">
+      <template slot-scope="scope">
+        <span>{{ scope.row.interest_rate }}%</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+      label="每期还款金额"
+      width="180">
+      <template slot-scope="scope">
+        <el-popover 
+        trigger="click"
+        placement="bottom"
+        title="计算公式: 金额 × (1 + 利率) ÷ 分期数">
+        <span>
+          ￥{{scope.row.amount}} × (1 + {{scope.row.interest_rate}}%) ÷ {{scope.row.installment}}
+        </span>
+          <el-button size="small" slot="reference">￥{{ scope.row.amount * (scope.row.interest_rate / 100 + 1) / scope.row.installment  }}</el-button>
+        </el-popover>
       </template>
     </el-table-column>
 
@@ -27,28 +60,14 @@
       column-key="submit_date"
       :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
       :filter-method="filterHandler">
-
     </el-table-column>
+
 
     <el-table-column
-      label="姓名"
-      width="180">
+      label="状态"
+      width="100">
       <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover>
-      </template>
-    </el-table-column>
-
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">购买</el-button>
+        <span v-bind:class = "classObject(scope.row.state)">{{ scope.row.state}}</span>
       </template>
     </el-table-column>
     
@@ -75,105 +94,132 @@
         all_tableData: [{
           amount: 1000000,
           submit_date: '2016-05-02',
-          name: '王小',
-          address: '上海市普陀区金沙江路 1518'
+          interest_rate: 10,
+          installment: 12,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-04',
-          name: '王中',
-          address: '上海市普陀区金沙江路 1517 弄'
+          interest_rate: 5,
+          installment: 12,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-01',
-          name: '王大',
-          address: '上海市普陀区金沙江路 1519 弄'
+          interest_rate: 6,
+          installment: 12,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王大大',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8,
+          installment: 12,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小小',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 7,
+          installment: 12,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 3,
+          installment: 10,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小狗',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 1,
+          installment: 8,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小猫',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2,
+          installment: 9,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8.8,
+          installment: 12,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate : 5.4,
+          installment: 5,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 6.1,
+          installment: 4,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 7.1,
+          installment: 3,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8.1,
+          installment: 2,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2.3,
+          installment: 1,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 1.8,
+          installment: 5,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2.5,
+          installment: 6,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 9.9,
+          installment: 8,
+          state: '未还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 11.1,
+          installment: 11,
+          state: '已还清'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 9.10,
+          installment: 12,
+          state: '未还清'
         }],
         tableData: []
       }
     },
+
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
+      },
+
+      classObject(state){
+        return{
+          'done': state === '已还清',
+          'undone': state === '未还清'
+        }
       },
 
       getDataByPage(pageindex){
@@ -215,4 +261,11 @@
   }
 </script>
 
-<style scoped></style>
+<style scoped>
+.done{
+  color: #67C23A
+}
+.undone{
+  color: #F56C6C
+}
+</style>
