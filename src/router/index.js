@@ -22,7 +22,7 @@ import withdraw from '../pages/user/withdraw.vue'
 //管理员界面
 import adminhome from '../components/adminhome.vue'
 import user from '../pages/admin/user.vue'
-import product from '../pages/admin/product.vue'
+import produce from '../pages/admin/produce.vue'
 
 //担保员界面
 import guarantee from '../pages/guarantee/guarantee.vue'
@@ -72,8 +72,8 @@ const router = new Router({
       component:adminhome,
       childen:[
         {
-          path:'/adminhome/product',
-          component:product
+          path:'/adminhome/produce',
+          component:produce
         },
         {
           path:'/adminhome/user',
