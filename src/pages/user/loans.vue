@@ -3,7 +3,6 @@
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
     <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
     <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">已有借款</a></el-breadcrumb-item>
     </el-breadcrumb>
     
   <el-table

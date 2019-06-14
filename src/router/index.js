@@ -10,17 +10,19 @@ import register from '../pages/register.vue'
 
 //用户界面
 import userhome from '../components/userhome.vue'
-import existingloans from '../pages/user/existingloans.vue'
-import existingproducts from '../pages/user/existingproducts.vue'
+import loans from '../pages/user/loans.vue'
+import products from '../pages/user/products.vue'
 import invest from '../pages/user/invest.vue'
-import newloans from '../pages/user/newloans.vue'
-import newproducts from '../pages/user/newproducts.vue'
+// import newloans from '../pages/user/newloans.vue'
+// import newproducts from '../pages/user/newproducts.vue'
 import persondata from '../pages/user/persondata.vue'
 import repay from '../pages/user/repay.vue'
 import withdraw from '../pages/user/withdraw.vue'
 
 //管理员界面
-import adminhome from '../pages/admin/adminhome.vue'
+import adminhome from '../components/adminhome.vue'
+import users from '../pages/admin/users.vue'
+import produce from '../pages/admin/produce.vue'
 
 //担保员界面
 import guarantee from '../pages/guarantee/guarantee.vue'
@@ -44,20 +46,12 @@ const router = new Router({
           component:persondata
         },
         {
-          path:'/userhome/existingloans',
-          component:existingloans
+          path:'/userhome/loans',
+          component:loans
         },
         {
-          path:'/userhome/newloans',
-          component:newloans
-        },
-        {
-          path:'/userhome/existingproducts',
-          component:existingproducts
-        },
-        {
-          path:'/userhome/newproducts',
-          component:newproducts
+          path:'/userhome/products',
+          component:products
         },
         {
           path:'/userhome/withdraw',
@@ -75,7 +69,16 @@ const router = new Router({
     },
     {
       path:'/adminhome',
-      component:adminhome
+      component:adminhome,
+      children:[
+        {
+          path:'/adminhome/produce',
+          component:produce
+        },
+        {
+          path:'/adminhome/users',
+          component:users
+        }]
     },
     {
       path:'/guarantee',

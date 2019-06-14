@@ -5,7 +5,7 @@
       <!-- 顶栏 -->
       <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <span class="username" >你好：{{userName}}用户</span>
+        <span class="adminname" >你好：{{adminName}}管理员</span>
       </el-header>
         
         <!-- 需要将侧栏和主页面设置当一个容器里面 -->
@@ -13,24 +13,12 @@
           <!-- 侧栏 -->
           <el-aside width="200px">
             <el-menu :default-active="$route.path" router unique-opened >
-              <el-menu-item index="/userhome/persondata">
-              <i class="el-icon-user"></i>个人资料
+              <el-menu-item index="/adminhome/users">
+              <i class="el-icon-s-custom"></i>用户
               </el-menu-item>
-               <el-menu-item index="/userhome/loans">
-              <i class="el-icon-discount"></i>借款
+               <el-menu-item index="/adminhome/produce">
+              <i class="el-icon-s-order"></i>产品
                </el-menu-item>
-               <el-menu-item index="/userhome/products">
-              <i class="el-icon-shopping-cart-2"></i>购买产品
-               </el-menu-item>           
-              <el-menu-item index="/userhome/withdraw">
-              <i class="el-icon-bank-card"></i>提现
-              </el-menu-item>
-              <el-menu-item index="/userhome/invest">
-              <i class="el-icon-wallet"></i>充值
-              </el-menu-item>
-              <el-menu-item index="/userhome/repay">
-              <i class="el-icon-sold-out"></i>还款
-              </el-menu-item>
             </el-menu>
           </el-aside>
 
@@ -49,8 +37,8 @@
 <script>
 let data = () => {
   return {
-    systemName: '用户界面',
-    userName: 'lz'
+    systemName: '管理员界面',
+    adminName: 'lz'
   }
 }
 
@@ -96,7 +84,7 @@ export default {
     font-size:20px;
   }
   
-  .username{
+  .adminname{
     float:right;
     margin-right:100px;
     font-size:20px;
