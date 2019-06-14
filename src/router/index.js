@@ -23,7 +23,7 @@ import withdraw from '../pages/user/withdraw.vue'
 import adminhome from '../pages/admin/adminhome.vue'
 
 //担保员界面
-import guaranteehome from '../pages/guarantee/guarantee..vue'
+import guarantee from '../pages/guarantee/guarantee.vue'
 
 const router = new Router({
   routes: [
@@ -78,8 +78,8 @@ const router = new Router({
       component:adminhome
     },
     {
-      path:'/guaranteehome',
-      component:guaranteehome
+      path:'/guarantee',
+      component:guarantee
     }
   ]
   })
