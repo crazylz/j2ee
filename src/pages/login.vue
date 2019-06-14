@@ -1,31 +1,41 @@
 <template>
-	<div class="login">
-		<h2 style="text-align: center;color: #606266;">账号登录</h2>
-		<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
-			<el-form-item label='账号' prop='id'>
-				<el-input v-model='userLogin.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
-			</el-form-item>
-			<el-form-item label='密码' prop='password'>
-				<el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
-			</el-form-item>
-			<el-form-item prop='role'>
-				<el-radio-group v-model="loginRole" border>
-					<el-radio :label="1">普通用户</el-radio>
-					<el-radio :label="2">担保人</el-radio>
-					<el-radio :label="3">管理员</el-radio>
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item>
-				<el-button type='primary' @click='login()'
-				>登录</el-button>
-				<el-button type='primary' @click='register()'
-				>注册</el-button>
-			</el-form-item>
-		</el-form>
+	<div class="main">
+    	<div class="image">
+            <transition>
+				<img v-if='loginRole==1' src="../assets/timg.jpg" style="width: 100%;border-radius: 15px">
+				<img v-if='loginRole==2' src="../assets/yewu1.jpg" style="width: 100%;border-radius: 15px">
+				<img v-if='loginRole==3' src="../assets/login.jpg" style="width: 100%;border-radius: 15px">
+			</transition>
+		</div>
 
-		<el-row>
-			<el-button type='text'>忘记密码？</el-button>
-		</el-row>
+		<div class="login">
+			<h2 style="text-align: center;color: #606266;">账号登录</h2>
+			<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
+				<el-form-item label='账号' prop='id'>
+					<el-input v-model='userLogin.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
+				</el-form-item>
+				<el-form-item label='密码' prop='password'>
+					<el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
+				</el-form-item>
+				<el-form-item prop='role'>
+					<el-radio-group v-model="loginRole" border>
+						<el-radio :label="1">普通用户</el-radio>
+						<el-radio :label="2">担保人</el-radio>
+						<el-radio :label="3">管理员</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button type='primary' @click='login()'
+					>登录</el-button>
+					<el-button type='primary' @click='register()'
+					>注册</el-button>
+				</el-form-item>
+			</el-form>
+
+			<el-row>
+				<el-button type='text'>忘记密码？</el-button>
+			</el-row>
+		</div>
 	</div>
 </template>
 
@@ -72,7 +82,26 @@
 </script>
 
 <style scoped>
+    .main{
+		width:100%;
+		position:absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%,-50%);
+	}
+    
+	.image{
+		float:left;
+		margin-left:16%;
+		width:30%;
+		height: 400px;
+	}
+
 	.login{
+		float:right;
+		margin-right:16%;
+		width:30%;
+		height: 400px;
 		/* position:absolute;
 		top:50%;
 		left:50%;
@@ -85,26 +114,14 @@
 		
 	}
 
-	.el-main {
-	    /* background-image:url('../assets/1.jpg'); */
-		color: #333;
-		text-align: center;
-		line-height: 30px;
-		min-height:100vh;
-  }
-	.el-bottom{
+	.el-form{
+		margin-right:30px;
+	}
+
+	.el-botton{
 		font-size: 12px;
 		color: #409eff;
 		margin: 10px 10px 10px 10px;
-	}
-	.fade-enter-active,
-	.fade-leave-active {
-	    transition: all 0.35s ease;
-	}
-
-	.fade-enter,
-	.fade-leave-active {
-	    opacity: 0;
 	}
 
 </style>

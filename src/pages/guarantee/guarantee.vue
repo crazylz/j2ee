@@ -5,7 +5,7 @@
       <!-- 顶栏 -->
      <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
+        <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
         <div class="guarantee">
           <el-dropdown>
             <span>
@@ -129,7 +129,7 @@
 
   .system-name{
     float:left;
-    margin-left:35px;
+    margin-left:70px;
     font-size:20px;
   }
   
@@ -137,16 +137,16 @@
   width:100%;
   }
 
-   .bell{
+   /* .bell{
     float:right;
     margin-right:70px;
-  }
+  } */
    
    
    .guarantee{
      font-size:18px;
     float:right;
-    margin-right:30px;
+    margin-right:100px;
   }
   
 </style>
