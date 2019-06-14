@@ -13,10 +13,10 @@
           <!-- 侧栏 -->
           <el-aside width="200px">
             <el-menu :default-active="$route.path" router unique-opened >
-              <el-menu-item index="/adminhome/user">
+              <el-menu-item index="/adminhome/users">
               <i class="el-icon-s-custom"></i>用户
               </el-menu-item>
-               <el-menu-item index="/adminhome/product">
+               <el-menu-item index="/adminhome/produce">
               <i class="el-icon-s-order"></i>产品
                </el-menu-item>
             </el-menu>

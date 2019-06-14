@@ -21,7 +21,7 @@ import withdraw from '../pages/user/withdraw.vue'
 
 //管理员界面
 import adminhome from '../components/adminhome.vue'
-import user from '../pages/admin/user.vue'
+import users from '../pages/admin/users.vue'
 import produce from '../pages/admin/produce.vue'
 
 //担保员界面
@@ -70,14 +70,14 @@ const router = new Router({
     {
       path:'/adminhome',
       component:adminhome,
-      childen:[
+      children:[
         {
           path:'/adminhome/produce',
           component:produce
         },
         {
-          path:'/adminhome/user',
-          component:user,
+          path:'/adminhome/users',
+          component:users
         }]
     },
     {
