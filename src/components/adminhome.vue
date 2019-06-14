@@ -5,7 +5,20 @@
       <!-- 顶栏 -->
       <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <span class="adminname" >你好：{{adminName}}管理员</span>
+        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
+        <div class="admin">
+          <el-dropdown>
+            <span>
+              <big><i class="el-icon-user-solid"></i></big>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <a href="#/login">
+              <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
+              </a>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>{{adminName}}管理员</span>
+        </div>
       </el-header>
         
         <!-- 需要将侧栏和主页面设置当一个容器里面 -->
@@ -84,10 +97,15 @@ export default {
     font-size:20px;
   }
   
-  .adminname{
+   .bell{
     float:right;
-    margin-right:100px;
-    font-size:20px;
+    margin-right:70px;
   }
-  
+   
+   
+   .admin{
+     font-size:18px;
+    float:right;
+    margin-right:30px;
+  }
 </style>

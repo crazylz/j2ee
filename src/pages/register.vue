@@ -1,31 +1,26 @@
 <template>
-	<div>
-        <el-main>
-            <div class="login">
-                <h2 style="text-align: center;color: #606266;">账号注册</h2>
-                <div style="margin-right: 30px">
-                    <el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
-                        <el-form-item label='账号' prop='id'>
-                            <el-input v-model='userLogin.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label='密码' prop='password'>
-                            <el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label='手机号' prop='phone'>
-                            <el-input v-model='userLogin.phone' placeholder='请输入手机号' autocomplete="off" id='phone' clearable></el-input>
-                        </el-form-item>
-                        <el-form-item label='验证码' prop='check_num'>
-                            <el-input v-model='userLogin.check_num' placeholder='请输入验证码' autocomplete="off" id='check_num' clearable></el-input>
-                        </el-form-item>
-                        <el-form-item style="margin-right:80px">
-                            <el-button type='primary' @click='register()'
-                            >注册</el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
-            </div>
-		</el-main>
-	</div>
+	<div class="register">
+		<h2 style="text-align: center;color: #606266;">账号注册</h2>
+
+			<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
+				<el-form-item label='账号' prop='id'>
+					<el-input v-model='userLogin.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
+				</el-form-item>
+				<el-form-item label='密码' prop='password'>
+					<el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
+				</el-form-item>
+				<el-form-item label='手机号' prop='phone'>
+					<el-input v-model='userLogin.phone' placeholder='请输入手机号' autocomplete="off" id='phone' clearable></el-input>
+				</el-form-item>
+				<el-form-item label='验证码' prop='check_num'>
+					<el-input v-model='userLogin.check_num' placeholder='请输入验证码' autocomplete="off" id='check_num' clearable></el-input>
+				</el-form-item>
+				<el-form-item style="margin-right:80px">
+					<el-button type='primary' @click='register()'
+					>注册</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
 </template>
 
 <script >
@@ -79,7 +74,7 @@
 </script>
 
 <style scoped>
-	.login{
+	.register{
         width:450px;
 		position:absolute;
 		top:50%;
@@ -93,6 +88,9 @@
 		
 	}
 
+	.el-form{
+		margin-right:30px;
+	}
 	.el-main {
 	    /* background-image:url('../assets/1.jpg'); */
 		color: #333;

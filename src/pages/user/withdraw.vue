@@ -6,25 +6,18 @@
 			<el-breadcrumb-item><a href="/">提现</a></el-breadcrumb-item>
 		</el-breadcrumb>
 
-        <el-main>
-			<div style="margin-top: 30px;  ">
-				<div class="withdraw">
-					<div>
-						<h2 style="text-align: center;color: #606266;" prop="available_money">您当前账户可提现额度：{{available_money}}</h2>
-					</div>
-					<div style="margin-right: 30px">
-						<el-form ref='userWithdrawForm' :model='userWithdraw' label-width='80px' :rules='rules'>
-							<el-form-item label='提现金额 ' prop='amount'>
-								<el-input v-model='userWithdraw.amount' placeholder='请在此输入提现金额' autocomplete="off" id='withdraw_amount' clearable></el-input>
-							</el-form-item>							
-							<el-form-item>
-								<el-button type='primary' @click='withdraw()'>提现</el-button>
-							</el-form-item>
-						</el-form>
-					</div>
-				</div>
-			</div>
-		</el-main>
+		<div class="withdraw">
+				<h2 style="text-align: center;color: #606266;" prop="available_money">您当前账户可提现额度：{{available_money}}</h2>
+				<el-form ref='userWithdrawForm' :model='userWithdraw' label-width='80px' :rules='rules'>
+					<el-form-item label='提现金额 ' prop='amount'>
+						<el-input v-model='userWithdraw.amount' placeholder='请在此输入提现金额' autocomplete="off" id='withdraw_amount' clearable></el-input>
+					</el-form-item>							
+					<el-form-item>
+						<el-button type='primary' @click='withdraw()'>提现</el-button>
+					</el-form-item>
+				</el-form>
+		</div>
+
 	</div>
 </template>
 

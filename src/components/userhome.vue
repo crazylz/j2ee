@@ -5,7 +5,20 @@
       <!-- 顶栏 -->
       <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <span class="username" >你好：{{userName}}用户</span>
+        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
+        <div class="user">
+          <el-dropdown>
+            <span>
+              <big><i class="el-icon-user-solid"></i></big>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <a href="#/login">
+              <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
+              </a>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>{{userName}}用户</span>
+        </div>
       </el-header>
         
         <!-- 需要将侧栏和主页面设置当一个容器里面 -->
@@ -57,8 +70,10 @@ let data = () => {
 export default {
   data: data,
   methods: {
-
-  },
+    bell:function(){
+				this.$router.push({path:'/userhome/information'});
+			}
+   },
   mounted: function() {
 
   }
@@ -96,10 +111,16 @@ export default {
     font-size:20px;
   }
   
-  .username{
+   .bell{
     float:right;
-    margin-right:100px;
-    font-size:20px;
+    margin-right:70px;
   }
-  
+   
+   
+   .user{
+     font-size:18px;
+    float:right;
+    margin-right:30px;
+  }
+ 
 </style>

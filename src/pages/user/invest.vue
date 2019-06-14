@@ -6,25 +6,18 @@
 			<el-breadcrumb-item><a href="/">充值</a></el-breadcrumb-item>
 		</el-breadcrumb>
 
-        <el-main>
-			<div style="margin-top: 30px;  ">
-				<div class="invest">
-					<div>
-						<h2 style="text-align: center;color: #606266;" prop="now_money">您当前账户可用额度：{{now_money}}</h2>
-					</div>
-					<div style="margin-right: 30px">
-						<el-form ref='userInvestForm' :model='userInvest' label-width='80px' :rules='rules'>
-							<el-form-item label='充值金额 ' prop='invest_amount'>
-								<el-input v-model='userInvest.invest_amount' placeholder='请在此输入充值金额' autocomplete="off" id='investing_amount' clearable></el-input>
-							</el-form-item>							
-							<el-form-item>
-								<el-button type='primary' @click='invest()'>充值</el-button>
-							</el-form-item>
-						</el-form>
-					</div>
-				</div>
-			</div>
-		</el-main>
+
+		<div class="invest">
+				<h2 style="text-align: center;color: #606266;" prop="now_money">您当前账户可用额度：{{now_money}}</h2>
+				<el-form ref='userInvestForm' :model='userInvest' label-width='80px' :rules='rules'>
+					<el-form-item label='充值金额 ' prop='invest_amount'>
+						<el-input v-model='userInvest.invest_amount' placeholder='请在此输入充值金额' autocomplete="off" id='investing_amount' clearable></el-input>
+					</el-form-item>							
+					<el-form-item>
+						<el-button type='primary' @click='invest()'>充值</el-button>
+					</el-form-item>
+				</el-form>
+		</div>
 	</div>
 </template>
 

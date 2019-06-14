@@ -18,6 +18,7 @@ import invest from '../pages/user/invest.vue'
 import persondata from '../pages/user/persondata.vue'
 import repay from '../pages/user/repay.vue'
 import withdraw from '../pages/user/withdraw.vue'
+import information from '../pages/user/infromation.vue'
 
 //管理员界面
 import adminhome from '../components/adminhome.vue'
@@ -64,6 +65,10 @@ const router = new Router({
         {
           path:'/userhome/repay',
           component:repay
+        },
+        {
+          path:'/userhome/information',
+          component:information
         }
       ]
     },
