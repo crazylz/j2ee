@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-      <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">管理员</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">管理用户</a></el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-table
@@ -46,7 +46,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">购买</el-button>
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     
