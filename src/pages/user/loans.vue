@@ -5,8 +5,8 @@
     <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
-    <div class="main">
-			<el-dialog style=" font-size: 14px " class="login" :visible.sync='addVisible'>
+  
+			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
 				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
 					<el-form-item label='账号' prop='id' class="input">
@@ -40,7 +40,7 @@
 					</el-form-item>
 				</el-form>   
 			</el-dialog>
-		</div>
+	
   <el-table
     ref="filterTable"
     :data="tableData"
@@ -381,24 +381,11 @@
 .button_add{
   float:right;
 }
-.login{
-		display: table-cell;
-		vertical-align: center;
-		/* align-self: center; */
-		/* width: 700px;
-		height:500px;
-		position:relative;
-		left:50%;
-        bottom:50%; */
-		/* position:absolute;
-		left:50%;
-		top:50%;
-		transform:translate(-50%,-50%); */
-		/* margin: 0px 0px -250px -350px; */
+.loans{
 		border: 1px solid #999999;
 		border-radius: 30px;
 		text-align: center;
-		background-color: rgba(255,255,255,0.8);	
+		/* background-color: rgba(255,255,255,0.8);	 */
 	}
 
     .main{

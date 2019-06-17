@@ -5,42 +5,44 @@
       <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
       <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button>
     </el-breadcrumb>
-    <el-dialog class="login" :visible.sync='addVisible'>
-						<h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
-						<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-							<el-form-item label='账号' prop='id' class="input">
-								<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
-							</el-form-item>
-							<el-form-item label='购买额' prop='loans' class="input">
-								<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
-							</el-form-item>
-                            <el-form-item label='利息' prop='interest' class="input">
-								<el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
-							</el-form-item>
-                            <div class="repay">
-                                <span class="demonstration">取回日期</span>
-                                <el-date-picker
-                                v-model="Loan.date"
-                                align="right"
-                                type="date"
-                                placeholder="选择日期"
-                                :picker-options="pickerOptions">
-                                </el-date-picker>
-                            </div>
 
-                                <el-form-item style="margin-right:200px;margin-top:10px">
-								    <el-button type='primary' @click='addVisible = false'
-								    >购买</el-button>
-								    <el-button type='primary' @click='set()'
-								    >保存</el-button>
-							    </el-form-item>
+    <el-dialog class="products" :visible.sync='addVisible'>
+      <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
+      <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
+        <el-form-item label='账号' prop='id' class="input">
+          <el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
+        </el-form-item>
+        <el-form-item label='购买额' prop='loans' class="input">
+          <el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
+        </el-form-item>
+        <el-form-item label='利息' prop='interest' class="input">
+          <el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
+        </el-form-item>
+        <div class="repay">
+            <span class="demonstration">取回日期</span>
+            <el-date-picker
+            v-model="Loan.date"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions">
+            </el-date-picker>
+        </div>
 
-                         </el-form>
-					</el-dialog>
-    <el-table
-      ref="filterTable"
-      :data="all_tableData"
-      border>
+        <el-form-item style="margin-right:200px;margin-top:10px">
+          <el-button type='primary' @click='addVisible = false'
+          >购买</el-button>
+          <el-button type='primary' @click='set()'
+          >保存</el-button>
+        </el-form-item>
+
+        </el-form>
+    </el-dialog>
+
+  <el-table
+    ref="filterTable"
+    :data="all_tableData"
+    border>
 
     <el-table-column
       align='center'
@@ -270,24 +272,11 @@ import {post, get} from '../../request/http.js'
 .button_add{
   float:right;
 }
-.login{
-		display: table-cell;
-		vertical-align: center;
-		/* align-self: center; */
-		/* width: 700px;
-		height:500px;
-		position:relative;
-		left:50%;
-        bottom:50%; */
-		/* position:absolute;
-		left:50%;
-		top:50%;
-		transform:translate(-50%,-50%); */
-		/* margin: 0px 0px -250px -350px; */
+.products{
 		border: 1px solid #999999;
 		border-radius: 30px;
 		text-align: center;
-		background-color: rgba(255,255,255,0.8);
+		/* background-color: rgba(255,255,255,0.8); */
 	}
 
     .main{
