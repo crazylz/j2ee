@@ -10,37 +10,93 @@
       :data="all_tableData"
       border>
       <el-table-column
-        label="金额"
+        label="用户id"
         align="center">
         <template slot-scope="scope">
-          <span>￥{{scope.row.amount}}</span>
+          <span>{{scope.row.amount}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        align="center"
-        prop = "submit_date"
-        label="提交时间"
-        sortable
-        column-key="submit_date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler">
-
-      </el-table-column>
-
-      <el-table-column
-      align="center"
-        label="姓名">
+        label="身份证"
+        align="center">
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
+          <span>{{scope.row.amount}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column
+        label="手机号码"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="性别"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="第三方支付帐号"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="银行卡帐号"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="失信记录"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="工资"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="信用评级"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="姓名"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="工龄"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.amount}}</span>
+        </template>
+      </el-table-column>
+
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
@@ -222,8 +278,6 @@
   margin:auto; */
 }
 .el-table.column{
-  width:25%;
+  width:9.09%;
 }
 </style>
-
-

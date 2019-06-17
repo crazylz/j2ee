@@ -10,12 +10,29 @@
       :data="all_tableData"
       border>
       <el-table-column
-        label="金额"
-        align="center">
-        <template slot-scope="scope">
-          <span>￥{{scope.row.amount}}</span>
-        </template>
-      </el-table-column>
+      align='center'
+      label="金额">
+      <template slot-scope="scope">
+        <span>￥{{ scope.row.amount }}</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+    align='center'
+      label="分期">
+      <template slot-scope="scope">
+        <span>{{ scope.row.installment }}</span>
+      </template>
+    </el-table-column>
+    
+    <el-table-column
+    align='center'
+      label="利率">
+      <template slot-scope="scope">
+        <span>{{ scope.row.interest_rate }}%</span>
+      </template>
+    </el-table-column>
+
 
       <el-table-column
         align="center"
@@ -75,101 +92,121 @@
   export default {
     data() {
       return {
+        addVisible: false,
         all_tableData: [{
           amount: 1000000,
           submit_date: '2016-05-02',
-          name: '王小',
-          address: '上海市普陀区金沙江路 1518'
+          interest_rate: 10,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-04',
-          name: '王中',
-          address: '上海市普陀区金沙江路 1517 弄'
+          interest_rate: 5,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-01',
-          name: '王大',
-          address: '上海市普陀区金沙江路 1519 弄'
+          interest_rate: 6,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王大大',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小小',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 7,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 3,
+          installment: 10,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小狗',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 1,
+          installment: 8,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小猫',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2,
+          installment: 9,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8.8,
+          installment: 12,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate : 5.4,
+          installment: 5,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 6.1,
+          installment: 4,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 7.1,
+          installment: 3,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 8.1,
+          installment: 2,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2.3,
+          installment: 1,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 1.8,
+          installment: 5,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 2.5,
+          installment: 6,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 9.9,
+          installment: 8,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 11.1,
+          installment: 11,
+          name: 'X'
         }, {
           amount: 1000000,
           submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          interest_rate: 9.10,
+          installment: 12,
+          name: 'X'
         }],
         tableData: []
       }
