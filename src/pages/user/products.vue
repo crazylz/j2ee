@@ -116,10 +116,13 @@
 
 
 <script>
+import {post, get} from '../../request/http.js'
+
   export default {
     data() {
       return {
         addVisible: false,
+        user: [],
         all_tableData: [{
           amount: 1000000,
           submit_date: '2016-05-02',
@@ -338,7 +341,13 @@
     mounted(){
       this.getOriginalData();
       this.Loan.id=localStorage.getItem('id');
-			this.Loan.loans=localStorage.getItem('loans');
+      this.Loan.loans=localStorage.getItem('loans');
+
+      var res = get("/api/userProfile/1", {})
+      res.then(data => {
+        console.log(data.data)
+        this.user = data.data
+      })
     }
   }
 </script>
