@@ -12,12 +12,12 @@ import register from '../pages/register.vue'
 import userhome from '../components/userhome.vue'
 import loans from '../pages/user/loans.vue'
 import products from '../pages/user/products.vue'
-import invest from '../pages/user/invest.vue'
+// import invest from '../pages/user/invest.vue'
 // import newloans from '../pages/user/newloans.vue'
 // import newproducts from '../pages/user/newproducts.vue'
-import persondata from '../pages/user/persondata.vue'
+// import persondata from '../pages/user/persondata.vue'
 import repay from '../pages/user/repay.vue'
-import withdraw from '../pages/user/withdraw.vue'
+// import withdraw from '../pages/user/withdraw.vue'
 import information from '../pages/user/infromation.vue'
 
 //管理员界面
@@ -43,24 +43,12 @@ const router = new Router({
       component:userhome,
       children:[
         {
-          path:'/userhome/persondata',
-          component:persondata
-        },
-        {
           path:'/userhome/loans',
           component:loans
         },
         {
           path:'/userhome/products',
           component:products
-        },
-        {
-          path:'/userhome/withdraw',
-          component:withdraw
-        },
-        {
-          path:'/userhome/invest',
-          component:invest
         },
         {
           path:'/userhome/repay',

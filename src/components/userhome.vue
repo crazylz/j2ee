@@ -12,6 +12,8 @@
               <big><i class="el-icon-user-solid"></i></big>
             </span>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-wallet">充值/提现</el-dropdown-item>
               <a href="#/login">
               <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
               </a>
@@ -26,21 +28,21 @@
           <!-- 侧栏 -->
           <el-aside width="200px">
             <el-menu :default-active="$route.path" router unique-opened >
-              <el-menu-item index="/userhome/persondata">
+              <!-- <el-menu-item index="/userhome/persondata">
               <i class="el-icon-user"></i>个人资料
-              </el-menu-item>
+              </el-menu-item> -->
                <el-menu-item index="/userhome/loans">
               <i class="el-icon-discount"></i>借款
                </el-menu-item>
                <el-menu-item index="/userhome/products">
               <i class="el-icon-shopping-cart-2"></i>购买产品
                </el-menu-item>           
-              <el-menu-item index="/userhome/withdraw">
+              <!-- <el-menu-item index="/userhome/withdraw">
               <i class="el-icon-bank-card"></i>提现
               </el-menu-item>
               <el-menu-item index="/userhome/invest">
               <i class="el-icon-wallet"></i>充值
-              </el-menu-item>
+              </el-menu-item> -->
               <el-menu-item index="/userhome/repay">
               <i class="el-icon-sold-out"></i>还款
               </el-menu-item>

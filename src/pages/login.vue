@@ -1,13 +1,11 @@
 <template>
 	<div class="main">
-    	<div class="image">
-            <transition>
-				<img v-if='loginRole==1' src="../assets/timg.jpg" style="width: 100%;border-radius: 15px">
-				<img v-if='loginRole==2' src="../assets/yewu1.jpg" style="width: 100%;border-radius: 15px">
-				<img v-if='loginRole==3' src="../assets/login.jpg" style="width: 100%;border-radius: 15px">
-			</transition>
-		</div>
 
+					<!-- <transition>
+			<img v-if='loginRole==1' src="../assets/timg.jpg" style="width: 100%;border-radius: 15px">
+			<img v-if='loginRole==2' src="../assets/yewu1.jpg" style="width: 100%;border-radius: 15px">
+			<img v-if='loginRole==3' src="../assets/login.jpg" style="width: 100%;border-radius: 15px">
+		</transition> -->
 		<div class="login">
 			<h2 style="text-align: center;color: #606266;">账号登录</h2>
 			<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
@@ -24,7 +22,7 @@
 						<el-radio :label="3">管理员</el-radio>
 					</el-radio-group>
 				</el-form-item>
-				<el-form-item>
+				<el-form-item class="button">
 					<el-button type='primary' @click='login()'
 					>登录</el-button>
 					<el-button type='primary' @click='register()'
@@ -82,40 +80,56 @@
 </script>
 
 <style scoped>
+/* 必须加上绝对定位，才能够有width、height，不然是相对于app入口的包含快height100%，高度为0 */
+/* app.vue的入口自带了8px的左和上外边距 */
     .main{
-		width:100%;
+		/* width:100%;
 		position:absolute;
 		top:50%;
 		left:50%;
-		transform:translate(-50%,-50%);
+		transform:translate(-50%,-50%); */
+		position: absolute;
+		width:100%;
+		height:100%;
+		top:-8px;
+		left:-8px;
+		background-image: url(../assets/p2p.jpg);
+		background-size: 100%;
+
 	}
     
-	.image{
+	/* .image{
 		float:left;
 		margin-left:16%;
 		width:30%;
 		height: 400px;
-	}
+	} */
 
 	.login{
-		float:right;
-		margin-right:16%;
-		width:30%;
-		height: 400px;
-		/* position:absolute;
+		position:absolute;
 		top:50%;
 		left:50%;
-		transform:translate(-50%,-50%); */
-		background: #fff;
+		transform:translate(-50%,-50%);
+		background-color: transparent;
 		border: 1px solid #999999;
 		border-radius: 8px;
 		text-align: center;
 		background-color: rgba(255,255,255,0.8);
 		
 	}
+  
+	/* ？？？该居中方式为何无效 */
+	.el-radio-group  {
+		/* width:fit-content;
+		text-align: center; */
+		margin-left:-40px;
+	}
 
+	.button {
+		margin-left:-40px;
+	}
 	.el-form{
-		margin-right:30px;
+		margin-right:40px;
 	}
 
 	.el-botton{

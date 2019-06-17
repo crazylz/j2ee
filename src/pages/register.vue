@@ -1,6 +1,7 @@
 <template>
-	<div class="register">
-		<h2 style="text-align: center;color: #606266;">账号注册</h2>
+	<div class="main">
+		<div class="register">
+			<h2 style="text-align: center;color: #606266;">账号注册</h2>
 
 			<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
 				<el-form-item label='账号' prop='id'>
@@ -9,18 +10,22 @@
 				<el-form-item label='密码' prop='password'>
 					<el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
 				</el-form-item>
+				<el-form-item label='确认密码' prop='password_sure'>
+					<el-input v-model='userLogin.password_sure' type='password' placeholder='请再次输入密码' autocomplete="off" id='password' clearable></el-input>
+				</el-form-item>
 				<el-form-item label='手机号' prop='phone'>
 					<el-input v-model='userLogin.phone' placeholder='请输入手机号' autocomplete="off" id='phone' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='验证码' prop='check_num'>
-					<el-input v-model='userLogin.check_num' placeholder='请输入验证码' autocomplete="off" id='check_num' clearable></el-input>
+					<el-input v-model='userLogin.check_num' placeholder='请输入手机验证码' autocomplete="off" id='check_num' clearable></el-input>
 				</el-form-item>
-				<el-form-item style="margin-right:80px">
+				<el-form-item style="margin-right:40px">
 					<el-button type='primary' @click='register()'
 					>注册</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
+	</div>
 </template>
 
 <script >
@@ -44,11 +49,14 @@
 					password: [
 					{required:true,message:'密码不能为空',	trigger: 'blur'},
 					{min:5,message:'密码长度必须大于5个字符字符',}
+					],
+					password_sure: [
+					{required:true,message:'确认密码不能为空',	trigger: 'blur'}
                     ],
-                    phone:[
-                    {required:true,message:'手机号不能为空',	trigger: 'blur'}
-					// {length:11,message:'密码长度必须为11个字符字符',}
-                    ],
+                    // phone:[
+                    // {required:true,message:'手机号不能为空',	trigger: 'blur'}
+					// // {length:11,message:'密码长度必须为11个字符字符',}
+                    // ],
                     check_num:[
                     {required:true,message:'验证码不能为空',	trigger: 'blur'}    
                     ]
@@ -74,8 +82,23 @@
 </script>
 
 <style scoped>
+	 .main{
+		/* width:100%;
+		position:absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%,-50%); */
+		position: absolute;
+		width:100%;
+		height:100%;
+		top:-8px;
+		left:-8px;
+		background-image: url(../assets/p2p.jpg);
+		background-size: 100%;
+	}
+
 	.register{
-        width:450px;
+        width:390px;
 		position:absolute;
 		top:50%;
 		left:50%;
@@ -89,7 +112,7 @@
 	}
 
 	.el-form{
-		margin-right:30px;
+		margin-right:40px;
 	}
 	.el-main {
 	    /* background-image:url('../assets/1.jpg'); */
