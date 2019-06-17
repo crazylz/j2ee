@@ -65,7 +65,7 @@
 			login:function(){
 				var that=this;
 				if(that.loginRole==1){
-				that.$router.push({path:'/userhome'});
+				that.$router.push({path:'/userhome/loans'});
 				}else if(that.loginRole==2){
 				that.$router.push({path:'/guarantee'});
 				}else if(that.loginRole==3){

@@ -6,14 +6,21 @@
       <el-header >
         <span  class="system-name">{{systemName}}</span>
         <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
-        <div class="user">
+        <div class="users">
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-wallet">充值/提现</el-dropdown-item>
+              <div @click='detailVisible=true'>
+                <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
+              </div>
+              <div @click='investVisible=true'>
+              <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
+              </div>
+              <div @click='withdrawVisible=true'>
+              <el-dropdown-item icon="el-icon-wallet">提现</el-dropdown-item>
+              </div>
               <a href="#/login">
               <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
               </a>
@@ -23,38 +30,95 @@
         </div>
       </el-header>
         
-        <!-- 需要将侧栏和主页面设置当一个容器里面 -->
-        <el-container>
-          <!-- 侧栏 -->
-          <el-aside width="200px">
-            <el-menu :default-active="$route.path" router unique-opened >
-              <!-- <el-menu-item index="/userhome/persondata">
-              <i class="el-icon-user"></i>个人资料
-              </el-menu-item> -->
-               <el-menu-item index="/userhome/loans">
-              <i class="el-icon-discount"></i>借款
-               </el-menu-item>
-               <el-menu-item index="/userhome/products">
-              <i class="el-icon-shopping-cart-2"></i>购买产品
-               </el-menu-item>           
-              <!-- <el-menu-item index="/userhome/withdraw">
-              <i class="el-icon-bank-card"></i>提现
-              </el-menu-item>
-              <el-menu-item index="/userhome/invest">
-              <i class="el-icon-wallet"></i>充值
-              </el-menu-item> -->
-              <el-menu-item index="/userhome/repay">
-              <i class="el-icon-sold-out"></i>还款
-              </el-menu-item>
-            </el-menu>
-          </el-aside>
+      <!-- 个人资料对话框 -->
+      <!-- 需要在script的data里面定义所有的变量 -->
+       <!--style属性多个属性之间用分号间隔  -->
+      <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
+        <el-form style="  margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
+            <el-form-item label='姓名' prop='name' class="input">
+              <el-input v-model='user.name' placeholder='请输入姓名' clearable></el-input>
+            </el-form-item>
+            <el-form-item label='性别' prop='sex' class="input">
+              <el-input v-model='user.sex' type='text' placeholder='请输入性别'  clearable></el-input>
+            </el-form-item>
+            <el-form-item label='年龄' prop='age' class="input">
+              <el-input v-model='user.age' clearable></el-input>
+            </el-form-item>
+            <el-form-item label='月薪' prop='pay' class="input">
+              <el-input v-model='user.pay' clearable></el-input>
+            </el-form-item>
+            <el-form-item label='身份证号' prop='identity ' class="input">
+              <el-input v-model='user.identity ' clearable></el-input>
+            </el-form-item>
+            <el-form-item style="margin-left:-80px;margin-top:20px">
+              <el-button type='primary' @click='handleDetail()'
+              >保存</el-button>
+            </el-form-item>               
+        </el-form>   
+      </el-dialog>
 
-          <el-main>
-            <transition name="fade" mode="out-in">
-              <router-view></router-view>
-            </transition>
-          </el-main>
-        </el-container>
+      <!--充值对话框  -->
+      <el-dialog class="invest" :visible.sync='investVisible'>
+        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
+        <p style="color: #606266; font-size:18px">账户余额  {{money_remain}}</p>
+        <el-form style="margin-right:120px" ref='investForm' :model='invest' label-width='200px' :rules='investrules'>
+          <el-form-item style="margin-left:-44px" label='充值金额' prop='number' class="input">
+            <el-input v-model='invest.number' placeholder='请输入充值金额' clearable></el-input>
+          </el-form-item>
+          <el-form-item style="margin-left:-80px;margin-top:10px">
+            <el-button type='primary' @click='handleInvest()'
+            >确认</el-button>
+          </el-form-item>               
+        </el-form>   
+      </el-dialog>
+
+      <el-dialog class="withdraw" :visible.sync='withdrawVisible'>
+        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
+        <p style="color: #606266; font-size:18px">账户余额 {{money_remain}}</p>
+        <el-form style="margin-right:120px" ref='withdrawForm' :model='withdraw' label-width='200px' :rules='withdrawrules'>
+          <el-form-item style="margin-left:-44px" label='提现金额' prop='money' class="input">
+            <el-input v-model='withdraw.money' placeholder='请输入提现金额' clearable></el-input>
+          </el-form-item>
+          <el-form-item style="margin-left:-80px;margin-top:10px">
+            <el-button type='primary' @click='handleWithdraw()'
+            >确认</el-button>
+          </el-form-item>               
+        </el-form>   
+      </el-dialog>  
+
+        <!-- 需要将侧栏和主页面设置当一个容器里面 -->
+    <el-container>
+      <!-- 侧栏 -->
+      <el-aside width="200px">
+        <el-menu :default-active="$route.path" router unique-opened >
+          <!-- <el-menu-item index="/userhome/persondata">
+          <i class="el-icon-user"></i>个人资料
+          </el-menu-item> -->
+            <el-menu-item index="/userhome/loans">
+          <i class="el-icon-discount"></i>借款
+            </el-menu-item>
+            <el-menu-item index="/userhome/products">
+          <i class="el-icon-shopping-cart-2"></i>购买产品
+            </el-menu-item>           
+          <!-- <el-menu-item index="/userhome/withdraw">
+          <i class="el-icon-bank-card"></i>提现
+          </el-menu-item>
+          <el-menu-item index="/userhome/invest">
+          <i class="el-icon-wallet"></i>充值
+          </el-menu-item> -->
+          <el-menu-item index="/userhome/repay">
+          <i class="el-icon-sold-out"></i>还款
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+
+        <el-main>
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
+        </el-main>
+      </el-container>
     </el-container>
     </div>
 </template>
@@ -62,22 +126,80 @@
 
 
 <script>
+// template涉及的所有的变量都要写入data之中，数据传输的时候也是这些数据
 let data = () => {
   return {
+    detailVisible:false,
+    investVisible:false,
+    withdrawVisible:false,
+    money_remain:0,
     systemName: '用户界面',
-    userName: 'lz'
+    userName: 'lz',
+    user:{
+      name:'',
+      sex:'',
+      age: 0,
+      pay:0,
+      identity:0
+    },
+    invest:{
+      number:0
+    },
+    withdraw:{
+      money:0
+    },
+    detailrules:{
+      name: [
+      {required: true,message: '姓名不能为空',trigger: 'blur'}
+      ],
+      sex: [
+      {required:true,message:'性别不能为空',	trigger: 'blur'},
+      // {min:5,message:'密码长度必须大于5个字符字符',}
+      ],
+      age: [
+      {required: true,message: '年龄不能为空',trigger: 'blur'}
+      ],
+      pay: [
+      {required: true,message: '月薪不能为空',trigger: 'blur'}
+      ],
+      identity: [
+      {required: true,message: '身份证号不能为空',trigger: 'blur'}
+      ]
+    },
+    investrules:{
+       number: [
+      {required: true,message: '充值额不能为空',trigger: 'blur'}
+      ]
+    },
+    withdrawrules:{
+       money: [
+      {required: true,message: '提现金额不能为空',trigger: 'blur'}
+      ]
+    }
   }
 }
 
 export default {
   data: data,
-  methods: {
-    bell:function(){
-				this.$router.push({path:'/userhome/information'});
-			}
-   },
   mounted: function() {
 
+  },
+  methods: {
+    bell:function(){
+        this.$router.push({path:'/userhome/information'});
+    },
+
+    handleDetail:function(){
+
+    },
+
+    handleInvest:function(){
+
+    },
+
+    handleWithdraw:function(){
+
+    }
   }
 }
 </script>
@@ -119,10 +241,24 @@ export default {
   }
    
    
-   .user{
-     font-size:18px;
+   .users{
+    font-size:18px;
     float:right;
     margin-right:30px;
   }
- 
+  
+  .detail{
+  width:80% ;
+  left:10%;
+  }
+
+  .invest{
+    width:60%;
+    left:20%;
+  }
+
+  .withdraw{
+    width:60%;
+    left:20%;
+  }
 </style>

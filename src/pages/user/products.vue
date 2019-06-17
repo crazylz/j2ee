@@ -5,38 +5,40 @@
       <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
       <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button>
     </el-breadcrumb>
-    <el-dialog class="login" :visible.sync='addVisible'>
-						<h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
-						<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-							<el-form-item label='账号' prop='id' class="input">
-								<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
-							</el-form-item>
-							<el-form-item label='购买额' prop='loans' class="input">
-								<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
-							</el-form-item>
-                            <el-form-item label='利息' prop='interest' class="input">
-								<el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
-							</el-form-item>
-                            <div class="repay">
-                                <span class="demonstration">取回日期</span>
-                                <el-date-picker
-                                v-model="Loan.date"
-                                align="right"
-                                type="date"
-                                placeholder="选择日期"
-                                :picker-options="pickerOptions">
-                                </el-date-picker>
-                            </div>
 
-                                <el-form-item style="margin-right:200px;margin-top:10px">
-								    <el-button type='primary' @click='addVisible = false'
-								    >购买</el-button>
-								    <el-button type='primary' @click='set()'
-								    >保存</el-button>
-							    </el-form-item>
-                           
-                         </el-form>   
-					</el-dialog>
+    <!-- 对话框 -->
+    <el-dialog class="login" :visible.sync='addVisible'>
+      <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
+      <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
+        <el-form-item label='账号' prop='id' class="input">
+          <el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
+        </el-form-item>
+        <el-form-item label='购买额' prop='loans' class="input">
+          <el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
+        </el-form-item>
+        <el-form-item label='利息' prop='interest' class="input">
+          <el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
+        </el-form-item>
+          <div class="repay">
+              <span class="demonstration">取回日期</span>
+              <el-date-picker
+              v-model="Loan.date"
+              align="right"
+              type="date"
+              placeholder="选择日期"
+              :picker-options="pickerOptions">
+              </el-date-picker>
+          </div>
+
+        <el-form-item style="margin-right:200px;margin-top:10px">
+          <el-button type='primary' @click='set()'
+          >保存</el-button>
+        </el-form-item>
+                      
+      </el-form>   
+    </el-dialog>
+
+
     <el-table
       ref="filterTable"
       :data="all_tableData"
@@ -238,9 +240,9 @@
         tableData: [],
         Loan: {
 					id: '',
-                    loans: '',
-                    interest:'10%',
-                    date:'2019-6-12'
+          loans: '',
+          interest:'10%',
+          date:'2019-6-12'
                     
 
 				},
@@ -253,7 +255,7 @@
 					{required:true,message:'贷款额不能为空',	trigger: 'blur'},
 					// {min:5,message:'密码长度必须大于5个字符字符',}
 					]
-                },
+              },
                 
 
             pickerOptions: {
