@@ -6,7 +6,7 @@
       <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button>
     </el-breadcrumb>
 
-    <el-dialog class="products" :visible.sync='addVisible'>
+    <!-- <el-dialog class="products" :visible.sync='addVisible'>
       <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
       <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
         <el-form-item label='账号' prop='id' class="input">
@@ -109,7 +109,7 @@
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="100*(all_tableData.length/10)">
-    </el-pagination>
+    </el-pagination> -->
 
 
   </div>
@@ -237,23 +237,19 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/investor/productList", {})
       res.then(data => {
         this.all_tableData = data.data
+        console.log(data)
 
-        for(var i=0; i<this.all_tableData.length; i++){
-          var userRes = get("/api/userProfile/" + this.all_tableData[i].userId, {})
-          userRes.then(userdata => {
+        // for(var i=0; i<this.all_tableData.length; i++){
+        //   var userRes = get("/api/userProfile/" + this.all_tableData[i].userId, {})
+        //   userRes.then(userdata => {
 
-            this.user[i] = userdata.data;
-            console.log(this.user[i])
-          })
-        }
+        //     this.user[i] = userdata.data;
+        //     console.log(this.user[i])
+        //   })
+        // }
       })
 
 
-      // var res = get("/api/userProfile/1", {})
-      // res.then(data => {
-      //   this.all_tableData.userinfo = data.data
-      //   console.log(this.all_tableData.userinfo)
-      // })
     }
   }
 </script>

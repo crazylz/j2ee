@@ -38,7 +38,7 @@
 </template>
 
 <script >
-
+import {post, get} from '../request/http.js'
 	export default {
 		name: 'login',
 		data(){
@@ -62,13 +62,43 @@
 			};
 		},
 		methods:{
+
 			login:function(){
 				var that=this;
 				if(that.loginRole==1){
-				that.$router.push({path:'/userhome/loans'});
-				}else if(that.loginRole==2){
+					var res = post("/api/login", {
+						account: this.userLogin.id,
+						password: this.userLogin.password,
+						type: 2
+					})
+					res.then(data => {
+						console.log(data)})
+						.catch(error => {
+      					console.log(error)})
+				that.$router.push({path:'/userhome'});
+				}
+				else if(that.loginRole==2){
+					var res = post("/api/login", {
+						account: this.userLogin.id,
+						password: this.userLogin.password,
+						type: 1
+					})
+					res.then(data => {
+						console.log(data)})
+						.catch(error => {
+      					console.log(error)})
 				that.$router.push({path:'/guarantee'});
-				}else if(that.loginRole==3){
+				}
+				else if(that.loginRole==3){
+					var res = post("/api/login", {
+						account: this.userLogin.id,
+						password: this.userLogin.password,
+						type: 0
+					})
+					res.then(data => {
+						console.log(data)})
+						.catch(error => {
+      					console.log(error)})
 				that.$router.push({path:'/adminhome'});
 				}
 			},
