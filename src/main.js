@@ -7,6 +7,11 @@ import axios from 'axios'
 import qs from 'qs' //跨域加密
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'  //element-ui的默认背景色
+import moment from 'moment'
+
+Vue.filter('dateformat', function(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+      return moment(dataStr).format(pattern)
+  })
 
 Vue.config.productionTip = false
 

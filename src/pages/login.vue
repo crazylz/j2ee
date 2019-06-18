@@ -62,7 +62,6 @@ import {post, get} from '../request/http.js'
 			};
 		},
 		methods:{
-
 			login:function(){
 				var that=this;
 				if(that.loginRole==1){
@@ -72,10 +71,16 @@ import {post, get} from '../request/http.js'
 						type: 2
 					})
 					res.then(data => {
-						console.log(data)})
-						.catch(error => {
-      					console.log(error)})
-				that.$router.push({path:'/userhome'});
+						console.log(data.code)
+						if(data.code == 0)
+						{
+							that.$router.push({path:'/userhome'});
+						}
+						else{
+							alert(data.msg);
+						}
+					}).catch(error => {
+						console.log(error)})
 				}
 				else if(that.loginRole==2){
 					var res = post("/api/login", {
@@ -84,10 +89,16 @@ import {post, get} from '../request/http.js'
 						type: 1
 					})
 					res.then(data => {
-						console.log(data)})
-						.catch(error => {
-      					console.log(error)})
-				that.$router.push({path:'/guarantee'});
+						console.log(data.code)
+						if(data.code == 0)
+						{
+							that.$router.push({path:'/guarantee'});
+						}
+						else{
+							alert(data.msg);
+						}
+					}).catch(error => {
+						console.log(error)})
 				}
 				else if(that.loginRole==3){
 					var res = post("/api/login", {
@@ -96,10 +107,16 @@ import {post, get} from '../request/http.js'
 						type: 0
 					})
 					res.then(data => {
-						console.log(data)})
-						.catch(error => {
-      					console.log(error)})
-				that.$router.push({path:'/adminhome'});
+						console.log(data.code)
+						if(data.code == 0)
+						{
+							that.$router.push({path:'/adminhome'});
+						}
+						else{
+							alert(data.msg);
+						}
+					}).catch(error => {
+						console.log(error)})
 				}
 			},
 			register:function(){

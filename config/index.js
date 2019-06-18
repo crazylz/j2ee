@@ -13,15 +13,15 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api':{
-      target: "https://139.196.80.119:8443/",
-       changeOrigin: true, //是否跨域
+      target: "http://139.196.80.119:8443/",
+      changeOrigin: true, //是否跨域
       pathRewrite:{
         '^/api':'/'
       },
-      secure: false,
-      headers: {
-        Referer: 'https://139.196.80.119:8443/'
-      }
+      // secure: false,
+      // headers: {
+      //   Referer: 'https://139.196.80.119:8443/'
+      // }
     }
 
     },

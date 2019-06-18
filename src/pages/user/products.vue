@@ -76,22 +76,30 @@
       </template>
     </el-table-column>
 
-      <el-table-column
+      <!-- <el-table-column
         align="center"
-        prop = "process_time"
+        prop = "process_time | dateformat('YYYY-MM-DD HH:mm:ss')"
         label="处理时间"
         sortable
         column-key="submit_date"
         :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
         :filter-method="filterHandler">
+      </el-table-column> -->
 
-      </el-table-column>
+    <el-table-column
+    align='center'
+      label="处理时间">
+      <template slot-scope="scope">
+        <span>{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+      </template>
+    </el-table-column>
+
 
       <el-table-column
       align="center"
-        label="姓名">
+        label="用户">
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="bottom">
+          <el-popover trigger="click" placement="bottom">
             <p>姓名: {{ scope.row.name}}</p>
             <p>性别: {{ scope.row.gender }}</p>
             <p>电话: {{ scope.row.phone_number }}</p>
@@ -100,7 +108,10 @@
             <p>失信记录次数: {{ scope.row.discredited_records }}</p>
             <p>信用评级: {{ scope.row.rank }}</p>
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              <el-button
+              size="mini">
+              {{scope.row.name}}
+              </el-button>
             </div>
           </el-popover>
         </template>
