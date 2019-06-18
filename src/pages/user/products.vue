@@ -6,7 +6,7 @@
       <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button>
     </el-breadcrumb>
 
-    <!-- <el-dialog class="products" :visible.sync='addVisible'>
+    <el-dialog class="products" :visible.sync='addVisible'>
       <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
       <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
         <el-form-item label='账号' prop='id' class="input">
@@ -56,7 +56,7 @@
     align='center'
       label="分期">
       <template slot-scope="scope">
-        <span>{{ scope.row.installmentNumber }}</span>
+        <span>{{ scope.row.installment_number }}</span>
       </template>
     </el-table-column>
 
@@ -68,9 +68,17 @@
       </template>
     </el-table-column>
 
+    <el-table-column
+    align='center'
+      label="每月还款日期">
+      <template slot-scope="scope">
+        <span>{{ scope.row.pay_day_of_month }}号</span>
+      </template>
+    </el-table-column>
+
       <el-table-column
         align="center"
-        prop = "processTime"
+        prop = "process_time"
         label="处理时间"
         sortable
         column-key="submit_date"
@@ -83,11 +91,16 @@
       align="center"
         label="姓名">
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.user}}</p>
-            <p>性别: {{ scope.row.user }}</p>
+          <el-popover trigger="hover" placement="bottom">
+            <p>姓名: {{ scope.row.name}}</p>
+            <p>性别: {{ scope.row.gender }}</p>
+            <p>电话: {{ scope.row.phone_number }}</p>
+            <p>工龄: {{ scope.row.length_of_service }}</p>
+            <p>工资: ￥{{ scope.row.salary }}</p>
+            <p>失信记录次数: {{ scope.row.discredited_records }}</p>
+            <p>信用评级: {{ scope.row.rank }}</p>
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.userId }}</el-tag>
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
           </el-popover>
         </template>
@@ -109,7 +122,7 @@
       :page-size="100"
       layout="prev, pager, next, jumper"
       :total="100*(all_tableData.length/10)">
-    </el-pagination> -->
+    </el-pagination>
 
 
   </div>
@@ -128,8 +141,6 @@ import {post, get} from '../../request/http.js'
         all_tableData: [],
 
         tableData: [],
-
-        user:[],
 
         Loan: {
 					id: '',
@@ -239,14 +250,6 @@ import {post, get} from '../../request/http.js'
         this.all_tableData = data.data
         console.log(data)
 
-        // for(var i=0; i<this.all_tableData.length; i++){
-        //   var userRes = get("/api/userProfile/" + this.all_tableData[i].userId, {})
-        //   userRes.then(userdata => {
-
-        //     this.user[i] = userdata.data;
-        //     console.log(this.user[i])
-        //   })
-        // }
       })
 
 
@@ -263,7 +266,7 @@ import {post, get} from '../../request/http.js'
   margin:auto; */
 }
 .el-table.column{
-  width:25%;
+  width:14.29%;
 }
 .button_add{
   float:right;
