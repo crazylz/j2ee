@@ -6,35 +6,25 @@
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
   
-			<el-dialog class="loans" :visible.sync='addVisible'>
+			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
-				<el-form ref='loansForm' :model='Loan' label-width='200px' :rules='rules'>
-					<el-form-item label='账号' prop='id' class="input">
-						<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
+				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
+					<el-form-item label='借款额' prop='amount' class="input">
+						<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off"  clearable></el-input>
 					</el-form-item>
-					<el-form-item label='借款额' prop='loans' class="input">
-						<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
+					<el-form-item label='利息' prop='rate' class="input">
+						<el-input v-model='Loan.interest' autocomplete="off"  placeholder='请输入利息' clearable></el-input>
+					</el-form-item> 
+          <el-form-item label='分期' prop='installmentNumber' class="input">
+						<el-input v-model='Loan.stage' autocomplete="off"  placeholder='请输入分期' clearable></el-input>
 					</el-form-item>
-					<el-form-item label='利息' prop='interest' class="input">
-						<el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
+          <el-form-item label='还期' prop='payDayOfMonth' class="input">
+						<el-input v-model='Loan.id' placeholder='请输入还期' autocomplete="on" clearable></el-input>
 					</el-form-item>
-          <el-form-item label='分期' prop='stage' class="input">
-						<el-input v-model='Loan.stage' autocomplete="off" id='stage' clearable></el-input>
-					</el-form-item>
-					<div class="repay">
-						<span >还款日期</span>
-						<el-date-picker
-						v-model="Loan.date"
-						align="right"
-						type="date"
-						placeholder="选择日期"
-						:picker-options="pickerOptions">
-						</el-date-picker>
-					</div>
 
-					<el-form-item style="margin-top:10px">
-						<el-button type='primary' @click='handleSave() '  
-						>确认</el-button>
+					<el-form-item style="margin-right:200px;margin-top:10px">
+						<el-button type='primary' @click='handleSave()'
+						>贷款</el-button>
 					</el-form-item>
 				</el-form>   
 			</el-dialog>
@@ -122,10 +112,11 @@
 
 
 <script>
+import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-        addVisible: false,
+        addVisible: false,  
         all_tableData: [{
           amount: 1000000,
           submit_date: '2016-05-02',
@@ -243,63 +234,36 @@
         }],
         tableData: [],
         Loan: {
-					id: '',
-                    loans: '',
-                    interest:'10%',
-                    date:'2019-6-12',
-                    stage:'12'
-
+          amount:0,
+          installmentNumber:0,
+          rate:0,
+          payDayOfMonth:0
 				},
 				// 校验规则
 				rules:{
-					id: [
-					{required: true,message: '用户名不能为空',trigger: 'blur'}
+					amount: [
+					{required: true,message: '金额不能为空',trigger: 'blur'}
 					],
-					loans: [
+					rate: [
 					{required:true,message:'贷款额不能为空',	trigger: 'blur'},
+					// {min:5,message:'密码长度必须大于5个字符字符',}
+          ],
+          installmentNumber: [
+					{required:true,message:'分期不能为空',	trigger: 'blur'},
+					// {min:5,message:'密码长度必须大于5个字符字符',}
+          ],
+          payDayOfMonth: [
+					{required:true,message:'还期不能为空',	trigger: 'blur'},
 					// {min:5,message:'密码长度必须大于5个字符字符',}
 					]
                 },
-                
-
-            pickerOptions: {
-                disabledDate(time) {
-                    return time.getTime() < Date.now();
-                },
-                shortcuts: [{
-                    text: '今天',
-                    onClick(picker) {
-                    picker.$emit('pick', new Date());
-                    }
-                }, {
-                    text: '昨天',
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24);
-                    picker.$emit('pick', date);
-                    }
-                }, {
-                    text: '一周前',
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', date);
-                    }
-                }]
-                }
       }
     },
 
-    mounted() {
-      // this.getOriginalData();
-      // this.Loan.id=localStorage.getItem('id');
-      // this.Loan.loans=localStorage.getItem('loans');
-    },
-
     methods: {
-      // handleEdit(index, row) {
-      //   console.log(index, row);
-      // },
+      handleEdit(index, row) {
+        console.log(index, row);
+      },
 
       classObject(state){
         return{
@@ -340,13 +304,45 @@
         return row[property] === value;
       },
       
-			handleSave:function(){
-				localStorage.setItem('id',this.Loan.id);
-				localStorage.setItem('loans',this.Loan.loans);
-			}
+      handleSave() {
+      this.addVisible = false;
+      // var temp=post("/api/test/login",{})
+      var res = post("/api/borrower/request", {amount:this.Loan.amount,installmentNumber:this.Loan.installmentNumber,rate:this.Loan.rate,payDayOfMonth:this.Loan.payDayOfMonth})
+      res.then(data => {
+        console.log(data)
+        if(data.code==0)
+        {
+          this.$message({
+            message: data.msg,
+            type: 'success'
+          });
+        }
+        else
+        {
+          this.$msgbox({
+            title: '操作失败',
+            message: data.msg,
+            type: 'error'
+          });
+        }
+        // this.all_tableData = data.data
+
+        // for(var i=0; i<this.all_tableData.length; i++){
+        //   var userRes = get("/api/userProfile/" + this.all_tableData[i].userId, {})
+        //   userRes.then(userdata => {
+
+        //     this.user[i] = userdata.data;
+        //     console.log(this.user[i])
+        //   })
+        // }
+      })
+      },
+    },
+
+    mounted(){
+
     }
   }
-    
 </script>
 
 <style scoped>
