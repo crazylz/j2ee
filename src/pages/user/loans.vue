@@ -6,9 +6,9 @@
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
   
-			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
+			<el-dialog class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
-				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
+				<el-form ref='loansForm' :model='Loan' label-width='200px' :rules='rules'>
 					<el-form-item label='账号' prop='id' class="input">
 						<el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
 					</el-form-item>
@@ -22,7 +22,7 @@
 						<el-input v-model='Loan.stage' autocomplete="off" id='stage' clearable></el-input>
 					</el-form-item>
 					<div class="repay">
-						<span class="demonstration">还款日期</span>
+						<span >还款日期</span>
 						<el-date-picker
 						v-model="Loan.date"
 						align="right"
@@ -32,11 +32,9 @@
 						</el-date-picker>
 					</div>
 
-					<el-form-item style="margin-right:200px;margin-top:10px">
-						<el-button type='primary' @click='addVisible = false'
-						>贷款</el-button>
-						<el-button type='primary' @click='set() '  
-						>保存</el-button>
+					<el-form-item style="margin-top:10px">
+						<el-button type='primary' @click='handleSave() '  
+						>确认</el-button>
 					</el-form-item>
 				</el-form>   
 			</el-dialog>
@@ -292,10 +290,16 @@
       }
     },
 
+    mounted() {
+      // this.getOriginalData();
+      // this.Loan.id=localStorage.getItem('id');
+      // this.Loan.loans=localStorage.getItem('loans');
+    },
+
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
+      // handleEdit(index, row) {
+      //   console.log(index, row);
+      // },
 
       classObject(state){
         return{
@@ -335,68 +339,60 @@
         const property = column['property'];
         return row[property] === value;
       },
-      get:function(){
-				var that=this;
-				// if(that.loginRole==1){
-				// that.$router.push({path:'/userhome'});
-				// }else if(that.loginRole==2){
-				// that.$router.push({path:'/guaranteehome'});
-				// }else if(that.loginRole==3){
-				// that.$router.push({path:'/adminhome'});
-				// }
-			},
-			set:function(){
+      
+			handleSave:function(){
 				localStorage.setItem('id',this.Loan.id);
 				localStorage.setItem('loans',this.Loan.loans);
 			}
-    },
-
-    mounted(){
-      this.getOriginalData();
-      this.Loan.id=localStorage.getItem('id');
-			this.Loan.loans=localStorage.getItem('loans');
     }
   }
+    
 </script>
 
 <style scoped>
-.done{
-  color: #67C23A
-}
-.undone{
-  color: #F56C6C
-}
-.el-table{
-  /* display:inline-block;
-  text-align:center; */
-  width:100%;
-}
-/* .middle{
-  width:fit-content;
-  margin:auto;
-} */
-.el-table-column{
-  width:16.7%;
-}
-.button_add{
-  float:right;
-}
-.loans{
-		border: 1px solid #999999;
-		border-radius: 30px;
-		text-align: center;
-		/* background-color: rgba(255,255,255,0.8);	 */
-	}
+  .done{
+    color: #67C23A
+  }
 
-    .main{
-        display:table;
-        width:fit-content;
-	}
-    .repay{
-        margin-right:30px;
-    }
-    .input{
-        margin-left:100px;
-        margin-right:268px;
-    }
+  .undone{
+    color: #F56C6C
+  }
+
+  .el-table{
+    /* display:inline-block;
+    text-align:center; */
+    width:100%;
+  }
+
+  /* .middle{
+    width:fit-content;
+    margin:auto;
+  } */
+  .el-table-column{
+    width:16.7%;
+  }
+
+  .button_add{
+    float:right;
+  }
+
+  .loans{
+    font-size:14px;
+    border: 1px solid #999999;
+    border-radius: 30px;
+    text-align: center;
+    width:80%;
+    left:10%;
+    /* background-color: rgba(255,255,255,0.8);	 */
+  }
+
+  .el-form{
+    margin-right:120px;
+    margin-left: -30px;
+  }  
+
+  .repay{
+  
+  }
+  
 </style>
