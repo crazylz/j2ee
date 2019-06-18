@@ -1,24 +1,28 @@
 <template>
 	<div class="main">
 		<div class="register">
-			<h2 style="text-align: center;color: #606266;">账号注册</h2>
-
-			<el-form ref='userLoginForm' :model='userLogin' label-width='80px' :rules='rules'>
+			<h2 style="text-align:left; margin-left:50px;color: #606266;">账号注册</h2>
+            <a style="text-decoration:none" href="#/login"><p style="text-align:right; margin:0 30px 15px 0;font-size:14px">已有密码，直接登陆</p></a>
+			<el-form ref='registerForm' :model='registerInfo' label-width='80px' :rules='rules' >
 				<el-form-item label='账号' prop='id'>
-					<el-input v-model='userLogin.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
+					<el-input v-model='registerInfo.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='密码' prop='password'>
-					<el-input v-model='userLogin.password' type='password' placeholder='请输入密码' autocomplete="off" id='password' clearable></el-input>
+					<el-input v-model='registerInfo.password' type='password' placeholder='请输入密码'  clearable></el-input>
 				</el-form-item>
 				<el-form-item label='确认密码' prop='password_sure'>
-					<el-input v-model='userLogin.password_sure' type='password' placeholder='请再次输入密码' autocomplete="off" id='password' clearable></el-input>
+					<el-input v-model='registerInfo.password_sure'  placeholder='请再次输入密码' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='手机号' prop='phone'>
-					<el-input v-model='userLogin.phone' placeholder='请输入手机号' autocomplete="off" id='phone' clearable></el-input>
+					<el-input v-model='registerInfo.phone' placeholder='请输入手机号' clearable></el-input>
 				</el-form-item>
-				<el-form-item label='验证码' prop='check_num'>
-					<el-input v-model='userLogin.check_num' placeholder='请输入手机验证码' autocomplete="off" id='check_num' clearable></el-input>
+				<el-form-item label='验证码' prop='check_num' >
+					<el-input  v-model='registerInfo.check_num' placeholder='请输入手机验证码'  clearable>
+						<el-button v-if="checkVisible==true" slot="append" @click="checkNum()" >发送验证码</el-button>
+						<el-button v-else slot="append" @click="checkNum()" >重新发送</el-button>
+					</el-input>
 				</el-form-item>
+				
 				<el-form-item style="margin-right:40px">
 					<el-button type='primary' @click='register()'
 					>注册</el-button>
@@ -31,15 +35,16 @@
 <script >
 
 	export default {
-		name: 'login',
 		data(){
 				//定义了所有参数
 			return {
-				loginRole: 1,
-				userLogin: {
+				checkVisible:true,
+				registerInfo: {
 					id: '',
-                    password: '',
-                    phone:''
+					password: '',
+					password_sure:'',
+					phone:'',
+					check_num:0
 				},
 				// 校验规则
 				rules:{
@@ -64,18 +69,11 @@
 			};
 		},
 		methods:{
-			login:function(){
-				var that=this;
-				if(that.loginRole==1){
-				that.$router.push({path:'/userhome'});
-				}else if(that.loginRole==2){
-				that.$router.push({path:'/guaranteehome'});
-				}else if(that.loginRole==3){
-				that.$router.push({path:'/adminhome'});
-				}
-			},
 			register:function(){
-				this.$router.push({path:'/register'});
+				
+			},
+			checkNum:function(){
+			this.checkVisible=false;
 			}
 		}
 	}
@@ -126,14 +124,6 @@
 		color: #409eff;
 		margin: 10px 10px 10px 10px;
 	}
-	.fade-enter-active,
-	.fade-leave-active {
-	    transition: all 0.35s ease;
-	}
-
-	.fade-enter,
-	.fade-leave-active {
-	    opacity: 0;
-	}
+	
 
 </style>
