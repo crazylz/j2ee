@@ -46,7 +46,9 @@
 
     <el-table-column
       align='center'
-      label="金额">
+      label="金额"
+      sortable
+      prop="amount">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -54,7 +56,9 @@
 
     <el-table-column
     align='center'
-      label="分期">
+      label="分期"
+      sortable
+      prop="installment_number">
       <template slot-scope="scope">
         <span>{{ scope.row.installment_number }}</span>
       </template>
@@ -62,7 +66,9 @@
 
     <el-table-column
     align='center'
-      label="利率">
+      label="利率"
+      sortable
+      prop="rate">
       <template slot-scope="scope">
         <span>{{ scope.row.rate }}%</span>
       </template>
@@ -70,7 +76,9 @@
 
     <el-table-column
     align='center'
-      label="每月还款日期">
+      label="每月还款日期"
+      sortable
+      prop="pay_day_of_month">
       <template slot-scope="scope">
         <span>{{ scope.row.pay_day_of_month }}号</span>
       </template>
@@ -88,7 +96,9 @@
 
     <el-table-column
     align='center'
-      label="处理时间">
+      label="处理时间"
+      sortable
+      prop="process_time | dateformat('YYYY-MM-DD HH:mm:ss')">
       <template slot-scope="scope">
         <span>{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -97,7 +107,7 @@
 
       <el-table-column
       align="center"
-        label="用户">
+        label="借款人">
         <template slot-scope="scope">
           <el-popover trigger="click" placement="bottom">
             <p>姓名: {{ scope.row.name}}</p>
