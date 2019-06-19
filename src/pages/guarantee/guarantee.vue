@@ -113,8 +113,8 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>
-              <el-button @click="handleClick(scope.row)" type="text" size="small">否决</el-button>
+              <el-button @click="agree(scope.row)" type="text" size="small">同意</el-button>
+              <el-button @click="reject(scope.row)" type="text" size="small">否决</el-button>
             </template>
           </el-table-column>
 
@@ -140,6 +140,57 @@ import {post, get} from '../../request/http.js'
       }
     },
     methods:{
+      agree(row){
+        var res = post("/api/guarantor/handleRequest", {id:row.id, action:1});
+        res.then(data=>{
+          console.log(data);
+          if(data.code == 0){
+          this.$msgbox({
+            title: '已同意该请求',
+            message: data.msg,
+            type: 'success'
+          });
+        var req = get("/api/guarantor/requestsToHandle", {});
+        req.then(rdata=>{
+          this.requestData = rdata.data;
+          console.log(rdata);
+        })
+        }
+        else{
+          this.$msgbox({
+            title: '操作失败',
+            message: data.msg,
+            type: 'error'
+          });
+        }
+        })
+
+      },
+      reject(row){
+        var res = post("/api/guarantor/handleRequest", {id:row.id, action:0});
+        res.then(data=>{
+          console.log(data);
+          if(data.code == 0){
+          this.$msgbox({
+            title: '已拒绝该请求',
+            message: data.msg,
+            type: 'success'
+          });
+        var req = get("/api/guarantor/requestsToHandle", {});
+        req.then(rdata=>{
+          this.requestData = rdata.data;
+          console.log(rdata);
+        })
+        }
+        else{
+          this.$msgbox({
+            title: '操作失败',
+            message: data.msg,
+            type: 'error'
+          });
+        }
+        })
+      },
       getBorrower(id){
         var res = get("/api/userProfile/" + id, {});
         res.then(bdata=>{
