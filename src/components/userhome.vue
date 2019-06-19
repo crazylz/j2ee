@@ -42,11 +42,17 @@
             <el-form-item label='性别' prop='sex' class="input">
               <el-input v-model='user.sex' type='text' placeholder='请输入性别'  clearable></el-input>
             </el-form-item>
-            <el-form-item label='年龄' prop='age' class="input">
-              <el-input v-model='user.age' clearable></el-input>
+            <el-form-item label='电话' prop='phone' class="input">
+              <el-input v-model='user.phone' clearable></el-input>
             </el-form-item>
             <el-form-item label='月薪' prop='pay' class="input">
               <el-input v-model='user.pay' clearable></el-input>
+            </el-form-item>
+            <el-form-item label='第三方支付账号' prop='paymentAccount ' class="input">
+              <el-input v-model='user.paymentAccount ' clearable></el-input>
+            </el-form-item>
+            <el-form-item label='银行卡帐号' prop='bankAccount ' class="input">
+              <el-input v-model='user.bankAccount ' clearable></el-input>
             </el-form-item>
             <el-form-item label='身份证号' prop='identity ' class="input">
               <el-input v-model='user.identity ' clearable></el-input>
@@ -153,8 +159,10 @@ export default {
       name:null,
       sex:null,
       age: null,
-      pay: null,
-      identity:null
+      phone: null,
+      identity:null,
+      paymentAccount: null,
+      bankAccount: null,
     },
     invest:{
       number:0
@@ -170,11 +178,17 @@ export default {
       {required:true,message:'性别不能为空',	trigger: 'blur'},
       // {min:5,message:'密码长度必须大于5个字符字符',}
       ],
-      age: [
-      {required: true,message: '年龄不能为空',trigger: 'blur'}
+      phone: [
+      {required: true,message: '电话不能为空',trigger: 'blur'}
       ],
       pay: [
       {required: true,message: '月薪不能为空',trigger: 'blur'}
+      ],
+      paymentAccount: [
+      {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
+      ],
+      bankAccount: [
+      {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
       ],
       identity: [
       {required: true,message: '身份证号不能为空',trigger: 'blur'}
@@ -209,8 +223,10 @@ export default {
       else{
         this.user.sex = user.data.gender == 1 ? '男' : '女';
       }
-
       this.user.pay = user.data.salary;
+      this.user.phone = user.data.phoneNumber;
+      this.user.paymentAccount = user.data.paymentAccount;
+      this.user.bankAccount = user.data.bankAccount;
       console.log(user.data);
     })
 
@@ -225,12 +241,10 @@ export default {
     },
 
     handleInvest:function(){
-      var res = post("/api/account/deposit, {amount: this.withdraw.money}")
+      var res = post("/api/account/deposit", {amount: this.invest.number})
       res.then(data => {
         console.log(data);
       })
-
-      
     },
 
     handleWithdraw:function(){
