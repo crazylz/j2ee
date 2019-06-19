@@ -10,6 +10,7 @@
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
+              {{userName}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <div @click='detailVisible=true'>
@@ -26,7 +27,6 @@
               </a>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{userName}}用户</span>
         </div>
       </el-header>
         
@@ -61,7 +61,7 @@
       <!--充值对话框  -->
       <el-dialog class="invest" :visible.sync='investVisible'>
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额  {{money_remain}}</p>
+        <p style="color: #606266; font-size:18px">第三方账户余额：￥{{money_remain}}</p>
         <el-form style="margin-right:120px" ref='investForm' :model='invest' label-width='200px' :rules='investrules'>
           <el-form-item style="margin-left:-44px" label='充值金额' prop='number' class="input">
             <el-input v-model='invest.number' placeholder='请输入充值金额' clearable></el-input>
@@ -105,8 +105,8 @@
               <span slot="title">购买产品</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/userhome/producted">已有购买</el-menu-item>
-              <el-menu-item index="/userhome/newproducts">新建购买</el-menu-item>
+              <el-menu-item index="/userhome/newproducts">购买产品</el-menu-item>
+              <el-menu-item index="/userhome/producted">已购产品</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
@@ -148,13 +148,13 @@ export default {
     withdrawVisible:false,
     money_remain:0,
     systemName: '用户界面',
-    userName: 'lz',
+    userName: 'null',
     user:{
-      name:'',
-      sex:'',
-      age: 0,
-      pay:0,
-      identity:0
+      name:null,
+      sex:null,
+      age: null,
+      pay: null,
+      identity:null
     },
     invest:{
       number:0
@@ -199,6 +199,21 @@ export default {
       console.log(data);
     })
 
+    var userres = get("/api/userProfile", {});
+    userres.then(user=>{
+      this.userName = user.data.name;
+      this.user.name = user.data.name;
+      if(user.data.gender == 0){
+        this.user.sex = '未设置';
+      }
+      else{
+        this.user.sex = user.data.gender == 1 ? '男' : '女';
+      }
+
+      this.user.pay = user.data.salary;
+      console.log(user.data);
+    })
+
   },
   methods: {
     bell:function(){
@@ -214,6 +229,8 @@ export default {
       res.then(data => {
         console.log(data);
       })
+
+      
     },
 
     handleWithdraw:function(){
