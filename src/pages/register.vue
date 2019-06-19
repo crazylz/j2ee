@@ -11,7 +11,7 @@
 					<el-input v-model='registerInfo.password' type='password' placeholder='请输入密码'  clearable></el-input>
 				</el-form-item>
 				<el-form-item label='确认密码' prop='password_sure'>
-					<el-input v-model='registerInfo.password_sure'  placeholder='请再次输入密码' clearable></el-input>
+					<el-input v-model='registerInfo.password_sure' type='password'  placeholder='请再次输入密码' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='手机号' prop='phone'>
 					<el-input v-model='registerInfo.phone' placeholder='请输入手机号' clearable></el-input>
@@ -19,7 +19,7 @@
 				<el-form-item label='验证码' prop='check_num' >
 					<el-input  v-model='registerInfo.check_num' placeholder='请输入手机验证码'  clearable>
 						<el-button v-if="checkVisible==true" slot="append" @click="checkNum()" >发送验证码</el-button>
-						<el-button v-else slot="append" @click="checkNum()" >重新发送</el-button>
+						<el-button v-else slot="append" @click="checkNumAgain()" :disabled='checkDisabled'>重新发送</el-button>
 					</el-input>
 				</el-form-item>
 				
@@ -36,15 +36,37 @@
 import {post, get} from '../request/http.js'
 	export default {
 		data(){
+			var checkPhone=(rule,value,callback)=>{
+				if(!value){
+					return callback(new Error('手机号不能为空'));
+				}else{
+					const reg=/^1[34578]\d{9}$/ ;
+					if(reg.test(value)){
+						callback();
+					}else{
+						return callback(new Error('请输入正确的手机号'));
+					}
+				}
+			};
+
+			var checkpassword=(rule,value,callback)=>{
+				if(this.registerInfo.password==value){
+					 callback();
+				}else{
+					return callback(new Error('密码不一致'));
+				}
+			};
+
 				//定义了所有参数
 			return {
+				checkDisabled:false,
 				checkVisible:true,
 				registerInfo: {
 					id: '',
 					password: '',
 					password_sure:'',
-					phone:'',
-					check_num:0
+					phone:' ',
+					check_num:null
 				},
 				// 校验规则
 				rules:{
@@ -56,12 +78,13 @@ import {post, get} from '../request/http.js'
 					{min:5,message:'密码长度必须大于5个字符字符',}
 					],
 					password_sure: [
-					{required:true,message:'确认密码不能为空',	trigger: 'blur'}
+					{required:true,message:'确认密码不能为空',	trigger: 'blur'},
+					{validator:checkpassword,trigger:'blur'}
                     ],
-                    // phone:[
-                    // {required:true,message:'手机号不能为空',	trigger: 'blur'}
-					// // {length:11,message:'密码长度必须为11个字符字符',}
-                    // ],
+                    phone:[
+                    {validator:checkPhone,trigger: 'blur'}
+					
+                    ],
                     check_num:[
                     {required:true,message:'验证码不能为空',	trigger: 'blur'}    
                     ]
@@ -71,15 +94,15 @@ import {post, get} from '../request/http.js'
 		methods:{
 			register:function(){
 			var res=post("/api/register",{
-				account:this.id,
-				password:this.password,
-                vcodeInput:this.check_num
+				account:this.registerInfo.id,
+				password:this.registerInfo.password,
+                vcodeInput:this.registerInfo.check_num
 			})
 			res.then(data=>{
 				console.log(data.code);
 				if(data.code==0)
 				{
-					alert(data.message);
+					alert(data.msg);
 					this.$router.push({path:'/login'});
 				}
 				else {
@@ -92,16 +115,32 @@ import {post, get} from '../request/http.js'
 
 			checkNum:function(){
 			this.checkVisible=false;
-			var that=this;
-			var res=post("/api/vcode",{phoneNumber:this.phone})
+			// this.checkDisabled=true;
+			// var b=setTimeout(()=>{this.checkDisabled=false;},60000);
+			
+			// console.log(this.checkDisabled);
+			// this.checkDisabled=true;
+			
+			var res=post("/api/vcode",{phoneNumber:this.registerInfo.phone})
 			res.then(data=>{
-			console.log(data.code);
-			if(data.code==0)
-			{alert(data.msg);}
+			console.log(data);
+			alert(data.msg);
+			}).catch(error=>{
+				alert(error);
+			})
+			},
+
+			checkNumAgain:function(){
+			this.checkVisible=false;
+			var res=post("/api/vcode",{phoneNumber:this.registerInfo.phone})
+			res.then(data=>{
+			console.log(data);
+			alert(data.msg);
 			}).catch(error=>{
 				alert(error);
 			})
 			}
+
 		}
 	}
 </script>

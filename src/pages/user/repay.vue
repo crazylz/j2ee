@@ -14,27 +14,40 @@
     >
     <el-table-column
       align="center"
-      prop="id"
       label="单号"
       sortable>
+      <template slot-scope="scope">
+      <span>{{ scope.row.id }}</span>
+      </template>
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       align="center"
       prop="loans_date"
       label="借款日期"
       sortable>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column
       align="center"
-      prop="money"
-      label="借款额"
+      label="还款额"
       sortable>
+      <template slot-scope="scope">
+      <span>￥{{ scope.row.amount }}</span>
+      </template>
     </el-table-column>
     <el-table-column
       align="center"
-      prop="last_date"
       label="还款截至时间"
       sortable>
+      <template slot-scope="scope">
+        <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      align="center"
+      label="状态">
+      <template slot-scope="scope">
+        <span>{{object(scope.row.state)}}</span>
+      </template>
     </el-table-column>
     <el-table-column
       align="center"
@@ -50,28 +63,79 @@
   :page-size="20"
   :pager-count="11"
   layout="prev, pager, next"
-  :total="1000">
+  :total="100*(tableData.length/10)">
 </el-pagination>
 </div>
 </template>
 <script>
+import {post, get} from '../../request/http.js'
   export default {
     data(){
       return{
-        tableData:[{
-          id:1,
-          loans_date:'2016-05-09',
-          money:1000,
-          last_date:'2016-08-09',
-        },{
-          id:2,
-          loans_date:'2016-07-09',
-          money:500,
-          last_date:'2016-10-09',
-        },
-        ]
+        tableData:[]
+      }
+    },
+
+// 必须加上this.tableData=[];才能够不被覆盖
+    mounted(){
+      var res = get("/api/borrower/repayRecordsToProcess", {})
+      res.then(repay=>{
+        this.tableData=[];
+        let j=0;
+        for(let i=0;i<repay.data.length;i++){
+        if(repay.data[i].state==1||repay.data[i].state==2){
+          {
+          this.tableData[j]=repay.data[i];
+          // console.log(this.tableData[j]);
+          j++;
+          }
+        }
+         }
+      })
+    },
+
+    methods:{
+      getDataByPage(pageindex){
+        var begin = pageindex * 10;
+        if(begin > this.tableData.length){
+          this.tableData = this.tableData.slice(begin-10, this.tableData.length);
+        }
+        else{
+          this.tableData = this.tableData.slice(begin-10, begin);
+        }
+        // console.log(begin);
+      },
+
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.getDataByPage(val);
+      },
+
+      object(state){
+        if(state==1){
+          return "未还款";
+        }
+        else if(state==2){
+          return "平台垫付";
+        }
+      },
+
+      handleClick(row){
+        var res=get("/api/account/repay",{recordId:row.id});
+        res.then(data=>{
+        if(data.code==0){
+          alert(data.msg);
+        }
+        else{
+          alert(data.msg);
+        }
+        });
       }
     }
+    
     
   }
 </script>
