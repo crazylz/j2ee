@@ -10,7 +10,7 @@
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
-              {{guaranteeName}}
+              担保人
             </span>
             <el-dropdown-menu slot="dropdown">
               <a href="#/login">
@@ -37,8 +37,25 @@
           <el-table-column
             align="center"
             prop="userId"
-            label="申请人姓名"
+            label="申请人id"
             sortable>
+            <template slot-scope="scope">
+            <el-popover trigger="click" placement="bottom">
+              <p>姓名: {{ borrower.name}}</p>
+              <p>性别: {{ getGender(borrower.gender) }}</p>
+              <p>电话: {{ borrower.phoneNumber }}</p>
+              <p>工龄: {{ borrower.lengthOfService }}</p>
+              <p>工资: ￥{{ borrower.salary }}</p>
+              <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
+              <p>信用评级: {{ borrower.rank }}</p>
+            <div slot="reference" class="name-wrapper">
+              <el-button
+              size="mini" @click="getBorrower(scope.row.userId)">
+              {{scope.row.userId}}
+              </el-button>
+            </div>
+          </el-popover>
+          </template>
           </el-table-column>
 
           <el-table-column
@@ -117,20 +134,30 @@ import {post, get} from '../../request/http.js'
     data(){
       return{
         systemName: '担保员界面',
-        guaranteeName: null,
-        requestData:[]
+        requestData:[],
+        borrower: [],
+
       }
     },
     methods:{
+      getBorrower(id){
+        var res = get("/api/userProfile/" + id, {});
+        res.then(bdata=>{
+          this.borrower = bdata.data;
+          console.log(this.borrower);
+        })
+      },
 
+      getGender(state){
+        if(state == 0){
+          return '未设置';
+        }
+        else{
+          return state == 1 ? '男' : '女';
+        }
+      }
     },
     mounted(){
-      var gres = get("/api/userProfile", {});
-      gres.then(gdata=>{
-      this.guaranteeName = gdata.data.name;
-      console.log(gdata);
-    })
-
       var req = get("/api/guarantor/requestsToHandle", {});
       req.then(rdata=>{
         this.requestData = rdata.data;
