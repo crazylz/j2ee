@@ -57,21 +57,21 @@
 
     <el-table-column
     align='center'
-      label="分期"
-      sortable
-      prop="installment_number">
-      <template slot-scope="scope">
-        <span>{{ scope.row.installment_number }}</span>
-      </template>
-    </el-table-column>
-
-    <el-table-column
-    align='center'
       label="利率"
       sortable
       prop="rate">
       <template slot-scope="scope">
         <span>{{ scope.row.rate }}%</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+    align='center'
+      label="分期"
+      sortable
+      prop="installment_number">
+      <template slot-scope="scope">
+        <span>{{ scope.row.installment_number }}</span>
       </template>
     </el-table-column>
 
@@ -87,7 +87,7 @@
 
       <!-- <el-table-column
         align="center"
-        prop = "process_time | dateformat('YYYY-MM-DD HH:mm:ss')"
+        prop = "process_time"
         label="处理时间"
         sortable
         column-key="submit_date"

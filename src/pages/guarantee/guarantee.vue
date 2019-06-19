@@ -10,6 +10,7 @@
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
+              {{guaranteeName}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <a href="#/login">
@@ -17,13 +18,12 @@
               </a>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{guarantee}}担保员</span>
         </div>
       </el-header>
         
       <el-main>
         <el-table
-        :data="tableData"
+        :data="requestData"
         border
         default-expand-all
         >
@@ -33,36 +33,64 @@
             label="单号"
             sortable>
           </el-table-column>
+
           <el-table-column
             align="center"
-            prop="name"
+            prop="userId"
             label="申请人姓名"
             sortable>
           </el-table-column>
+
           <el-table-column
             align="center"
-            prop="loans_date"
-            label="借款日期"
+            prop="commitTime"
+            label="借款申请日期"
             sortable>
+            <template slot-scope="scope">
+              <span>{{ scope.row.commitTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
           </el-table-column>
+
           <el-table-column
             align="center"
-            prop="money"
+            prop="amount"
             label="借款额"
             sortable>
+            <template slot-scope="scope">
+              <span>￥{{ scope.row.amount }}</span>
+            </template>
           </el-table-column>
+
           <el-table-column
             align="center"
-            prop="last_date"
-            label="还款截止日期"
+            prop="rate"
+            label="利率"
             sortable>
+          <template slot-scope="scope">
+            <span>{{ scope.row.rate }}%</span>
+          </template>
           </el-table-column>
+
           <el-table-column
             align="center"
-            prop="interest"
-            label="利息"
+            prop="installmentNumber"
+            label="分期"
             sortable>
+            <template slot-scope="scope">
+              <span>{{ scope.row.installmentNumber }}</span>
+            </template>
           </el-table-column>
+
+          <el-table-column
+            align="center"
+            prop="payDayOfMonth"
+            label="每月还款日期"
+            sortable>
+            <template slot-scope="scope">
+              <span>{{ scope.row.payDayOfMonth }}号</span>
+            </template>
+          </el-table-column>
+
           <el-table-column
             align="center"
             fixed="right"
@@ -72,6 +100,7 @@
               <el-button @click="handleClick(scope.row)" type="text" size="small">否决</el-button>
             </template>
           </el-table-column>
+
         </el-table>
       </el-main>
    </el-container>
@@ -82,29 +111,31 @@
 
 
 <script>
+import {post, get} from '../../request/http.js'
+
   export default {
     data(){
       return{
         systemName: '担保员界面',
-        guarantee: 'zyx',
-        tableData:[{
-          id:1,
-          name:'zz',
-          loans_date:'2016-05-09',
-          money:1000,
-          last_date:'2016-08-09',
-          interest:'0.1'
-        },
-        {
-          id:2,
-          name:'zx',
-          loans_date:'2016-07-09',
-          money:500,
-          last_date:'2016-10-09',
-          interest:'0.1'
-        },
-        ]
+        guaranteeName: null,
+        requestData:[]
       }
+    },
+    methods:{
+
+    },
+    mounted(){
+      var gres = get("/api/userProfile", {});
+      gres.then(gdata=>{
+      this.guaranteeName = gdata.data.name;
+      console.log(gdata);
+    })
+
+      var req = get("/api/guarantor/requestsToHandle", {});
+      req.then(rdata=>{
+        this.requestData = rdata.data;
+        console.log(rdata);
+      })
     }
     
   }
