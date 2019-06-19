@@ -33,7 +33,7 @@
 </template>
 
 <script >
-
+import {post, get} from '../request/http.js'
 	export default {
 		data(){
 				//定义了所有参数
@@ -70,10 +70,37 @@
 		},
 		methods:{
 			register:function(){
-				
+			var res=post("/api/register",{
+				account:this.id,
+				password:this.password,
+                vcodeInput:this.check_num
+			})
+			res.then(data=>{
+				console.log(data.code);
+				if(data.code==0)
+				{
+					alert(data.message);
+					this.$router.push({path:'/login'});
+				}
+				else {
+					alert(data.msg);
+				}
+			}).catch(error=>{
+            alert(error);
+			})	
 			},
+
 			checkNum:function(){
 			this.checkVisible=false;
+			var that=this;
+			var res=post("/api/vcode",{phoneNumber:this.phone})
+			res.then(data=>{
+			console.log(data.code);
+			if(data.code==0)
+			{alert(data.msg);}
+			}).catch(error=>{
+				alert(error);
+			})
 			}
 		}
 	}

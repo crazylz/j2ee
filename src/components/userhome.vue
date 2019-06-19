@@ -95,12 +95,24 @@
           <!-- <el-menu-item index="/userhome/persondata">
           <i class="el-icon-user"></i>个人资料
           </el-menu-item> -->
-            <el-menu-item index="/userhome/loans">
-          <i class="el-icon-discount"></i>借款
-            </el-menu-item>
-            <el-menu-item index="/userhome/products">
-          <i class="el-icon-shopping-cart-2"></i>购买产品
-            </el-menu-item>           
+          <el-menu-item index="/userhome/loans">
+            <i class="el-icon-discount"></i>借款
+          </el-menu-item>
+
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-shopping-cart-2"></i>
+              <span slot="title">购买产品</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/userhome/producted">已有购买</el-menu-item>
+              <el-menu-item index="/userhome/newproducts">新建购买</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <!-- <el-menu-item index="/userhome/newproducts">
+            <i class="el-icon-shopping-cart-2"></i>购买产品
+          </el-menu-item>            -->
           <!-- <el-menu-item index="/userhome/withdraw">
           <i class="el-icon-bank-card"></i>提现
           </el-menu-item>

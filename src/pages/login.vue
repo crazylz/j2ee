@@ -74,7 +74,7 @@ import {post, get} from '../request/http.js'
 						console.log(data.code)
 						if(data.code == 0)
 						{
-							that.$router.push({path:'/userhome'});
+							that.$router.push({path:'/userhome/loans'});
 						}
 						else{
 							alert(data.msg);
