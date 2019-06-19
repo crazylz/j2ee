@@ -308,6 +308,10 @@ import {post, get} from '../../request/http.js'
       this.addVisible = false;
       // var temp=post("/api/test/login",{})
       var res = post("/api/borrower/request", {amount:this.Loan.amount,installmentNumber:this.Loan.installmentNumber,rate:this.Loan.rate,payDayOfMonth:this.Loan.payDayOfMonth})
+      var limit=get("/api/borrower/limit",{})
+      limit.then(limit=>{
+        console.log(limit)
+      });
       res.then(data => {
         console.log(data)
         if(data.code==0)
