@@ -132,7 +132,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">购买</el-button>
+            @click="handleInvest(scope.$index, scope.row)">购买</el-button>
         </template>
       </el-table-column>
 
@@ -167,8 +167,33 @@ import {post, get} from '../../request/http.js'
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
+      handleInvest(index, row) {
+        console.log(row);
+        var res = post("/api/investor/invest", {id: row.id});
+        res.then(data=>{
+          if(data.code == 0){
+            this.$msgbox({
+            title: '购买成功',
+            message: data.msg,
+            type: 'success'
+          });
+          var res1 = get("/api/investor/productList", {})
+          res1.then(data => {
+            this.all_tableData = data.data
+            console.log(data)
+
+          })
+
+          }
+          else{
+            this.$msgbox({
+            title: '购买失败',
+            message: data.msg,
+            type: 'error'
+          });
+          }
+          console.log(data);
+        })
       },
 
       getDataByPage(pageindex){
@@ -211,8 +236,6 @@ import {post, get} from '../../request/http.js'
         console.log(data)
 
       })
-
-
     }
   }
 </script>

@@ -14,7 +14,7 @@
     <el-table-column
       align="center"
       prop="userId"
-      label="申请人id"
+      label="借款人id"
       sortable>
       <template slot-scope="scope">
       <el-popover trigger="click" placement="bottom">
