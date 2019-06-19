@@ -249,9 +249,20 @@ export default {
           remainres.then(remain=>{
           this.money_remain = remain.data.paymentBalance;
           })
+          this.$msgbox({
+            title: '操作成功',
+            message: data.msg,
+            type: 'success'
+          });
+          this.invest.number = 0;
         }
         else{
-          alert(data.msg);
+            this.$msgbox({
+            title: '操作失败',
+            message: data.msg,
+            type: 'error'
+          });
+          this.invest.number = 0;
         }
       })
 
@@ -266,9 +277,20 @@ export default {
           remainres.then(remain=>{
           this.money_remain = remain.data.paymentBalance;
           })
+          this.$msgbox({
+            title: '操作成功',
+            message: data.msg,
+            type: 'success'
+          });
+          this.withdraw.number = 0;
         }
         else{
-          alert(data.msg);
+          this.$msgbox({
+            title: '操作失败',
+            message: data.msg,
+            type: 'error'
+          });
+          this.invest.number = 0;
         }
       })
     }
