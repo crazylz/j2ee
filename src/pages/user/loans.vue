@@ -10,16 +10,16 @@
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
 				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
 					<el-form-item label='借款额' prop='amount' class="input">
-						<el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off"  clearable></el-input>
+						<el-input v-model='Loan.amount' type='text' placeholder='请输入借款额' autocomplete="off"  clearable></el-input>
 					</el-form-item>
 					<el-form-item label='利息' prop='rate' class="input">
-						<el-input v-model='Loan.interest' autocomplete="off"  placeholder='请输入利息' clearable></el-input>
+						<el-input v-model='Loan.rate' autocomplete="off"  placeholder='请输入利息' clearable></el-input>
 					</el-form-item> 
           <el-form-item label='分期' prop='installmentNumber' class="input">
-						<el-input v-model='Loan.stage' autocomplete="off"  placeholder='请输入分期' clearable></el-input>
+						<el-input v-model='Loan.installmentNumber' autocomplete="off"  placeholder='请输入分期' clearable></el-input>
 					</el-form-item>
           <el-form-item label='还期' prop='payDayOfMonth' class="input">
-						<el-input v-model='Loan.id' placeholder='请输入还期' autocomplete="on" clearable></el-input>
+						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
 					</el-form-item>
 
 					<el-form-item style="margin-right:200px;margin-top:10px">
@@ -194,6 +194,8 @@ import {post, get} from '../../request/http.js'
       this.addVisible = false;
       // var temp=post("/api/test/login",{})
       var res = post("/api/borrower/request", {amount:this.Loan.amount,installmentNumber:this.Loan.installmentNumber,rate:this.Loan.rate,payDayOfMonth:this.Loan.payDayOfMonth})
+      
+      
       res.then(data => {
         console.log(data)
         if(data.code==0)
@@ -227,6 +229,10 @@ import {post, get} from '../../request/http.js'
 
     mounted(){
       var res = get("/api/borrower/allRequests", {})
+      var limit=get("api/borrower/limit",{})
+      limit.then(data =>{
+        console.log(data)
+      });
       res.then(data => {
         this.all_tableData = data.data
         console.log(data)
