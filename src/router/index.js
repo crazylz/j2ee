@@ -11,7 +11,8 @@ import register from '../pages/register.vue'
 //用户界面
 import userhome from '../components/userhome.vue'
 import loans from '../pages/user/loans.vue'
-import products from '../pages/user/products.vue'
+import newproducts from '../pages/user/newproducts.vue'
+import producted from '../pages/user/producted.vue'
 // import invest from '../pages/user/invest.vue'
 // import newloans from '../pages/user/newloans.vue'
 // import newproducts from '../pages/user/newproducts.vue'
@@ -47,8 +48,12 @@ const router = new Router({
           component:loans
         },
         {
-          path:'/userhome/products',
-          component:products
+          path:'/userhome/newproducts',
+          component:newproducts
+        },
+        {
+          path:'/userhome/producted',
+          component:producted
         },
         {
           path:'/userhome/repay',

@@ -3,6 +3,7 @@
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
       <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
       <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">新建购买</a></el-breadcrumb-item>
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 
@@ -153,59 +154,66 @@
 
 <script>
 import {post, get} from '../../request/http.js'
+
   export default {
     data() {
       return {
         addVisible: false,
+
         all_tableData: [],
+
         tableData: [],
-        // Loan: {
-		// 			id: '',
-        //   loans: '',
-        //   interest:'10%',
-        //   date:'2019-6-12'
-		// 		},
-		// 		// 校验规则
-		// 		rules:{
-		// 			id: [
-		// 			{required: true,message: '用户名不能为空',trigger: 'blur'}
-		// 			],
-		// 			loans: [
-		// 			{required:true,message:'贷款额不能为空',	trigger: 'blur'},
-		// 			// {min:5,message:'密码长度必须大于5个字符字符',}
-		// 			]
-        //         },
-        //     pickerOptions: {
-        //         disabledDate(time) {
-        //             return time.getTime() < Date.now();
-        //         },
-        //         shortcuts: [{
-        //             text: '今天',
-        //             onClick(picker) {
-        //             picker.$emit('pick', new Date());
-        //             }
-        //         }, {
-        //             text: '昨天',
-        //             onClick(picker) {
-        //             const date = new Date();
-        //             date.setTime(date.getTime() - 3600 * 1000 * 24);
-        //             picker.$emit('pick', date);
-        //             }
-        //         }, {
-        //             text: '一周前',
-        //             onClick(picker) {
-        //             const date = new Date();
-        //             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-        //             picker.$emit('pick', date);
-        //             }
-        //         }]
-        //         }
+
+        Loan: {
+					id: '',
+          loans: '',
+          interest:'10%',
+          date:'2019-6-12'
+				},
+				// 校验规则
+				rules:{
+					id: [
+					{required: true,message: '用户名不能为空',trigger: 'blur'}
+					],
+					loans: [
+					{required:true,message:'贷款额不能为空',	trigger: 'blur'},
+					// {min:5,message:'密码长度必须大于5个字符字符',}
+					]
+                },
+
+
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                },
+                shortcuts: [{
+                    text: '今天',
+                    onClick(picker) {
+                    picker.$emit('pick', new Date());
+                    }
+                }, {
+                    text: '昨天',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                    }
+                }, {
+                    text: '一周前',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                    }
+                }]
+                }
       }
     },
     methods: {
       handleEdit(index, row) {
         console.log(index, row);
       },
+
       getDataByPage(pageindex){
         var begin = pageindex * 10;
         if(begin > this.all_tableData.length){
@@ -216,12 +224,15 @@ import {post, get} from '../../request/http.js'
         }
         // console.log(begin);
       },
+
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
+
       handleCurrentChange(val) {
         this.getDataByPage(val);
       },
+
       getOriginalData(){
         if(this.all_tableData.length < 10){
           this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
@@ -234,13 +245,32 @@ import {post, get} from '../../request/http.js'
         const property = column['property'];
         return row[property] === value;
       },
+      // get:function(){
+			// 	var that=this;
+			// 	// if(that.loginRole==1){
+			// 	// that.$router.push({path:'/userhome'});
+			// 	// }else if(that.loginRole==2){
+			// 	// that.$router.push({path:'/guaranteehome'});
+			// 	// }else if(that.loginRole==3){
+			// 	// that.$router.push({path:'/adminhome'});
+			// 	// }
+			// },
     },
+
     mounted(){
+      this.getOriginalData();
+      this.Loan.id=localStorage.getItem('id');
+      this.Loan.loans=localStorage.getItem('loans');
+
+
       var res = get("/api/investor/productList", {})
       res.then(data => {
         this.all_tableData = data.data
         console.log(data)
+
       })
+
+
     }
   }
 </script>
@@ -259,21 +289,22 @@ import {post, get} from '../../request/http.js'
 .button_add{
   float:right;
 }
-.products{
+/* .products{
 		border: 1px solid #999999;
 		border-radius: 30px;
-		text-align: center;
-		/* background-color: rgba(255,255,255,0.8); */
-	}
+		text-align: center; */
+		/* background-color: rgba(255,255,255,0.8);
+
+
     .main{
         display:table;
         width:fit-content;
 	}
-    .repay{
+    /* .repay{
         margin-right:30px;
-    }
-    .input{
+    } */
+    /* .input{
         margin-left:100px;
         margin-right:268px;
-    }
+    } */
 </style>
