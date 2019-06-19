@@ -158,55 +158,12 @@ import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-        addVisible: false,
 
         all_tableData: [],
 
-        tableData: [],
-
-        Loan: {
-					id: '',
-          loans: '',
-          interest:'10%',
-          date:'2019-6-12'
-				},
-				// 校验规则
-				rules:{
-					id: [
-					{required: true,message: '用户名不能为空',trigger: 'blur'}
-					],
-					loans: [
-					{required:true,message:'贷款额不能为空',	trigger: 'blur'},
-					// {min:5,message:'密码长度必须大于5个字符字符',}
-					]
-                },
+        tableData: []
 
 
-            pickerOptions: {
-                disabledDate(time) {
-                    return time.getTime() < Date.now();
-                },
-                shortcuts: [{
-                    text: '今天',
-                    onClick(picker) {
-                    picker.$emit('pick', new Date());
-                    }
-                }, {
-                    text: '昨天',
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24);
-                    picker.$emit('pick', date);
-                    }
-                }, {
-                    text: '一周前',
-                    onClick(picker) {
-                    const date = new Date();
-                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', date);
-                    }
-                }]
-                }
       }
     },
     methods: {
@@ -244,25 +201,10 @@ import {post, get} from '../../request/http.js'
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
-      },
-      // get:function(){
-			// 	var that=this;
-			// 	// if(that.loginRole==1){
-			// 	// that.$router.push({path:'/userhome'});
-			// 	// }else if(that.loginRole==2){
-			// 	// that.$router.push({path:'/guaranteehome'});
-			// 	// }else if(that.loginRole==3){
-			// 	// that.$router.push({path:'/adminhome'});
-			// 	// }
-			// },
+      }
     },
 
     mounted(){
-      this.getOriginalData();
-      this.Loan.id=localStorage.getItem('id');
-      this.Loan.loans=localStorage.getItem('loans');
-
-
       var res = get("/api/investor/productList", {})
       res.then(data => {
         this.all_tableData = data.data
