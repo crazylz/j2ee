@@ -12,6 +12,30 @@
     border>
 
     <el-table-column
+      align="center"
+      prop="userId"
+      label="申请人id"
+      sortable>
+      <template slot-scope="scope">
+      <el-popover trigger="click" placement="bottom">
+          <p>姓名: {{ borrower.name}}</p>
+          <p>性别: {{ getGender(borrower.gender) }}</p>
+          <p>电话: {{ borrower.phoneNumber }}</p>
+          <p>工龄: {{ borrower.lengthOfService }}</p>
+          <p>工资: ￥{{ borrower.salary }}</p>
+          <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
+          <p>信用评级: {{ borrower.rank }}</p>
+        <div slot="reference" class="name-wrapper">
+          <el-button              size="mini" @click="getBorrower(scope.row.userId)">
+            {{scope.row.userId}}
+          </el-button>
+      </div>
+      </el-popover>
+      </template>
+      </el-table-column>
+
+
+    <el-table-column
       align='center'
       label="金额"
       sortable
@@ -23,21 +47,21 @@
 
     <el-table-column
     align='center'
-      label="分期"
-      sortable
-      prop="installmentNumber">
-      <template slot-scope="scope">
-        <span>{{ scope.row.installmentNumber }}</span>
-      </template>
-    </el-table-column>
-
-    <el-table-column
-    align='center'
       label="利率"
       sortable
       prop="rate">
       <template slot-scope="scope">
         <span>{{ scope.row.rate }}%</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+    align='center'
+      label="分期"
+      sortable
+      prop="installmentNumber">
+      <template slot-scope="scope">
+        <span>{{ scope.row.installmentNumber }}</span>
       </template>
     </el-table-column>
 
@@ -83,7 +107,8 @@ import {post, get} from '../../request/http.js'
     data() {
       return {
         all_tableData: [],
-        tableData: []
+        tableData: [],
+        borrower: [],
       }
     },
     methods: {
@@ -121,6 +146,22 @@ import {post, get} from '../../request/http.js'
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
+      },
+      getBorrower(id){
+        var res = get("/api/userProfile/" + id, {});
+        res.then(bdata=>{
+          this.borrower = bdata.data;
+          console.log(this.borrower);
+        })
+      },
+
+      getGender(state){
+        if(state == 0){
+          return '未设置';
+        }
+        else{
+          return state == 1 ? '男' : '女';
+        }
       }
     },
 
