@@ -244,11 +244,33 @@ export default {
       var res = post("/api/account/deposit", {amount: this.invest.number})
       res.then(data => {
         console.log(data);
+        if(data.code == 0){
+          var remainres = get("/api/userProfile/balance", {});
+          remainres.then(remain=>{
+          this.money_remain = remain.data.paymentBalance;
+          })
+        }
+        else{
+          alert(data.msg);
+        }
       })
+
     },
 
     handleWithdraw:function(){
-
+      var res = post("/api/account/withdraw", {amount: this.withdraw.money})
+      res.then(data => {
+        console.log(data);
+        if(data.code == 0){
+          var remainres = get("/api/userProfile/balance", {});
+          remainres.then(remain=>{
+          this.money_remain = remain.data.paymentBalance;
+          })
+        }
+        else{
+          alert(data.msg);
+        }
+      })
     }
   }
 }
