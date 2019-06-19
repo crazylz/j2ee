@@ -31,7 +31,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData"
     border
     >
     <el-table-column
@@ -46,7 +46,7 @@
     align='center'
       label="分期">
       <template slot-scope="scope">
-        <span>{{ scope.row.installment }}</span>
+        <span>{{ scope.row.installmentNumber }}</span>
       </template>
     </el-table-column>
     
@@ -54,7 +54,7 @@
     align='center'
       label="利率">
       <template slot-scope="scope">
-        <span>{{ scope.row.interest_rate }}%</span>
+        <span>{{ scope.row.rate }}%</span>
       </template>
     </el-table-column>
 
@@ -67,22 +67,22 @@
         placement="top-start"
         title="计算公式: 金额 × (1 + 利率) ÷ 分期数">
         <span>
-          ￥{{scope.row.amount}} × (1 + {{scope.row.interest_rate}}%) ÷ {{scope.row.installment}}
+          ￥{{scope.row.amount}} × (1 + {{scope.row.rate}}%) ÷ {{scope.row.installmentNumber}}
         </span>
 
-        <span slot="reference">￥{{ (scope.row.amount * (scope.row.interest_rate / 100 + 1) / scope.row.installment).toFixed(2)  }}</span>
+        <span slot="reference">￥{{ (scope.row.amount * (scope.row.rate / 100 + 1) / scope.row.installmentNumber).toFixed(2)  }}</span>
         </el-popover>
       </template>
     </el-table-column>
 
     <el-table-column
     align='center'
-      prop = "submit_date"
-      label="提交时间"
+      label="购买时间"
       sortable
-      column-key="submit_date"
-      :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-      :filter-method="filterHandler">
+      prop="purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss')">
+      <template slot-scope="scope">
+        <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+      </template>
     </el-table-column>
 
 
@@ -91,7 +91,7 @@
       label="状态"
       width="100">
       <template slot-scope="scope">
-        <span v-bind:class = "classObject(scope.row.state)">{{ scope.row.state}}</span>
+        <span >{{ classObject(scope.row.state)}}</span>
       </template>
     </el-table-column>
     
@@ -117,122 +117,7 @@ import {post, get} from '../../request/http.js'
     data() {
       return {
         addVisible: false,  
-        all_tableData: [{
-          amount: 1000000,
-          submit_date: '2016-05-02',
-          interest_rate: 10,
-          installment: 12,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-04',
-          interest_rate: 5,
-          installment: 12,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-01',
-          interest_rate: 6,
-          installment: 12,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 8,
-          installment: 12,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 7,
-          installment: 12,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 3,
-          installment: 10,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 1,
-          installment: 8,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 2,
-          installment: 9,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 8.8,
-          installment: 12,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate : 5.4,
-          installment: 5,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 6.1,
-          installment: 4,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 7.1,
-          installment: 3,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 8.1,
-          installment: 2,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 2.3,
-          installment: 1,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 1.8,
-          installment: 5,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 2.5,
-          installment: 6,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 9.9,
-          installment: 8,
-          state: '未还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 11.1,
-          installment: 11,
-          state: '已还清'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          interest_rate: 9.10,
-          installment: 12,
-          state: '未还清'
-        }],
-        tableData: [],
+        all_tableData: [],
         Loan: {
           amount:0,
           installmentNumber:0,
@@ -266,10 +151,11 @@ import {post, get} from '../../request/http.js'
       },
 
       classObject(state){
-        return{
-          'done': state === '已还清',
-          'undone': state === '未还清'
-        }
+        if(state==1)return '待处理';
+        if(state==2)return '担保人同意';
+        if(state==3)return '担保人拒绝';
+        if(state==4)return '已还清';
+        if(state==5)return '未还清';
       },
 
       getDataByPage(pageindex){
@@ -340,7 +226,12 @@ import {post, get} from '../../request/http.js'
     },
 
     mounted(){
+      var res = get("/api/borrower/allRequests", {})
+      res.then(data => {
+        this.all_tableData = data.data
+        console.log(data)
 
+      })
     }
   }
 </script>

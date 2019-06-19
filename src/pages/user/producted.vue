@@ -144,7 +144,7 @@ import {post, get} from '../../request/http.js'
   margin:auto; */
 }
 .el-table.column{
-  width:14.29%;
+  width:20%;
 }
 .button_add{
   float:right;
