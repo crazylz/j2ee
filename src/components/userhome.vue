@@ -61,7 +61,7 @@
       <!--充值对话框  -->
       <el-dialog class="invest" :visible.sync='investVisible'>
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">账户余额  {{money_remain}}</p>
+        <p style="color: #606266; font-size:18px">第三方账户余额  {{money_remain}}</p>
         <el-form style="margin-right:120px" ref='investForm' :model='invest' label-width='200px' :rules='investrules'>
           <el-form-item style="margin-left:-44px" label='充值金额' prop='number' class="input">
             <el-input v-model='invest.number' placeholder='请输入充值金额' clearable></el-input>
@@ -75,7 +75,7 @@
 
       <el-dialog class="withdraw" :visible.sync='withdrawVisible'>
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">账户余额 {{money_remain}}</p>
+        <p style="color: #606266; font-size:18px">第三方账户余额 {{money_remain}}</p>
         <el-form style="margin-right:120px" ref='withdrawForm' :model='withdraw' label-width='200px' :rules='withdrawrules'>
           <el-form-item style="margin-left:-44px" label='提现金额' prop='money' class="input">
             <el-input v-model='withdraw.money' placeholder='请输入提现金额' clearable></el-input>
@@ -126,9 +126,11 @@
 
 
 <script>
+import {post, get} from '../request/http.js'
 // template涉及的所有的变量都要写入data之中，数据传输的时候也是这些数据
-let data = () => {
-  return {
+export default {
+  data(){
+    return {
     detailVisible:false,
     investVisible:false,
     withdrawVisible:false,
@@ -177,11 +179,13 @@ let data = () => {
       ]
     }
   }
-}
-
-export default {
-  data: data,
+  },
   mounted: function() {
+    var res = get("/api/userProfile/balance", {});
+    res.then(data=>{
+      this.money_remain = data.data.paymentBalance;
+      console.log(data);
+    })
 
   },
   methods: {
@@ -194,7 +198,10 @@ export default {
     },
 
     handleInvest:function(){
-
+      var res = post("/api/account/deposit, {amount: this.withdraw.money}")
+      res.then(data => {
+        console.log(data);
+      })
     },
 
     handleWithdraw:function(){
