@@ -2,7 +2,8 @@
 	<div class="main">
 		<div class="register">
 			<h2 style="text-align:left; margin-left:50px;color: #606266;">账号注册</h2>
-            <a style="text-decoration:none" href="#/login"><p style="text-align:right; margin:0 30px 15px 0;font-size:14px">已有账号，直接登录</p></a>
+            <a style="text-decoration:none" href="#/login"><p style="text-align:right; margin:0 30px 15px 0;font-size:14px">已有账号，直接登录
+				</p></a>
 			<el-form ref='registerForm' :model='registerInfo' label-width='80px' :rules='rules' >
 				<el-form-item label='账号' prop='id'>
 					<el-input v-model='registerInfo.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>

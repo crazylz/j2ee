@@ -16,7 +16,7 @@
               <div @click='detailVisible=true'>
                 <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
               </div>
-              <div @click='withdrawVisible=true;getBalance()'>
+              <div @click='investVisible=true;getBalance()'>
               <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
               </div>
               <div @click='withdrawVisible=true;getBalance()'>
@@ -127,6 +127,10 @@
           </el-menu-item> -->
           <el-menu-item index="/userhome/repay">
           <i class="el-icon-sold-out"></i>还款
+          </el-menu-item>
+
+          <el-menu-item index="/userhome/record">
+          <i class="el-icon-sold-out"></i>资金流转记录
           </el-menu-item>
         </el-menu>
       </el-aside>

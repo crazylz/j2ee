@@ -13,12 +13,8 @@ import userhome from '../components/userhome.vue'
 import loans from '../pages/user/loans.vue'
 import newproducts from '../pages/user/newproducts.vue'
 import producted from '../pages/user/producted.vue'
-// import invest from '../pages/user/invest.vue'
-// import newloans from '../pages/user/newloans.vue'
-// import newproducts from '../pages/user/newproducts.vue'
-// import persondata from '../pages/user/persondata.vue'
 import repay from '../pages/user/repay.vue'
-// import withdraw from '../pages/user/withdraw.vue'
+import record from '../pages/user/record.vue'
 import information from '../pages/user/infromation.vue'
 
 //管理员界面
@@ -66,6 +62,10 @@ const router = new Router({
         {
           path:'/userhome/information',
           component:information
+        },
+        {
+          path:'/userhome/record',
+          component:record
         }
       ]
     },
