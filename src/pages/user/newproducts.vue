@@ -42,7 +42,7 @@
 
   <el-table
     ref="filterTable"
-    :data="all_tableData"
+    :data="tableData"
     border>
 
     <el-table-column
@@ -169,18 +169,25 @@ import {post, get} from '../../request/http.js'
     methods: {
       handleInvest(index, row) {
         console.log(row);
-        var res = post("/api/investor/invest", {id: row.id});
-        res.then(data=>{
+        this.$confirm('确定要购买此产品吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+          }).then(() => {
+            var res = post("/api/investor/invest", {id: row.id});
+          res.then(data=>{
           if(data.code == 0){
             this.$msgbox({
             title: '购买成功',
             message: data.msg,
             type: 'success'
           });
+
           var res1 = get("/api/investor/productList", {})
-          res1.then(data => {
-            this.all_tableData = data.data
-            console.log(data)
+          res1.then(tdata => {
+            this.all_tableData = tdata.data
+            this.getOriginalData();
+            console.log(tdata)
 
           })
 
@@ -194,6 +201,14 @@ import {post, get} from '../../request/http.js'
           }
           console.log(data);
         })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消购买'
+          });
+        });
+        
+        
       },
 
       getDataByPage(pageindex){
@@ -232,8 +247,9 @@ import {post, get} from '../../request/http.js'
     mounted(){
       var res = get("/api/investor/productList", {})
       res.then(data => {
-        this.all_tableData = data.data
-        console.log(data)
+        this.all_tableData = data.data;
+        this.getOriginalData();
+        console.log(data);
 
       })
     }

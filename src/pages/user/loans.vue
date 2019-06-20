@@ -31,7 +31,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="all_tableData"
+    :data="tableData"
     border
     >
     <el-table-column
@@ -79,9 +79,9 @@
     align='center'
       label="购买时间"
       sortable
-      prop="purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss')">
+      prop="purchaseTime">
       <template slot-scope="scope">
-        <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+        <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss')}}</span>
       </template>
     </el-table-column>
 
@@ -91,7 +91,7 @@
       label="状态"
       width="100">
       <template slot-scope="scope">
-        <span >{{ classObject(scope.row.state)}}</span>
+        <span v-bind:class="textColor(scope.row.state)">{{ classObject(scope.row.state)}}</span>
       </template>
     </el-table-column>
     
@@ -118,6 +118,7 @@ import {post, get} from '../../request/http.js'
       return {
         addVisible: false,  
         all_tableData: [],
+        tableData: [],
         Loan: {
           amount:0,
           installmentNumber:0,
@@ -158,6 +159,15 @@ import {post, get} from '../../request/http.js'
         if(state==5)return '未还清';
       },
 
+      textColor(state){
+        return{
+          agree : state == 2,
+          reject: state == 3,
+          payoff : state == 4,
+          unpay : state == 5
+        }
+      },
+
       getDataByPage(pageindex){
         var begin = pageindex * 10;
         if(begin > this.all_tableData.length){
@@ -194,35 +204,31 @@ import {post, get} from '../../request/http.js'
       this.addVisible = false;
       // var temp=post("/api/test/login",{})
       var res = post("/api/borrower/request", {amount:this.Loan.amount,installmentNumber:this.Loan.installmentNumber,rate:this.Loan.rate,payDayOfMonth:this.Loan.payDayOfMonth})
-      
-      
       res.then(data => {
         console.log(data)
         if(data.code==0)
         {
-          this.$message({
+          this.$msgbox({
+            title: '申请成功',
             message: data.msg,
             type: 'success'
           });
+          var res = get("/api/borrower/allRequests", {});
+          res.then(data => {
+          this.all_tableData = data.data;
+          this.getOriginalData();
+          console.log(data);
+      })
+
         }
         else
         {
           this.$msgbox({
-            title: '操作失败',
+            title: '申请失败',
             message: data.msg,
             type: 'error'
           });
         }
-        // this.all_tableData = data.data
-
-        // for(var i=0; i<this.all_tableData.length; i++){
-        //   var userRes = get("/api/userProfile/" + this.all_tableData[i].userId, {})
-        //   userRes.then(userdata => {
-
-        //     this.user[i] = userdata.data;
-        //     console.log(this.user[i])
-        //   })
-        // }
       })
       },
     },
@@ -234,20 +240,25 @@ import {post, get} from '../../request/http.js'
         console.log(data)
       });
       res.then(data => {
-        this.all_tableData = data.data
+        this.all_tableData = data.data;
+        this.getOriginalData();
         console.log(data)
-
       })
     }
   }
 </script>
 
 <style scoped>
-  .done{
+  .agree{
+    color: #E6A23C
+  }
+  .reject{
+    color: #999999
+  }
+  .payoff{
     color: #67C23A
   }
-
-  .undone{
+  .unpay{
     color: #F56C6C
   }
 

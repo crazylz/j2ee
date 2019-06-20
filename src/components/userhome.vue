@@ -80,7 +80,7 @@
       </el-dialog>
 
       <el-dialog class="withdraw" :visible.sync='withdrawVisible'>
-        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
+        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">提现</h2>
         <p style="color: #606266; font-size:18px">第三方账户余额 {{money_remain}}</p>
         <el-form style="margin-right:120px" ref='withdrawForm' :model='withdraw' label-width='200px' :rules='withdrawrules'>
           <el-form-item style="margin-left:-44px" label='提现金额' prop='money' class="input">

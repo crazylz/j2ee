@@ -8,7 +8,7 @@
 
   <el-table
     ref="filterTable"
-    :data="all_tableData"
+    :data="tableData"
     border>
 
     <el-table-column
@@ -26,7 +26,7 @@
           <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
           <p>信用评级: {{ borrower.rank }}</p>
         <div slot="reference" class="name-wrapper">
-          <el-button              size="mini" @click="getBorrower(scope.row.userId)">
+          <el-button size="mini" @click="getBorrower(scope.row.userId)">
             {{scope.row.userId}}
           </el-button>
       </div>
@@ -169,6 +169,7 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/investor/investedProductList", {})
       res.then(data => {
         this.all_tableData = data.data
+        this.getOriginalData();
         console.log(data)
 
       })

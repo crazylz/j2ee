@@ -32,6 +32,10 @@ import guarantee from '../pages/guarantee/guarantee.vue'
 const router = new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/login' 
+    },
+    {
       path: '/login',
       component: login
     },

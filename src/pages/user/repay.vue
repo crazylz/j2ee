@@ -46,7 +46,7 @@
       align="center"
       label="状态">
       <template slot-scope="scope">
-        <span>{{object(scope.row.state)}}</span>
+        <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -60,18 +60,23 @@
   </el-table>
 
   <el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="100*(tableData.length/10)">
-</el-pagination>
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :page-size="100"
+    layout="prev, pager, next, jumper"
+    :total="100*(all_tableData.length/10)">
+  </el-pagination>
+
 </div>
 </template>
+
+
 <script>
 import {post, get} from '../../request/http.js'
   export default {
     data(){
       return{
+        all_tableData: [],
         tableData:[]
       }
     },
@@ -80,21 +85,23 @@ import {post, get} from '../../request/http.js'
     mounted(){
       var res = get("/api/borrower/repayRecordsToProcess", {})
       res.then(repay=>{
-        this.tableData=[];
-        let j=0;
-        for(let i=0;i<repay.data.length;i++){
+        console.log(repay);
+        var j=0;
+        for(var i=0;i<repay.data.length;i++){
         if(repay.data[i].state==1||repay.data[i].state==2){
           {
-          this.tableData[j]=repay.data[i];
+          this.all_tableData[j]=repay.data[i];
           // console.log(this.tableData[j]);
           j++;
           }
         }
-         }
+        }
+        this.getOriginalData();
       })
     },
 
     methods:{
+
       getDataByPage(pageindex){
         var begin = pageindex * 10;
         if(begin > this.tableData.length){
@@ -103,7 +110,6 @@ import {post, get} from '../../request/http.js'
         else{
           this.tableData = this.tableData.slice(begin-10, begin);
         }
-        // console.log(begin);
       },
 
       handleSizeChange(val) {
@@ -122,18 +128,56 @@ import {post, get} from '../../request/http.js'
           return "平台垫付";
         }
       },
+      textColor(state){
+        return{
+          unpay : state == 1,
+          help: state == 2,
+        }
+      },
 
       handleClick(row){
         var res=get("/api/account/repay",{recordId:row.id});
         res.then(data=>{
         if(data.code==0){
-          alert(data.msg);
+          this.$msgbox({
+            title: '还款成功',
+            message: data.msg,
+            type: 'success'
+          });
+
+          var res = get("/api/borrower/repayRecordsToProcess", {})
+          res.then(repay=>{
+          var j=0;
+          for(let i=0;i<repay.data.length;i++){
+          if(repay.data[i].state==1||repay.data[i].state==2){
+            {
+            this.all_tableData[j]=repay.data[i];
+            // console.log(this.tableData[j]);
+            j++;
+            }
+          }
+          }
+          this.getOriginalData();
+          })
+          
         }
         else{
-          alert(data.msg);
+          this.$msgbox({
+            title: '还款失败',
+            message: data.msg,
+            type: 'error'
+          });
         }
         });
-      }
+      },
+      getOriginalData(){
+        if(this.all_tableData.length < 10){
+          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(0, 10);
+        }
+      },
     }
     
     
@@ -143,5 +187,11 @@ import {post, get} from '../../request/http.js'
 <style scoped>
   .el_table{
   width:100%;
+  }
+  .help{
+    color: #F56C6C;
+  }
+  .unpay{
+    color: #E6A23C;
   }
 </style>
