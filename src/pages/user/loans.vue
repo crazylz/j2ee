@@ -22,7 +22,7 @@
 						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
 					</el-form-item>
 
-					<el-form-item style="margin-right:200px;margin-top:10px">
+					<el-form-item style="margin-right:130px;margin-top:10px">
 						<el-button type='primary' @click='handleSave()'
 						>贷款</el-button>
 					</el-form-item>
@@ -282,7 +282,7 @@ import {post, get} from '../../request/http.js'
 
   .loans{
     font-size:14px;
-    border: 1px solid #999999;
+    /* border: 1px solid #999999; */
     border-radius: 30px;
     text-align: center;
     width:80%;
