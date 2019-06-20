@@ -15,13 +15,22 @@
 					<el-form-item label='利息' prop='rate' class="input">
 						<el-input v-model='Loan.rate' autocomplete="off"  placeholder='请输入利息' clearable></el-input>
 					</el-form-item> 
-          <el-form-item label='分期' prop='installmentNumber' class="input">
-						<el-input v-model='Loan.installmentNumber' autocomplete="off"  placeholder='请输入分期' clearable></el-input>
-					</el-form-item>
           <el-form-item label='每月还款日期' prop='payDayOfMonth' class="input">
 						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
 					</el-form-item>
-
+          <!-- <span style="display:inline-block;text-align:center;">
+            分期
+          </span> -->
+          <el-form-item label="分期" class="input">
+            <el-select v-model="Loan.installmentNumber" prop='installmentNumber'  placeholder="请选择分期" label="分期"> 
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
 					<el-form-item style="margin-right:130px;margin-top:10px">
 						<el-button type='primary' @click='handleSave()'
 						>贷款</el-button>
@@ -119,6 +128,44 @@ import {post, get} from '../../request/http.js'
         addVisible: false,  
         all_tableData: [],
         tableData: [],
+        options: [{
+          value: 1,
+          label: '1'
+        }, {
+          value: 2,
+          label: '2'
+        }, {
+          value: 3,
+          label: '3'
+        }, {
+          value: 4,
+          label: '4'
+        }, {
+          value: 5,
+          label: '5'
+        },{
+          value: 6,
+          label: '6'
+        },{
+          value: 7,
+          label: '7'
+        },{
+          value: 8,
+          label: '8'
+        },{
+          value: 9,
+          label: '9'
+        },{
+          value: 10,
+          label: '10'
+        },{
+          value:11,
+          label: '11'
+        },{
+          value: 12,
+          label: '12'
+        },
+        ],
         Loan: {
           amount:0,
           installmentNumber:0,
@@ -295,8 +342,9 @@ import {post, get} from '../../request/http.js'
     margin-left: -30px;
   }  
 
-  .repay{
-  
+  .input{
+    width:80%;
+    left:10%;
   }
   
 </style>
