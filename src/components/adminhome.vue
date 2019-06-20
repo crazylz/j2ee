@@ -10,6 +10,7 @@
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
+              {{adminName}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <a href="#/login">
@@ -17,7 +18,6 @@
               </a>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{adminName}}</span>
         </div>
       </el-header>
         

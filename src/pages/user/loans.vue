@@ -18,7 +18,7 @@
           <el-form-item label='分期' prop='installmentNumber' class="input">
 						<el-input v-model='Loan.installmentNumber' autocomplete="off"  placeholder='请输入分期' clearable></el-input>
 					</el-form-item>
-          <el-form-item label='还期' prop='payDayOfMonth' class="input">
+          <el-form-item label='每月还款日期' prop='payDayOfMonth' class="input">
 						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
 					</el-form-item>
 

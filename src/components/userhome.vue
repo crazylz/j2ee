@@ -16,10 +16,10 @@
               <div @click='detailVisible=true'>
                 <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
               </div>
-              <div @click='investVisible=true'>
+              <div @click='withdrawVisible=true;getBalance()'>
               <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
               </div>
-              <div @click='withdrawVisible=true'>
+              <div @click='withdrawVisible=true;getBalance()'>
               <el-dropdown-item icon="el-icon-wallet">提现</el-dropdown-item>
               </div>
               <a href="#/login">
@@ -238,6 +238,13 @@ export default {
 
     handleDetail:function(){
 
+    },
+
+    getBalance(){
+      var remainres = get("/api/userProfile/balance", {});
+          remainres.then(remain=>{
+          this.money_remain = remain.data.paymentBalance;
+      })
     },
 
     handleInvest:function(){
