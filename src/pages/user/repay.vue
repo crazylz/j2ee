@@ -39,7 +39,7 @@
       label="还款截至时间"
       sortable>
       <template slot-scope="scope">
-        <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+        <span>{{ scope.row.timeToRepay | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -85,19 +85,11 @@ import {post, get} from '../../request/http.js'
     mounted(){
       var res = get("/api/borrower/repayRecordsToProcess", {})
       res.then(repay=>{
-        console.log(repay);
-        var j=0;
-        for(var i=0;i<repay.data.length;i++){
-        if(repay.data[i].state==1||repay.data[i].state==2){
-          {
-          this.all_tableData[j]=repay.data[i];
-          // console.log(this.tableData[j]);
-          j++;
-          }
-        }
-        }
+        this.all_tableData = repay.data;
         this.getOriginalData();
-      })
+        console.log(repay);
+        }
+      )
     },
 
     methods:{
@@ -136,7 +128,12 @@ import {post, get} from '../../request/http.js'
       },
 
       handleClick(row){
-        var res=get("/api/account/repay",{recordId:row.id});
+        this.$confirm('确定要对此产品还款吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+          }).then(() => {
+            var res=get("/api/account/repay",{recordId:row.id});
         res.then(data=>{
         if(data.code==0){
           this.$msgbox({
@@ -147,17 +144,9 @@ import {post, get} from '../../request/http.js'
 
           var res = get("/api/borrower/repayRecordsToProcess", {})
           res.then(repay=>{
-          var j=0;
-          for(let i=0;i<repay.data.length;i++){
-          if(repay.data[i].state==1||repay.data[i].state==2){
-            {
-            this.all_tableData[j]=repay.data[i];
-            // console.log(this.tableData[j]);
-            j++;
-            }
-          }
-          }
+          this.all_tableData = repay.data;
           this.getOriginalData();
+          console.log(repay);
           })
           
         }
@@ -168,8 +157,17 @@ import {post, get} from '../../request/http.js'
             type: 'error'
           });
         }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消还款'
+          });
         });
+
+        })
       },
+
+
       getOriginalData(){
         if(this.all_tableData.length < 10){
           this.tableData = this.all_tableData.slice(0, this.all_tableData.length);

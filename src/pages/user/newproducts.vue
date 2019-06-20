@@ -112,7 +112,7 @@
         <template slot-scope="scope">
           <el-popover trigger="click" placement="bottom">
             <p>姓名: {{ scope.row.name}}</p>
-            <p>性别: {{ scope.row.gender }}</p>
+            <p>性别: {{ getGender(scope.row.gender) }}</p>
             <p>电话: {{ scope.row.phone_number }}</p>
             <p>工龄: {{ scope.row.length_of_service }}</p>
             <p>工资: ￥{{ scope.row.salary }}</p>
@@ -158,12 +158,8 @@ import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-
         all_tableData: [],
-
         tableData: []
-
-
       }
     },
     methods: {
@@ -241,6 +237,14 @@ import {post, get} from '../../request/http.js'
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
+      },
+      getGender(state){
+        if(state == 0){
+          return '未设置';
+        }
+        else{
+          return state == 1 ? '男' : '女';
+        }
       }
     },
 
@@ -264,9 +268,7 @@ import {post, get} from '../../request/http.js'
   /* width:fit-content;
   margin:auto; */
 }
-.el-table.column{
-  width:14.29%;
-}
+
 .button_add{
   float:right;
 }

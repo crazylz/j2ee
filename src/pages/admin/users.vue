@@ -7,13 +7,15 @@
 
     <el-table
       ref="filterTable"
-      :data="all_tableData"
+      :data="tableData"
       border>
       <el-table-column
         label="用户id"
-        align="center">
+        align="center"
+        sortable
+        prop="userId">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.userId}}</span>
         </template>
       </el-table-column>
 
@@ -21,7 +23,7 @@
         label="身份证"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.idCardNumber}}</span>
         </template>
       </el-table-column>
 
@@ -29,15 +31,17 @@
         label="手机号码"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.phoneNumber}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="性别"
-        align="center">
+        align="center"
+        sortable
+        prop="gender">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{getGender(scope.row.gender)}}</span>
         </template>
       </el-table-column>
 
@@ -45,7 +49,7 @@
         label="第三方支付帐号"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.paymentAccount}}</span>
         </template>
       </el-table-column>
 
@@ -53,31 +57,37 @@
         label="银行卡帐号"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.bankAccount}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="失信记录"
-        align="center">
+        label="失信次数"
+        align="center"
+        sortable
+        prop="discreditedRecords">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.discreditedRecords}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="工资"
-        align="center">
+        align="center"
+        sortable
+        prop="salary">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.salary}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="信用评级"
-        align="center">
+        align="center"
+        sortable
+        prop="rank">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.rank}}</span>
         </template>
       </el-table-column>
 
@@ -85,15 +95,17 @@
         label="姓名"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="工龄"
-        align="center">
+        align="center"
+        sortable
+        prop="lengthOfService">
         <template slot-scope="scope">
-          <span>{{scope.row.amount}}</span>
+          <span>{{scope.row.lengthOfService}}</span>
         </template>
       </el-table-column>
 
@@ -123,105 +135,11 @@
 
 
 <script>
+import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-        all_tableData: [{
-          amount: 1000000,
-          submit_date: '2016-05-02',
-          name: '王小',
-          address: '上海市普陀区金沙江路 1518'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-04',
-          name: '王中',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-01',
-          name: '王大',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王大大',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小小',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小狗',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小猫',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }, {
-          amount: 1000000,
-          submit_date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        all_tableData: [],
         tableData: []
       }
     },
@@ -260,11 +178,25 @@
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
-      }
+      },
+      getGender(state){
+        if(state == 0){
+          return '未设置';
+        }
+        else{
+          return state == 1 ? '男' : '女';
+        }
+      },
     },
 
     mounted(){
-      this.getOriginalData();
+      var res = get("/api/admin/users", {});
+      res.then(user=>{
+        this.all_tableData = user.data;
+        this.getOriginalData();
+        console.log(this.tableData);
+      }
+      )
     }
   }
 </script>

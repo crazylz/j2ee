@@ -185,9 +185,7 @@ import {post, get} from '../../request/http.js'
   /* width:fit-content;
   margin:auto; */
 }
-.el-table.column{
-  width:20%;
-}
+
 .button_add{
   float:right;
 }

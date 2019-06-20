@@ -17,7 +17,7 @@
               </a>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{adminName}}管理员</span>
+          <span>{{adminName}}</span>
         </div>
       </el-header>
         
@@ -51,7 +51,7 @@
 let data = () => {
   return {
     systemName: '管理员界面',
-    adminName: 'lz'
+    adminName: '管理员'
   }
 }
 
