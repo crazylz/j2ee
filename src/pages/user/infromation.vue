@@ -6,7 +6,7 @@
     <el-breadcrumb-item><a href="/">消息中心</a></el-breadcrumb-item>
   </el-breadcrumb>
 
-    <el-select v-model="value" placeholder="消息状态">
+    <el-select v-model="dataType" placeholder="消息状态">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -116,7 +116,8 @@ import {post, get} from '../../request/http.js'
           value: 1,
           label: '已读消息'
         }],
-        value: null
+
+        dataType: 2
       }
     },
 
@@ -131,7 +132,7 @@ import {post, get} from '../../request/http.js'
       )
     },
     watch:{
-        value:function(val){
+        dataType:function(val){
             var res = get("/api/message", {state: val})
             res.then(info=>{
             this.all_tableData = info.data;
@@ -149,31 +150,37 @@ import {post, get} from '../../request/http.js'
                 var res = post("/api/message/state", {messageId: row.messageId});
                 res.then(result=>{
                     console.log(result);
+                    
                     if(result.code == 0)
                     {
                     this.$msgbox({
-                    title: '消息成功被标记为已读',
-                    message: data.msg,
+                    title: '提示',
+                    message: result.msg,
                     type: 'success'
                     });
 
-                    var res = get("/api/message", {state: val})
-                    res.then(info=>{
-                    this.all_tableData = info.data;
-                    this.getOriginalData();
-                    console.log(info);
-                    });
+                    this.getData();
 
                     }
                     else{
                     this.$msgbox({
-                    title: '标记为已读失败',
-                    message: data.msg,
+                    title: '提示',
+                    message: result.msg,
                     type: 'error'
                     });
                     }
                 })
             }
+        },
+
+
+        getData(){
+          var res1 = get("/api/message", {state: this.dataType});
+            res1.then(info=>{
+            this.all_tableData = info.data;
+            this.getOriginalData();
+            console.log(info);
+            });
         },
 
       getDataByPage(pageindex){

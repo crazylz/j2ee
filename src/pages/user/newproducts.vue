@@ -174,7 +174,7 @@ import {post, get} from '../../request/http.js'
           res.then(data=>{
           if(data.code == 0){
             this.$msgbox({
-            title: '购买成功',
+            title: '提示',
             message: data.msg,
             type: 'success'
           });
@@ -190,7 +190,7 @@ import {post, get} from '../../request/http.js'
           }
           else{
             this.$msgbox({
-            title: '购买失败',
+            title: '提示',
             message: data.msg,
             type: 'error'
           });
