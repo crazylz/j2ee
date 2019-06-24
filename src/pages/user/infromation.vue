@@ -3,18 +3,43 @@
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
     <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">资金流转记录</a></el-breadcrumb-item>
+    <el-breadcrumb-item><a href="/">消息记录</a></el-breadcrumb-item>
   </el-breadcrumb>
+
+    <el-select v-model="value" placeholder="消息状态">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+
+
+
+
+    <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
+    <!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
 
 
   <el-table
     ref="filterTable"
     :data="tableData"
-    border>
+    border
+    tooltip-effect="dark">
+
+<!-- @selection-change="handleSelectionChange" -->
+
+
+    <!-- <el-table-column
+      type="selection">
+    </el-table-column> -->
+
     <el-table-column
       align="center"
       label="消息id"
-      sortable>
+      sortable
+      prop="messageId">
       <template slot-scope="scope">
       <span>{{ scope.row.messageId }}</span>
       </template>
@@ -31,7 +56,8 @@
     <el-table-column
       align="center"
       label="时间"
-      sortable>
+      sortable
+      prop="time">
       <template slot-scope="scope">
         <span>{{ scope.row.time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -39,13 +65,24 @@
 
     <el-table-column
       align="center"
-      label="状态">
+      label="状态"
+      sortable
+      prop="state">
       <template slot-scope="scope">
         <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
       </template>
     </el-table-column>
 
+    <el-table-column
+      align="center"
+      label="操作">
+      <template slot-scope="scope">
+        <span>{{object(scope.row.state)}}</span>
+      </template>
+    </el-table-column>
+
   </el-table>
+
 
     <el-pagination
       @size-change="handleSizeChange"
@@ -67,6 +104,17 @@ import {post, get} from '../../request/http.js'
       return{
         all_tableData: [],
         tableData:[],
+        options: [{
+          value: 2,
+          label: '全部消息'
+        }, {
+          value: 0,
+          label: '未读消息'
+        }, {
+          value: 1,
+          label: '已读消息'
+        }],
+        value: null
       }
     },
 
@@ -79,6 +127,17 @@ import {post, get} from '../../request/http.js'
         console.log(info);
         }
       )
+    },
+    watch:{
+        value:function(val){
+            var res = get("/api/message", {state: val})
+            res.then(info=>{
+            this.all_tableData = info.data;
+            this.getOriginalData();
+            console.log(info);
+        }
+      )
+        }
     },
 
     methods:{
@@ -110,55 +169,30 @@ import {post, get} from '../../request/http.js'
         this.getDataByPage(val);
       },
 
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+
+      toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.filterTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.filterTable.clearSelection();
+        }
+      },
+
       object(state){
         return state == 0 ? '未读' : '已读';
       },
       textColor(state){
         return{
-          read : state == 0,
-          notread: state == 1,
+          read : state == 1,
+          notread: state == 0,
         }
       },
 
-      handleClick(row){
-        this.$confirm('确定要对此产品还款吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-          }).then(() => {
-            var res=get("/api/account/repay",{recordId:row.id});
-        res.then(data=>{
-        if(data.code==0){
-          this.$msgbox({
-            title: '还款成功',
-            message: data.msg,
-            type: 'success'
-          });
-
-          var res = get("/api/borrower/repayRecordsToProcess", {})
-          res.then(repay=>{
-          this.all_tableData = repay.data;
-          this.getOriginalData();
-          console.log(repay);
-          })
-          
-        }
-        else{
-          this.$msgbox({
-            title: '还款失败',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消还款'
-          });
-        });
-
-        })
-      }
     }
     
     
@@ -174,5 +208,12 @@ import {post, get} from '../../request/http.js'
   }
   .notread{
     color: #F56C6C;
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
   }
 </style>

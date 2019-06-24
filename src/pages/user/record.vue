@@ -32,7 +32,8 @@
     <el-table-column
       align="center"
       label="金额"
-      sortable>
+      sortable
+      prop="amount">
       <template slot-scope="scope">
       <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -41,7 +42,8 @@
     <el-table-column
       align="center"
       label="时间"
-      sortable>
+      sortable
+      prop="time">
       <template slot-scope="scope">
         <span>{{ scope.row.time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
