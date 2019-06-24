@@ -13,30 +13,21 @@
     border>
     <el-table-column
       align="center"
-      label="第三方账户号"
+      label="消息id"
       sortable>
       <template slot-scope="scope">
-      <span>{{ scope.row.account }}</span>
+      <span>{{ scope.row.messageId }}</span>
       </template>
     </el-table-column>
 
     <el-table-column
       align="center"
-      label="描述"
-      sortable>
+      label="内容">
       <template slot-scope="scope">
-      <span>{{ scope.row.desc }}</span>
+      <span>{{ scope.row.content }}</span>
       </template>
     </el-table-column>
 
-    <el-table-column
-      align="center"
-      label="金额"
-      sortable>
-      <template slot-scope="scope">
-      <span>￥{{ scope.row.amount }}</span>
-      </template>
-    </el-table-column>
     <el-table-column
       align="center"
       label="时间"
@@ -45,11 +36,12 @@
         <span>{{ scope.row.time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
     </el-table-column>
+
     <el-table-column
       align="center"
-      label="操作类型">
+      label="状态">
       <template slot-scope="scope">
-        <span v-bind:class="textColor(scope.row.operationType)">{{object(scope.row.operationType)}}</span>
+        <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
       </template>
     </el-table-column>
 
@@ -69,6 +61,7 @@
 
 <script>
 import {post, get} from '../../request/http.js'
+
   export default {
     data(){
       return{
@@ -77,9 +70,9 @@ import {post, get} from '../../request/http.js'
       }
     },
 
-// 必须加上this.tableData=[];才能够不被覆盖
+  
     mounted(){
-      var res = get("/api/message", {state:1})
+      var res = get("/api/message", {state: 2})
       res.then(info=>{
         this.all_tableData = info.data;
         this.getOriginalData();
@@ -91,12 +84,13 @@ import {post, get} from '../../request/http.js'
     methods:{
       getDataByPage(pageindex){
         var begin = pageindex * 10;
-        if(begin > this.tableData.length){
-          this.tableData = this.tableData.slice(begin-10, this.tableData.length);
+        if(begin > this.all_tableData.length){
+          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
         }
         else{
-          this.tableData = this.tableData.slice(begin-10, begin);
+          this.tableData = this.all_tableData.slice(begin-10, begin);
         }
+        // console.log(begin);
       },
       
       getOriginalData(){
@@ -114,16 +108,15 @@ import {post, get} from '../../request/http.js'
 
       handleCurrentChange(val) {
         this.getDataByPage(val);
-        console.log(this.all_tableData);
       },
 
       object(state){
-        return state == 0 ? '转入' : '转出';
+        return state == 0 ? '未读' : '已读';
       },
       textColor(state){
         return{
-          in : state == 0,
-          out: state == 1,
+          read : state == 0,
+          notread: state == 1,
         }
       },
 
@@ -176,10 +169,10 @@ import {post, get} from '../../request/http.js'
   .el_table{
   width:100%;
   }
-  .in{
+  .read{
     color: #67C23A
   }
-  .out{
+  .notread{
     color: #F56C6C;
   }
 </style>
