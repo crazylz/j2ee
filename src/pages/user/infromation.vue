@@ -3,7 +3,7 @@
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
     <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">消息记录</a></el-breadcrumb-item>
+    <el-breadcrumb-item><a href="/">消息中心</a></el-breadcrumb-item>
   </el-breadcrumb>
 
     <el-select v-model="value" placeholder="消息状态">
@@ -77,7 +77,9 @@
       align="center"
       label="操作">
       <template slot-scope="scope">
-        <span>{{object(scope.row.state)}}</span>
+        <el-button size="mini" @click="sign(scope.row)">
+            {{operate(scope.row.state)}}
+        </el-button>
       </template>
     </el-table-column>
 
@@ -141,6 +143,39 @@ import {post, get} from '../../request/http.js'
     },
 
     methods:{
+        sign(row){
+            console.log(row);
+            if(row.state == 0){
+                var res = post("/api/message/state", {messageId: row.messageId});
+                res.then(result=>{
+                    console.log(result);
+                    if(result.code == 0)
+                    {
+                    this.$msgbox({
+                    title: '消息成功被标记为已读',
+                    message: data.msg,
+                    type: 'success'
+                    });
+
+                    var res = get("/api/message", {state: val})
+                    res.then(info=>{
+                    this.all_tableData = info.data;
+                    this.getOriginalData();
+                    console.log(info);
+                    });
+
+                    }
+                    else{
+                    this.$msgbox({
+                    title: '标记为已读失败',
+                    message: data.msg,
+                    type: 'error'
+                    });
+                    }
+                })
+            }
+        },
+
       getDataByPage(pageindex){
         var begin = pageindex * 10;
         if(begin > this.all_tableData.length){
@@ -186,6 +221,10 @@ import {post, get} from '../../request/http.js'
       object(state){
         return state == 0 ? '未读' : '已读';
       },
+      operate(state){
+          return state == 1 ? '——' : '标记为已读';
+      },
+
       textColor(state){
         return{
           read : state == 1,
