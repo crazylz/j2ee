@@ -8,10 +8,9 @@
 
 
   <el-table
+    ref="filterTable"
     :data="tableData"
-    border
-    default-expand-all
-    >
+    border>
     <el-table-column
       align="center"
       label="第三方账户号"
@@ -38,6 +37,7 @@
       <span>￥{{ scope.row.amount }}</span>
       </template>
     </el-table-column>
+
     <el-table-column
       align="center"
       label="时间"
@@ -46,6 +46,7 @@
         <span>{{ scope.row.time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
     </el-table-column>
+
     <el-table-column
       align="center"
       label="操作类型">
@@ -56,13 +57,13 @@
 
   </el-table>
 
-  <el-pagination
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :page-size="100"
-    layout="prev, pager, next, jumper"
-    :total="100*(all_tableData.length/10)">
-  </el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="100*(all_tableData.length/10)">
+    </el-pagination>
 
 </div>
 </template>
@@ -70,15 +71,16 @@
 
 <script>
 import {post, get} from '../../request/http.js'
+
   export default {
     data(){
       return{
         all_tableData: [],
-        tableData:[]
+        tableData:[],
       }
     },
 
-// 必须加上this.tableData=[];才能够不被覆盖
+  
     mounted(){
       var res = get("/api/account/get_fund_records", {})
       res.then(record=>{
@@ -90,14 +92,23 @@ import {post, get} from '../../request/http.js'
     },
 
     methods:{
-
       getDataByPage(pageindex){
         var begin = pageindex * 10;
-        if(begin > this.tableData.length){
-          this.tableData = this.tableData.slice(begin-10, this.tableData.length);
+        if(begin > this.all_tableData.length){
+          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
         }
         else{
-          this.tableData = this.tableData.slice(begin-10, begin);
+          this.tableData = this.all_tableData.slice(begin-10, begin);
+        }
+        // console.log(begin);
+      },
+      
+      getOriginalData(){
+        if(this.all_tableData.length < 10){
+          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(0, 10);
         }
       },
 
@@ -157,17 +168,7 @@ import {post, get} from '../../request/http.js'
         });
 
         })
-      },
-
-
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
+      }
     }
     
     

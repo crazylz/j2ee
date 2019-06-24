@@ -130,7 +130,7 @@
           </el-menu-item>
 
           <el-menu-item index="/userhome/record">
-          <i class="el-icon-sold-out"></i>资金流转记录
+          <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
         </el-menu>
       </el-aside>
