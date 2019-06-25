@@ -132,6 +132,10 @@
           <el-menu-item index="/userhome/record">
           <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
+
+          <el-menu-item index="/userhome/credit">
+          <i class="el-icon-user"></i>个人征信
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
