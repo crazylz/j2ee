@@ -256,7 +256,7 @@ import {post, get} from '../../request/http.js'
         if(data.code==0)
         {
           this.$msgbox({
-            title: '申请成功',
+            title: '提示',
             message: data.msg,
             type: 'success'
           });
@@ -271,7 +271,7 @@ import {post, get} from '../../request/http.js'
         else
         {
           this.$msgbox({
-            title: '申请失败',
+            title: '提示',
             message: data.msg,
             type: 'error'
           });

@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
       <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">产品</a></el-breadcrumb-item>
       <el-breadcrumb-item><a href="/">购买产品</a></el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">新建购买</a></el-breadcrumb-item>
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 

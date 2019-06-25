@@ -108,7 +108,7 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-shopping-cart-2"></i>
-              <span slot="title">产品</span>
+              <span slot="title">购买产品</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="/userhome/newproducts">购买产品</el-menu-item>
@@ -133,17 +133,9 @@
           <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
 
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-user"></i>
-              <span slot="title">个人征信</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/userhome/credit">填写征信资料</el-menu-item>
-              <el-menu-item index="/userhome/latestcredit">最新提交的征信资料</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
+          <el-menu-item index="/userhome/credit">
+          <i class="el-icon-user"></i>个人征信
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
