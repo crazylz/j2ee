@@ -16,12 +16,6 @@
               <div @click='detailVisible=true'>
                 <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
               </div>
-              <div @click='investVisible=true;getBalance()'>
-              <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
-              </div>
-              <div @click='withdrawVisible=true;getBalance()'>
-              <el-dropdown-item icon="el-icon-wallet">提现</el-dropdown-item>
-              </div>
               <a href="#/login">
               <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
               </a>
@@ -64,87 +58,125 @@
         </el-form>   
       </el-dialog>
 
-      <!--充值对话框  -->
-      <el-dialog class="invest" :visible.sync='investVisible'>
-        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额：￥{{money_remain}}</p>
-        <el-form style="margin-right:120px" ref='investForm' :model='invest' label-width='200px' :rules='investrules'>
-          <el-form-item style="margin-left:-44px" label='充值金额' prop='number' class="input">
-            <el-input v-model='invest.number' placeholder='请输入充值金额' clearable></el-input>
-          </el-form-item>
-          <el-form-item style="margin-left:-80px;margin-top:10px">
-            <el-button type='primary' @click='handleInvest()'
-            >确认</el-button>
-          </el-form-item>               
-        </el-form>   
-      </el-dialog>
-
-      <el-dialog class="withdraw" :visible.sync='withdrawVisible'>
-        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">提现</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额 {{money_remain}}</p>
-        <el-form style="margin-right:120px" ref='withdrawForm' :model='withdraw' label-width='200px' :rules='withdrawrules'>
-          <el-form-item style="margin-left:-44px" label='提现金额' prop='money' class="input">
-            <el-input v-model='withdraw.money' placeholder='请输入提现金额' clearable></el-input>
-          </el-form-item>
-          <el-form-item style="margin-left:-80px;margin-top:10px">
-            <el-button type='primary' @click='handleWithdraw()'
-            >确认</el-button>
-          </el-form-item>               
-        </el-form>   
-      </el-dialog>  
-
         <!-- 需要将侧栏和主页面设置当一个容器里面 -->
     <el-container>
       <!-- 侧栏 -->
       <el-aside width="200px">
         <el-menu :default-active="$route.path" router unique-opened >
-          <!-- <el-menu-item index="/userhome/persondata">
-          <i class="el-icon-user"></i>个人资料
-          </el-menu-item> -->
-          <el-menu-item index="/userhome/loans">
-            <i class="el-icon-discount"></i>借款
-          </el-menu-item>
-
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-shopping-cart-2"></i>
-              <span slot="title">购买产品</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/userhome/newproducts">购买产品</el-menu-item>
-              <el-menu-item index="/userhome/producted">已购产品</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-          <!-- <el-menu-item index="/userhome/newproducts">
-            <i class="el-icon-shopping-cart-2"></i>购买产品
-          </el-menu-item>            -->
-          <!-- <el-menu-item index="/userhome/withdraw">
-          <i class="el-icon-bank-card"></i>提现
-          </el-menu-item>
-          <el-menu-item index="/userhome/invest">
-          <i class="el-icon-wallet"></i>充值
-          </el-menu-item> -->
-          <el-menu-item index="/userhome/repay">
-          <i class="el-icon-sold-out"></i>还款
-          </el-menu-item>
-
-          <el-menu-item index="/userhome/record">
-          <i class="el-icon-notebook-2"></i>资金流转记录
-          </el-menu-item>
-
-          <el-menu-item index="/userhome/credit">
-          <i class="el-icon-user"></i>个人征信
+          <el-menu-item>
+          <i class="el-icon-notebook-2"></i>待评价
           </el-menu-item>
         </el-menu>
       </el-aside>
 
         <el-main>
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
+          <el-table
+          :data="tableData"
+          border>
+
+          <el-table-column
+            align="center"
+            label="用户id">
+            <template slot-scope="scope">
+            <span>{{ scope.row.userId }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="负债金额">
+            <template slot-scope="scope">
+            <span>{{ scope.row.unpaidLoan }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="附件材料">
+            <template slot-scope="scope">
+            <el-button
+            size="mini"
+            type=text
+            @click="getFile(scope.row.filePath)">
+              {{scope.row.filePath}}
+            </el-button>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="名下房产价值">
+            <template slot-scope="scope">
+            <span>￥{{ scope.row.propertyValue }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="配偶工作情况">
+            <template slot-scope="scope">
+            <span>{{ spouseState(scope.row.isSpouseWork) }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="提交时间">
+            <template slot-scope="scope">
+              <span>{{ scope.row.commitTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="审核时间">
+            <template slot-scope="scope">
+            <span>{{ scope.row.processTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="审核结果">
+            <template slot-scope="scope">
+              <span>{{result(scope.row.state)}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="评级">
+              <el-select v-model="value" placeholder="请选择评分">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="评价">
+            <template slot-scope="scope">
+            <el-input v-model="scope.row.comment" placeholder="请输入您的评价" clearable></el-input>
+            </template>
+          </el-table-column>
+              
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleComment(scope.$index, scope.row)">提交</el-button>
+            </template>
+          </el-table-column>  
+  
+          </el-table>
+
         </el-main>
       </el-container>
+
     </el-container>
     </div>
 </template>
@@ -158,10 +190,7 @@ export default {
   data(){
     return {
     detailVisible:false,
-    investVisible:false,
-    withdrawVisible:false,
-    money_remain:0,
-    systemName: '用户界面',
+    systemName: '审查员界面',
     userName: 'null',
     user:{
       name:null,
@@ -172,80 +201,93 @@ export default {
       paymentAccount: null,
       bankAccount: null,
     },
-    invest:{
-      number:0
-    },
-    withdraw:{
-      money:0
-    },
+    options: [{
+          rank: '选项1',
+          label: '1'
+        }, {
+          rank: '选项2',
+          label: '2'
+        }, {
+          rank: '选项3',
+          label: '3'
+        }, {
+          rank: '选项4',
+          label: '4'
+        }, {
+          rank: '选项5',
+          label: '5'
+        }],
+        value: '',
+      
+    all_tableData: [],
+    tableData: [],
+ 
     detailrules:{
-      name: [
-      {required: true,message: '姓名不能为空',trigger: 'blur'}
-      ],
-      sex: [
-      {required:true,message:'性别不能为空',	trigger: 'blur'},
-      // {min:5,message:'密码长度必须大于5个字符字符',}
-      ],
-      phone: [
-      {required: true,message: '电话不能为空',trigger: 'blur'}
-      ],
-      pay: [
-      {required: true,message: '月薪不能为空',trigger: 'blur'}
-      ],
-      paymentAccount: [
-      {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
-      ],
-      bankAccount: [
-      {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
-      ],
-      identity: [
-      {required: true,message: '身份证号不能为空',trigger: 'blur'}
-      ]
-    },
-    investrules:{
-       number: [
-      {required: true,message: '充值额不能为空',trigger: 'blur'}
-      ]
-    },
-    withdrawrules:{
-       money: [
-      {required: true,message: '提现金额不能为空',trigger: 'blur'}
-      ]
     }
   }
   },
   mounted: function() {
-    var res = get("/api/userProfile/balance", {});
-    res.then(data=>{
-      this.money_remain = data.data.paymentBalance;
-      console.log(data);
-    })
-
-    var userres = get("/api/userProfile", {});
-    userres.then(user=>{
-      this.userName = user.data.name;
-      this.user.name = user.data.name;
-      if(user.data.gender == 0){
-        this.user.sex = '未设置';
-      }
-      else{
-        this.user.sex = user.data.gender == 1 ? '男' : '女';
-      }
-      this.user.pay = user.data.salary;
-      this.user.phone = user.data.phoneNumber;
-      this.user.paymentAccount = user.data.paymentAccount;
-      this.user.bankAccount = user.data.bankAccount;
-      console.log(user.data);
-    })
+    var res = get("/api/audit/allToProcess", {});
+    res.then(cinfo=>{
+        this.all_tableData = cinfo.data;
+        this.getOriginalData();
+        console.log(cinfo);
+      })
 
   },
   methods: {
     bell:function(){
-        this.$router.push({path:'/userhome/information'});
+        this.$router.push({path:''});
     },
 
-    handleDetail:function(){
+    handleComment(index, row) {
+      console.log(row);
+      this.$confirm('确定要提交此评价吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+        }).then(() => {
+          var res = post("api/audit/processAuditedInformation", {userId: row.id, state: row.state, desc:row.desc, rank: row.value});
+        res.then(data=>{
+        if(data.code == 0){
+          this.$msgbox({
+          title: '提示',
+          message: data.msg,
+          type: 'success'
+        });
 
+        var res1 = get("/api/audit/allToProcess", {})
+        res1.then(tdata => {
+          this.all_tableData = tdata.data
+          this.getOriginalData();
+          console.log(tdata)
+        })
+
+        }
+        else{
+          this.$msgbox({
+          title: '提示',
+          message: data.msg,
+          type: 'error'
+        });
+        }
+        console.log(data);
+      })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消提交'
+        });
+      });
+    },
+
+    getOriginalData(){
+      if(this.all_tableData.length < 10){
+        this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
+      }
+      else{
+        this.tableData = this.all_tableData.slice(0, 10);
+      }
     },
 
     getBalance(){
@@ -255,62 +297,40 @@ export default {
       })
     },
 
-    handleInvest:function(){
-      var res = post("/api/account/deposit", {amount: this.invest.number})
-      res.then(data => {
-        console.log(data);
-        if(data.code == 0){
-          var remainres = get("/api/userProfile/balance", {});
-          remainres.then(remain=>{
-          this.money_remain = remain.data.paymentBalance;
-          })
-          this.$msgbox({
-            title: '提示',
-            message: data.msg,
-            type: 'success'
-          });
-          this.invest.number = 0;
+    spouseState(state){
+        return state == 0 ? '目前无配偶或配偶无工作' : '配偶有工作';
+      },
+
+    result(state){
+        if(state != null){
+          return state == 1 ? '属实' : '不属实';
         }
-        else{
+      },
+
+    getFile(path){
+        var res = get("/api/audit/downloadFile", {filePath: path});
+        res.then(file=>{
+          console.log(file);
+          console.log(path);
+          if(file.code == 0){
             this.$msgbox({
             title: '提示',
-            message: data.msg,
-            type: 'error'
-          });
-          this.invest.number = 0;
-        }
-      })
-
-    },
-
-    handleWithdraw:function(){
-      var res = post("/api/account/withdraw", {amount: this.withdraw.money})
-      res.then(data => {
-        console.log(data);
-        if(data.code == 0){
-          var remainres = get("/api/userProfile/balance", {});
-          remainres.then(remain=>{
-          this.money_remain = remain.data.paymentBalance;
-          })
-          this.$msgbox({
-            title: '提示',
-            message: data.msg,
+            message: file.msg,
             type: 'success'
           });
-          this.withdraw.number = 0;
-        }
-        else{
-          this.$msgbox({
+          }
+          else{
+            this.$msgbox({
             title: '提示',
-            message: data.msg,
+            message: file.msg,
             type: 'error'
           });
-          this.invest.number = 0;
-        }
-      })
-    }
+          }
+        })
+      }
+    },
+
   }
-}
 </script>
 
 <style scoped="scoped">
@@ -359,15 +379,5 @@ export default {
   .detail{
   width:80% ;
   left:10%;
-  }
-
-  .invest{
-    width:60%;
-    left:20%;
-  }
-
-  .withdraw{
-    width:60%;
-    left:20%;
   }
 </style>

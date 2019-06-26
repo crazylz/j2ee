@@ -20,6 +20,7 @@
 						<el-radio :label="1">普通用户</el-radio>
 						<el-radio :label="2">担保人</el-radio>
 						<el-radio :label="3">管理员</el-radio>
+						<el-radio :label="4">审查员</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item class="button">
@@ -111,6 +112,24 @@ import {post, get} from '../request/http.js'
 						if(data.code == 0)
 						{
 							that.$router.push({path:'/adminhome'});
+						}
+						else{
+							alert(data.msg);
+						}
+					}).catch(error => {
+						console.log(error)})
+				}
+				else if(that.loginRole==4){
+					var res = post("/api/login", {
+						account: this.userLogin.id,
+						password: this.userLogin.password,
+						type: 3
+					})
+					res.then(data => {
+						console.log(data.code)
+						if(data.code == 0)
+						{
+							that.$router.push({path:'/reviewer'});
 						}
 						else{
 							alert(data.msg);

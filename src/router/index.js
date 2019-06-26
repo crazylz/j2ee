@@ -27,6 +27,9 @@ import produce from '../pages/admin/produce.vue'
 //担保员界面
 import guarantee from '../pages/guarantee/guarantee.vue'
 
+//审核员界面
+import reviewer from '../components/reviewerHome.vue'
+
 const router = new Router({
   routes: [
     {
@@ -95,6 +98,10 @@ const router = new Router({
     {
       path:'/guarantee',
       component:guarantee
+    },
+    {
+      path:'/reviewer',
+      component:reviewer
     }
   ]
   })
