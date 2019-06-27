@@ -20,6 +20,47 @@
           </el-dropdown>
         </div>
       </el-header>
+
+      <el-dialog style=" font-size: 14px " :visible.sync='addVisible'>
+				<h2 style="text-align: center;color: #606266; font-size:30px">审核</h2>
+				<el-form :model='review' label-width='200px' :rules='rules'>
+
+					<el-form-item label="内容是否属实">
+            <el-radio-group v-model="review.state">
+              <el-radio label="内容属实"></el-radio>
+              <el-radio label="内容不属实"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+
+          <!-- <span style="display:inline-block;text-align:center;">
+            分期
+          </span> -->
+          <el-form-item label="评级" class="input">
+            <el-select v-model="review.rank" placeholder="请选择评级" label="评级"> 
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label='描述' prop='rate' class="input">
+						<el-input v-model='review.desc' autocomplete="off"  placeholder='请输入描述'
+            type="textarea"
+            aotosize>
+            </el-input>
+					</el-form-item> 
+
+					<el-form-item style="margin-right:130px;margin-top:10px">
+						<el-button type='primary' @click='handleSave()'>
+              提交审核
+            </el-button>
+					</el-form-item>
+				</el-form>   
+			</el-dialog>
         
       <el-main>
         <el-table
@@ -131,14 +172,13 @@
             </template>
           </el-table-column> -->
 
-
           <el-table-column
             align="center"
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <el-button @click="agree(scope.row)" type="text" size="small">同意</el-button>
-              <el-button @click="reject(scope.row)" type="text" size="small">否决</el-button>
+              <el-button type='success' round size='mini' @click='addVisible = true; userId = scope.row.userId'>审核
+              </el-button>
             </template>
           </el-table-column>
 
@@ -157,64 +197,52 @@ import {post, get} from '../request/http.js'
   export default {
     data(){
       return{
+        addVisible: false,
         systemName: '审核员界面',
         requestData:[],
         borrower: [],
+        userId: null,
+        options: [{
+          value: 1,
+          label: '1'
+        }, {
+          value: 2,
+          label: '2'
+        }, {
+          value: 3,
+          label: '3'
+        }, {
+          value: 4,
+          label: '4'
+        }, {
+          value: 5,
+          label: '5'
+        }
+        ],
 
+        review: {
+          rank: null,
+          state: null,
+          desc: null,
+				},
+				// 校验规则
+				rules:{
+					rank: [
+					{required: true,message: '评级不能为空',trigger: 'blur'}
+					],
+					state: [
+					{required:true,message:'是否属实不能为空',	trigger: 'blur'},
+					// {min:5,message:'密码长度必须大于5个字符字符',}
+          ],
+          desc: [
+					{required:true,message:'评价不能为空',	trigger: 'blur'},
+					// {min:5,message:'密码长度必须大于5个字符字符',}
+          ]
+        },
       }
     },
     methods:{
-      agree(row){
-        var res = post("/api/guarantor/handleRequest", {id:row.id, action:1});
-        res.then(data=>{
-          console.log(data);
-          if(data.code == 0){
-          this.$msgbox({
-            title: '已同意该请求',
-            message: data.msg,
-            type: 'success'
-          });
-        var req = get("/api/guarantor/requestsToHandle", {});
-        req.then(rdata=>{
-          this.requestData = rdata.data;
-          console.log(rdata);
-        })
-        }
-        else{
-          this.$msgbox({
-            title: '操作失败',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        })
 
-      },
-      reject(row){
-        var res = post("/api/guarantor/handleRequest", {id:row.id, action:0});
-        res.then(data=>{
-          console.log(data);
-          if(data.code == 0){
-          this.$msgbox({
-            title: '已拒绝该请求',
-            message: data.msg,
-            type: 'success'
-          });
-        var req = get("/api/guarantor/requestsToHandle", {});
-        req.then(rdata=>{
-          this.requestData = rdata.data;
-          console.log(rdata);
-        })
-        }
-        else{
-          this.$msgbox({
-            title: '操作失败',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        })
-      },
       getBorrower(id){
         var res = get("/api/userProfile/" + id, {});
         res.then(bdata=>{
@@ -262,13 +290,56 @@ import {post, get} from '../request/http.js'
         }
       },
 
-    },
-    mounted(){
-      var req = get("/api/audit/allToProcess", {});
-      req.then(rdata=>{
+      getState(str){
+        if(str == '内容属实'){
+          this.review.stateValue = 1; 
+        }
+        else{
+          this.review.stateValue = 2;
+        }
+      },
+
+      getData(){
+        var req = get("/api/audit/allToProcess", {});
+        req.then(rdata=>{
         this.requestData = rdata.data;
         console.log(rdata);
       })
+      },
+
+      handleSave(){
+        var stateValue = this.review.state == '内容属实' ? 1 : 2;
+
+        var res = post("/api/audit/processAuditedInformation", {userId: this.userId, state: stateValue,
+        desc: this.review.desc, rank: this.review.rank});
+        res.then(data=>{
+          console.log(data);
+          if(data.code == 0){
+            this.addVisible = false;
+            this.$msgbox({
+            title: '提示',
+            message: data.msg,
+            type: 'success'
+          });
+
+          this.getData();
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: data.msg,
+            type: 'error'
+          });
+          }
+        })
+      }
+      
+
+    },
+
+
+    mounted(){
+      this.getData();
     }
     
   }
