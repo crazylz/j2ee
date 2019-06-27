@@ -6,7 +6,7 @@
     <el-breadcrumb-item><a href="/">填写征信资料</a></el-breadcrumb-item>
   </el-breadcrumb>
 
-<el-form ref="form" :model="form" label-position="top">
+<el-form ref="form" :model="form" label-position="top" enctype="multipart/form-data">
   <el-form-item label="负债金额">
     <el-input v-model="form.debt" placeholder="无负债则填写0" style="width: 25%"></el-input>
   </el-form-item>

@@ -58,14 +58,6 @@
 
     <el-table-column
       align="center"
-      label="审核时间">
-      <template slot-scope="scope">
-      <span>{{ scope.row.processTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
-      </template>
-    </el-table-column>
-
-    <el-table-column
-      align="center"
       label="审核结果">
       <template slot-scope="scope">
         <span>{{result(scope.row.state)}}</span>
