@@ -6,7 +6,7 @@
     <el-breadcrumb-item><a href="/">填写征信资料</a></el-breadcrumb-item>
   </el-breadcrumb>
 
-<el-form ref="form" :model="form" label-position="top" enctype="multipart/form-data">
+<el-form ref="form" :model="form" label-position="top">
   <el-form-item label="负债金额">
     <el-input v-model="form.debt" placeholder="无负债则填写0" style="width: 25%"></el-input>
   </el-form-item>
@@ -57,15 +57,20 @@
 
 <el-form-item label="附件材料">
   <el-upload
-  class="upload-demo"
   ref="upload"
-  action="https://jsonplaceholder.typicode.com/posts/"
+  action="/api/test/uploadFile"
+  :data="paras"
+  :multiple="false"
+  :limit="1"
+  :on-exceed="handleExceed"
   :on-preview="handlePreview"
   :on-remove="handleRemove"
+  :on-success="handleSuccess"
   :file-list="fileList"
   :auto-upload="false">
+
   <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-  <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button> -->
+  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
   <div slot="tip" class="el-upload__tip">最大上传10MB大小的文件</div>
   </el-upload>
   </el-form-item>
@@ -82,7 +87,7 @@
 
 
 <script>
-import {post, get} from '../../request/http.js'
+import {post, get, post2} from '../../request/http.js'
 
   export default {
     data(){
@@ -99,18 +104,40 @@ import {post, get} from '../../request/http.js'
           desc: ''
         },
 
-        fileList: []
+        fileList: [],
       }
     },
 
   
     methods:{
       onSubmit() {
-        var res = post("/api/audit/auditedInformation", {file: this.fileList, unpaidLoan: this.form.debt, 
-        propertyValue: this.form.house, isSpouseWork: this.form.spouseValue});
+        let form = this.$refs['form'].$el;
+        let formData = new FormData(form);
+        formData.append('file', this.fileList[0]);
+        formData.append('unpaidLoan', this.form.debt);
+        formData.append('propertyValue', this.form.house);
+        formData.append('isSpouseWork', this.form.spouseValue);
+
+        var res = post2("/api/audit/auditedInformation", formData);
         res.then(result=>{
           console.log(result);
         })
+      },
+
+      handleSuccess(){
+        this.$msgbox({
+            title: '提示',
+            message: '上传成功',
+            type: 'success'
+          });
+      },
+
+      handleExceed(){
+        this.$msgbox({
+            title: '提示',
+            message: '最大上传个数为1',
+            type: 'error'
+          });
       },
 
       submitUpload() {
@@ -142,7 +169,14 @@ import {post, get} from '../../request/http.js'
     computed: {
   　　newValue() {
   　　　　return this.form.spouse;
-  　　}
+  　　},
+
+      paras(){
+        let params = {
+          file:this.fileList[0]
+        }
+        return params;
+      }
   }
     
     

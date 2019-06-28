@@ -17,9 +17,6 @@ module.exports = {
         '^/api':'/'
       },
       secure: false,
-      // headers: {
-      //   Referer: 'https://139.196.80.119:8443/'
-      // }
     }
     
     },

@@ -1,7 +1,7 @@
 <template>
 	<div class="main">
 
-					<!-- <transition>
+			<!-- <transition>
 			<img v-if='loginRole==1' src="../assets/timg.jpg" style="width: 100%;border-radius: 15px">
 			<img v-if='loginRole==2' src="../assets/yewu1.jpg" style="width: 100%;border-radius: 15px">
 			<img v-if='loginRole==3' src="../assets/login.jpg" style="width: 100%;border-radius: 15px">

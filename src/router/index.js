@@ -28,11 +28,7 @@ import produce from '../pages/admin/produce.vue'
 import guarantee from '../pages/guarantee/guarantee.vue'
 
 //审核员界面
-<<<<<<< HEAD
 import reviewer from '../components/reviewerhome.vue'
-=======
-import reviewer from '../components/reviewerHome.vue'
->>>>>>> 8e5bc1dbf15015906e5ee20bacbb8f50b587f7af
 
 const router = new Router({
   routes: [

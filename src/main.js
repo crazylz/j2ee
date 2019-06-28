@@ -21,8 +21,7 @@ Vue.filter('dateformat', function(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
-//axios.defaults.baseURL = 'http://localhost:5000/api/'; //请求基地址
-axios.defaults.withCredentials = true //使跨域session请求统一
+
 Vue.prototype.$ajax = axios;  //配置axios依赖发起ajax请求
 Vue.prototype.$qs = qs;
 
