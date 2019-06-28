@@ -140,7 +140,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/userhome/credit">填写征信资料</el-menu-item>
-              <el-menu-item index="/userhome/latestcredit">最新提交的征信资料</el-menu-item>
+              <el-menu-item index="/userhome/latestcredit">审核结果</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
