@@ -10,7 +10,8 @@ axios.defaults.withCredentials = true;
 export function get(url,params){
     return new Promise((resolve,reject)=>{
         axios.get(url,{
-            params:params
+            params:params,
+            headers:{"Access-Session": localStorage.getItem('session')}
         }).then(res=>{
             resolve(res.data);
         }).catch(err=>{
@@ -19,12 +20,30 @@ export function get(url,params){
     });
 }
 
+
+
 //post
 export function post(url,params){
+    return new Promise((resolve,reject)=>{
+        axios.post(url,qs.stringify(params),{
+            headers:{"Access-Session": localStorage.getItem('session')}
+        })
+        .then(res=>{
+            resolve(res.data);
+        }).catch(err=>{
+            reject(err.data)
+        })
+    });
+}
+
+
+export function post1(url,params){
     return new Promise((resolve,reject)=>{
         axios.post(url,qs.stringify(params))
         .then(res=>{
             resolve(res.data);
+            localStorage.setItem('session', res.headers["access-session"]);
+            // console.log(localStorage.getItem('session'));
         }).catch(err=>{
             reject(err.data)
         })

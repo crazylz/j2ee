@@ -7,18 +7,16 @@ const path = require('path')
 module.exports = {
   dev: {
 
-    // Paths
-    // port: 8443,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api':{
-      target: "http://139.196.80.119:8443/",
+      target: "https://139.196.80.119:8442/",
       changeOrigin: true, //是否跨域
       pathRewrite:{
         '^/api':'/'
       },
-      // secure: false,
+      secure: false,
       // headers: {
       //   Referer: 'https://139.196.80.119:8443/'
       // }

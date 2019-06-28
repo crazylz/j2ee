@@ -39,7 +39,7 @@
 </template>
 
 <script >
-import {post, get} from '../request/http.js'
+import {post, get, post1} from '../request/http.js'
 	export default {
 		name: 'login',
 		data(){
@@ -66,13 +66,14 @@ import {post, get} from '../request/http.js'
 			login:function(){
 				var that=this;
 				if(that.loginRole==1){
-					var res = post("/api/login", {
+					var res = post1("/api/login", {
 						account: this.userLogin.id,
 						password: this.userLogin.password,
 						type: 2
 					})
 					res.then(data => {
-						console.log(data.code)
+						console.log(data);
+						console.log(localStorage.getItem('session'));
 						if(data.code == 0)
 						{
 							that.$router.push({path:'/userhome/loans'});
@@ -84,7 +85,7 @@ import {post, get} from '../request/http.js'
 						console.log(error)})
 				}
 				else if(that.loginRole==2){
-					var res = post("/api/login", {
+					var res = post1("/api/login", {
 						account: this.userLogin.id,
 						password: this.userLogin.password,
 						type: 1
@@ -102,7 +103,7 @@ import {post, get} from '../request/http.js'
 						console.log(error)})
 				}
 				else if(that.loginRole==4){
-					var res = post("/api/login", {
+					var res = post1("/api/login", {
 						account: this.userLogin.id,
 						password: this.userLogin.password,
 						type: 0
@@ -120,7 +121,7 @@ import {post, get} from '../request/http.js'
 						console.log(error)})
 				}
 				else{
-					var res = post("/api/login", {
+					var res = post1("/api/login", {
 						account: this.userLogin.id,
 						password: this.userLogin.password,
 						type: 3
