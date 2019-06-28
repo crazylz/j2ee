@@ -12,7 +12,7 @@
   </el-form-item>
 
   <el-form-item label="房产">
-    <el-select v-model="form.hosue" placeholder="请选择房产类型">
+    <el-select v-model="form.house" placeholder="请选择房产类型">
       <el-option label="无房产" value="0"></el-option>
       <el-option label="有房产，价值0~30w" value="150000"></el-option>
       <el-option label="有房产，价值30~50w" value="400000"></el-option>
@@ -93,15 +93,9 @@ import {post, get, post2} from '../../request/http.js'
     data(){
       return{
         form: {
-          debt: '',
-          house: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
+          house: null,
           spouse: '',
           spouseValue: null,
-          desc: ''
         },
 
         fileList: [],
@@ -111,12 +105,17 @@ import {post, get, post2} from '../../request/http.js'
   
     methods:{
       onSubmit() {
-        let form = this.$refs['form'].$el;
-        let formData = new FormData(form);
+        let formData = new FormData();
         formData.append('file', this.fileList[0]);
         formData.append('unpaidLoan', this.form.debt);
         formData.append('propertyValue', this.form.house);
         formData.append('isSpouseWork', this.form.spouseValue);
+
+        console.log(this.fileList);
+        console.log(this.form.debt);
+        console.log(this.form.house);
+        console.log(this.form.spouseValue);
+        console.log(formData);
 
         var res = post2("/api/audit/auditedInformation", formData);
         res.then(result=>{
