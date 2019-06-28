@@ -19,7 +19,6 @@ Vue.filter('dateformat', function(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 })
 
 Vue.config.productionTip = false
-
 Vue.use(ElementUI)
 
 Vue.prototype.$ajax = axios;  //配置axios依赖发起ajax请求
