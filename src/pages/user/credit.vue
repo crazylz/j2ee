@@ -58,7 +58,8 @@
 <el-form-item label="附件材料">
   <el-upload
   ref="upload"
-  action="/api/test/uploadFile"
+  action="/api/audit/auditedInformation/file"
+  :headers="heads"
   :data="paras"
   :multiple="false"
   :limit="1"
@@ -93,6 +94,7 @@ import {post, get, post2} from '../../request/http.js'
     data(){
       return{
         form: {
+          debt: null,
           house: null,
           spouse: '',
           spouseValue: null,
@@ -105,19 +107,10 @@ import {post, get, post2} from '../../request/http.js'
   
     methods:{
       onSubmit() {
-        let formData = new FormData();
-        formData.append('file', this.fileList[0]);
-        formData.append('unpaidLoan', this.form.debt);
-        formData.append('propertyValue', this.form.house);
-        formData.append('isSpouseWork', this.form.spouseValue);
+        this.$refs.upload.submit();
 
-        console.log(this.fileList);
-        console.log(this.form.debt);
-        console.log(this.form.house);
-        console.log(this.form.spouseValue);
-        console.log(formData);
-
-        var res = post2("/api/audit/auditedInformation", formData);
+        var res = post("/api/audit/auditedInformation", {unpaidLoan:this.form.debt, propertyValue: this.form.house,
+        isSpouseWork:this.form.spouseValue});
         res.then(result=>{
           console.log(result);
         })
@@ -175,6 +168,13 @@ import {post, get, post2} from '../../request/http.js'
           file:this.fileList[0]
         }
         return params;
+      },
+
+      heads(){
+        let head = {
+          "Access-Session": localStorage.getItem('session')
+        }
+        return head;
       }
   }
     

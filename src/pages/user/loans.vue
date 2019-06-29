@@ -67,7 +67,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column
+    <!-- <el-table-column
     align='center'
       label="每期还款金额">
       <template slot-scope="scope">
@@ -82,7 +82,7 @@
         <span slot="reference">￥{{ (scope.row.amount * (scope.row.rate / 100 + 1) / scope.row.installmentNumber).toFixed(2)  }}</span>
         </el-popover>
       </template>
-    </el-table-column>
+    </el-table-column> -->
 
     <el-table-column
     align='center'
