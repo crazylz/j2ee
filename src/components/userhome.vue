@@ -39,14 +39,19 @@
             <el-form-item label='姓名' prop='name' class="input">
               <el-input v-model='user.name' placeholder='请输入姓名' clearable></el-input>
             </el-form-item>
-            <el-form-item label='性别' prop='sex' class="input">
-              <el-input v-model='user.sex' type='text' placeholder='请输入性别'  clearable></el-input>
+            <el-form-item label='性别' prop='gender' class="input">
+              <el-input v-model='user.gender' type='text' placeholder='请输入性别'  clearable></el-input>
             </el-form-item>
-            <el-form-item label='电话' prop='phone' class="input">
-              <el-input v-model='user.phone' clearable></el-input>
+            <el-form-item label='电话' prop='phoneNumber' class="input">
+              <el-input v-model='user.phoneNumber' clearable></el-input>
             </el-form-item>
-            <el-form-item label='月薪' prop='pay' class="input">
-              <el-input v-model='user.pay' clearable></el-input>
+
+            <el-form-item label='工龄' prop='lengthOfService' class="input">
+              <el-input v-model='user.lengthOfService' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='工资' prop='salary' class="input">
+              <el-input v-model='user.salary' clearable></el-input>
             </el-form-item>
             <el-form-item label='第三方支付账号' prop='paymentAccount ' class="input">
               <el-input v-model='user.paymentAccount ' clearable></el-input>
@@ -54,8 +59,8 @@
             <el-form-item label='银行卡帐号' prop='bankAccount ' class="input">
               <el-input v-model='user.bankAccount ' clearable></el-input>
             </el-form-item>
-            <el-form-item label='身份证号' prop='identity ' class="input">
-              <el-input v-model='user.identity ' clearable></el-input>
+            <el-form-item label='身份证号' prop='idCardNumber ' class="input">
+              <el-input v-model='user.idCardNumber' clearable></el-input>
             </el-form-item>
             <el-form-item style="margin-left:-80px;margin-top:20px">
               <el-button type='primary' @click='handleDetail()'
@@ -173,12 +178,13 @@ export default {
     userName: 'null',
     user:{
       name:null,
-      sex:null,
-      age: null,
-      phone: null,
-      identity:null,
+      gender:null,
+      salary: null,
+      phoneNumber: null,
       paymentAccount: null,
       bankAccount: null,
+      lengthOfSerive:null,
+      idCardNumber:null
     },
     invest:{
       number:0
@@ -252,7 +258,22 @@ export default {
         this.$router.push({path:'/userhome/information'});
     },
 
-    handleDetail:function(){
+    handleDetail(){
+
+      var res = post("/api/userProfile", {
+        idCardNumber:this.idCardNumber,
+        phoneNumber:this.phoneNumber,
+        gender:this.gender,
+        paymentAccount:this.paymentAccount,
+        bankAccount:this.bankAccount,
+        salary:this.salary,
+        name:this.name,
+        lengthOfSerive:this.lengthOfSerive
+      });
+
+      res.then(result=>{
+        console.log(result);
+      })
 
     },
 
@@ -367,6 +388,7 @@ export default {
   .detail{
   width:80% ;
   left:10%;
+  height:100%;
   }
 
   .invest{

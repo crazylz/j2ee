@@ -113,19 +113,34 @@ import {post, get} from '../../request/http.js'
       getFile(path){
         var res = get("/api/audit/downloadFile", {filePath: path});
         res.then(file=>{
-          console.log(file);
-          console.log(path);
-          if(file.code == 0){
+
+          if(file.code != 1){
+            const content = file
+            const blob = new Blob([content])
+            const fileName = path;
+            if ('download' in document.createElement('a')) { // 非IE下载
+            const elink = document.createElement('a')
+            elink.download = fileName
+            elink.style.display = 'none'
+            elink.href = URL.createObjectURL(blob)
+            document.body.appendChild(elink)
+            elink.click()
+            URL.revokeObjectURL(elink.href) // 释放URL 对象
+            document.body.removeChild(elink)
+          } else { // IE10+下载
+            navigator.msSaveBlob(blob, fileName)
+          }
+
             this.$msgbox({
             title: '提示',
-            message: file.msg,
+            message: '开始下载',
             type: 'success'
           });
           }
           else{
             this.$msgbox({
             title: '提示',
-            message: file.msg,
+            message: '下载失败',
             type: 'error'
           });
           }
