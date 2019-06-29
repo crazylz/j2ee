@@ -2,8 +2,9 @@
 <div>
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">最新提交的征信资料</a></el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+    <el-breadcrumb-item>个人征信</el-breadcrumb-item>
+     <el-breadcrumb-item :to="{ path: '/userhome/latestcredit' }">审核结果</el-breadcrumb-item>
   </el-breadcrumb>
 
  

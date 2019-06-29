@@ -2,8 +2,8 @@
 <div>
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">资金流转记录</a></el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome/record' }">资金流转记录</el-breadcrumb-item>
   </el-breadcrumb>
 
 
@@ -84,16 +84,20 @@ import {post, get} from '../../request/http.js'
 
   
     mounted(){
-      var res = get("/api/account/get_fund_records", {})
-      res.then(record=>{
+      this.getRecordData();
+    },
+
+    methods:{
+      getRecordData(){
+        var res = get("/api/account/get_fund_records", {})
+        res.then(record=>{
         this.all_tableData = record.data;
         this.getOriginalData();
         console.log(record);
         }
       )
-    },
 
-    methods:{
+      },
       getDataByPage(pageindex){
         var begin = pageindex * 10;
         if(begin > this.all_tableData.length){

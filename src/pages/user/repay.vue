@@ -2,8 +2,8 @@
 <div>
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">还款</a></el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome/repay' }">还款</el-breadcrumb-item>
   </el-breadcrumb>
 
 
@@ -83,16 +83,19 @@ import {post, get} from '../../request/http.js'
 
 // 必须加上this.tableData=[];才能够不被覆盖
     mounted(){
-      var res = get("/api/borrower/repayRecordsToProcess", {})
+      this.getRepayData();
+    },
+
+    methods:{
+      getRepayData(){
+        var res = get("/api/borrower/repayRecordsToProcess", {})
       res.then(repay=>{
         this.all_tableData = repay.data;
         this.getOriginalData();
         console.log(repay);
         }
       )
-    },
-
-    methods:{
+      },
 
       getDataByPage(pageindex){
         var begin = pageindex * 10;
@@ -133,21 +136,16 @@ import {post, get} from '../../request/http.js'
           cancelButtonText: '取消',
           type: 'warning'
           }).then(() => {
-            var res=get("/api/account/repay",{recordId:row.id});
-        res.then(data=>{
-        if(data.code==0){
+          var res=get("/api/account/repay",{recordId:row.id});
+          res.then(data=>{
+          if(data.code==0){
           this.$msgbox({
             title: '提示',
             message: data.msg,
             type: 'success'
           });
 
-          var res = get("/api/borrower/repayRecordsToProcess", {})
-          res.then(repay=>{
-          this.all_tableData = repay.data;
-          this.getOriginalData();
-          console.log(repay);
-          })
+          this.getRepayData();
           
         }
         else{

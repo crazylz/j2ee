@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">借款</a></el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/userhome/loans'}">借款</el-breadcrumb-item>
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
   
@@ -41,8 +41,32 @@
   <el-table
     ref="filterTable"
     :data="tableData"
-    border
-    >
+    border>
+
+    <el-table-column
+      align="center"
+      prop="userId"
+      label="投资者id"
+      sortable>
+      <template slot-scope="scope">
+      <el-popover trigger="click" placement="bottom">
+          <p>姓名: {{ investor.name}}</p>
+          <p>性别: {{ getGender(investor.gender) }}</p>
+          <p>电话: {{ investor.phoneNumber }}</p>
+          <p>工龄: {{ investor.lengthOfService }}</p>
+          <p>工资: ￥{{ investor.salary }}</p>
+          <p>失信记录次数: {{ investor.discreditedRecords }}</p>
+          <p>信用评级: {{ investor.rank }}</p>
+        <div slot="reference" class="name-wrapper">
+          <el-button size="mini" @click="getInvestor(scope.row.investorId)">
+            {{scope.row.investorId}}
+          </el-button>
+      </div>
+      </el-popover>
+      </template>
+      </el-table-column>
+
+
     <el-table-column
       align='center'
       label="金额">
@@ -64,6 +88,14 @@
       label="利率">
       <template slot-scope="scope">
         <span>{{ scope.row.rate }}%</span>
+      </template>
+    </el-table-column>
+
+    <el-table-column
+    align='center'
+      label="每月还款日期">
+      <template slot-scope="scope">
+        <span>每月{{ scope.row.payDayOfMonth }}号</span>
       </template>
     </el-table-column>
 
@@ -129,49 +161,27 @@ import {post, get} from '../../request/http.js'
         all_tableData: [],
         tableData: [],
         options: [{
-          value: 1,
-          label: '1'
-        }, {
-          value: 2,
-          label: '2'
-        }, {
-          value: 3,
-          label: '3'
-        }, {
-          value: 4,
-          label: '4'
-        }, {
-          value: 5,
-          label: '5'
-        },{
           value: 6,
           label: '6'
         },{
-          value: 7,
-          label: '7'
-        },{
-          value: 8,
-          label: '8'
-        },{
-          value: 9,
-          label: '9'
-        },{
-          value: 10,
-          label: '10'
-        },{
-          value:11,
-          label: '11'
-        },{
           value: 12,
           label: '12'
+        },{
+          value: 18,
+          label: '18'
+        },{
+          value: 24,
+          label: '24'
         },
         ],
         Loan: {
-          amount:0,
-          installmentNumber:0,
-          rate:0,
-          payDayOfMonth:0
-				},
+          amount: null,
+          installmentNumber:null,
+          rate:null,
+          payDayOfMonth:null
+        },
+
+        investor:[],
 				// 校验规则
 				rules:{
 					amount: [
@@ -213,6 +223,14 @@ import {post, get} from '../../request/http.js'
           payoff : state == 4,
           unpay : state == 5
         }
+      },
+
+      getInvestor(id){
+        var res = get("/api/userProfile/" + id, {});
+        res.then(bdata=>{
+          this.investor = bdata.data;
+          console.log(this.investor);
+        })
       },
 
       getDataByPage(pageindex){
@@ -260,16 +278,9 @@ import {post, get} from '../../request/http.js'
             message: data.msg,
             type: 'success'
           });
-          var res = get("/api/borrower/allRequests", {});
-          res.then(data => {
-          this.all_tableData = data.data;
-          this.getOriginalData();
-          console.log(data);
-      })
-
+          this.getLoanData();
         }
-        else
-        {
+        else{
           this.$msgbox({
             title: '提示',
             message: data.msg,
@@ -278,19 +289,33 @@ import {post, get} from '../../request/http.js'
         }
       })
       },
+
+
+      getGender(state){
+        if(state == 0){
+          return '未设置';
+        }
+        else{
+          return state == 1 ? '男' : '女';
+        }
+      },
+
+      getLoanData(){
+        var res = get("/api/borrower/allRequests", {});
+        res.then(data => {
+        this.all_tableData = data.data;
+        this.getOriginalData();
+        console.log(data)
+      });
+      }
     },
 
     mounted(){
-      var res = get("/api/borrower/allRequests", {})
+      this.getLoanData();
       var limit=get("api/borrower/limit",{})
       limit.then(data =>{
         console.log(data)
       });
-      res.then(data => {
-        this.all_tableData = data.data;
-        this.getOriginalData();
-        console.log(data)
-      })
     }
   }
 </script>

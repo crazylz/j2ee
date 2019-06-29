@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-      <el-breadcrumb-item :to="{ path: '/' }">管理员</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">管理产品</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/adminhome' }">管理员</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/adminhome/produce' }">管理产品</el-breadcrumb-item>
     </el-breadcrumb>
 
       <el-table

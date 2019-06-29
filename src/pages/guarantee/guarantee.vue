@@ -176,11 +176,7 @@ import {post, get} from '../../request/http.js'
             message: data.msg,
             type: 'success'
           });
-        var req = get("/api/guarantor/requestsToHandle", {});
-        req.then(rdata=>{
-          this.requestData = rdata.data;
-          console.log(rdata);
-        })
+        this.getGuaranteeData();
         }
         else{
           this.$msgbox({
@@ -206,14 +202,18 @@ import {post, get} from '../../request/http.js'
         else{
           return state == 1 ? '男' : '女';
         }
-      }
-    },
-    mounted(){
-      var req = get("/api/guarantor/requestsToHandle", {});
-      req.then(rdata=>{
+      },
+
+      getGuaranteeData(){
+        var req = get("/api/guarantor/requestsToHandle", {});
+        req.then(rdata=>{
         this.requestData = rdata.data;
         console.log(rdata);
       })
+      }
+    },
+    mounted(){
+      this.getGuaranteeData();
     }
     
   }

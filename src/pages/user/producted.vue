@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-      <el-breadcrumb-item :to="{ path: '/' }">用户</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">产品</a></el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">已购产品</a></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+      <el-breadcrumb-item>产品</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/userhome/producted'}">已购产品</el-breadcrumb-item>
     </el-breadcrumb>
 
   <el-table
@@ -162,17 +162,20 @@ import {post, get} from '../../request/http.js'
         else{
           return state == 1 ? '男' : '女';
         }
-      }
-    },
+      },
 
-    mounted(){
+      getProductData(){
       var res = get("/api/investor/investedProductList", {})
       res.then(data => {
         this.all_tableData = data.data
         this.getOriginalData();
         console.log(data)
-
       })
+      },
+    },
+
+    mounted(){
+      this.getProductData();
     }
   }
 </script>
