@@ -33,7 +33,8 @@
       <!-- 个人资料对话框 -->
       <!-- 需要在script的data里面定义所有的变量 -->
        <!--style属性多个属性之间用分号间隔  -->
-      <el-dialog class="detail"  :visible.sync='detailVisible'>
+      <el-dialog class="detail"  :visible.sync='detailVisible'
+      @open="getUser">
         <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
         <el-form style="margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
 
@@ -51,6 +52,7 @@
               </el-option>
             </el-select>
           </el-form-item>
+
 
             <el-form-item label='电话' prop='phoneNumber' class="input">
               <el-input v-model='user.phoneNumber' clearable></el-input>
@@ -131,15 +133,7 @@
             </el-menu-item-group>
           </el-submenu>
 
-          <!-- <el-menu-item index="/userhome/newproducts">
-            <i class="el-icon-shopping-cart-2"></i>购买产品
-          </el-menu-item>            -->
-          <!-- <el-menu-item index="/userhome/withdraw">
-          <i class="el-icon-bank-card"></i>提现
-          </el-menu-item>
-          <el-menu-item index="/userhome/invest">
-          <i class="el-icon-wallet"></i>充值
-          </el-menu-item> -->
+          
           <el-menu-item index="/userhome/repay">
           <i class="el-icon-sold-out"></i>还款
           </el-menu-item>
@@ -255,11 +249,19 @@ export default {
   mounted: function() {
     this.getBalance();
     this.getUser();    
-
   },
   methods: {
     bell:function(){
         this.$router.push({path:'/userhome/information'});
+    },
+
+    getGender(state){
+      if(state == 0){
+        return '未设置';
+      }
+      else{
+        return state == 1 ? '男' : '女';
+      }
     },
 
 
@@ -268,17 +270,13 @@ export default {
       userres.then(user=>{
       this.userName = user.data.name;
       this.user.name = user.data.name;
-      if(user.data.gender == 0){
-        this.user.sex = '未设置';
-      }
-      else{
-        this.user.sex = user.data.gender == 1 ? '男' : '女';
-      }
-      this.user.pay = user.data.salary;
-      this.user.phone = user.data.phoneNumber;
+      this.user.gender = user.data.gender;
+      this.user.salary = user.data.salary;
+      this.user.phoneNumber = user.data.phoneNumber;
       this.user.paymentAccount = user.data.paymentAccount;
       this.user.bankAccount = user.data.bankAccount;
-      console.log(user.data);
+      this.user.lengthOfService = user.data.lengthOfService;
+      this.user.idCardNumber = user.data.idCardNumber;
     })
     },
 
@@ -298,6 +296,21 @@ export default {
 
       res.then(result=>{
         console.log(result);
+        if(result.code == 0){
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+          });
+          this.detailVisible = false;
+        }
+        else{
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+          });
+        }
       })
 
     },

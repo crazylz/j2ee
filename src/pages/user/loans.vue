@@ -31,6 +31,7 @@
               </el-option>
             </el-select>
           </el-form-item>
+          
 					<el-form-item style="margin-right:130px;margin-top:10px">
 						<el-button type='primary' @click='handleSave()'
 						>贷款</el-button>
