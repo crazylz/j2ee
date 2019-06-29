@@ -34,7 +34,7 @@
 </template>
 
 <script >
-import {post, get} from '../request/http.js'
+import {post, get, post2, post_regist} from '../request/http.js'
 	export default {
 		data(){
 			var checkPhone=(rule,value,callback)=>{
@@ -66,7 +66,7 @@ import {post, get} from '../request/http.js'
 					id: '',
 					password: '',
 					password_sure:'',
-					phone:' ',
+					phone:'',
 					check_num:null
 				},
 				// 校验规则
@@ -94,7 +94,7 @@ import {post, get} from '../request/http.js'
 		},
 		methods:{
 			register:function(){
-			var res=post("/api/register",{
+			var res=post_regist("/api/register",{
 				account:this.registerInfo.id,
 				password:this.registerInfo.password,
                 vcodeInput:this.registerInfo.check_num
@@ -116,13 +116,8 @@ import {post, get} from '../request/http.js'
 
 			checkNum:function(){
 			this.checkVisible=false;
-			// this.checkDisabled=true;
-			// var b=setTimeout(()=>{this.checkDisabled=false;},60000);
 			
-			// console.log(this.checkDisabled);
-			// this.checkDisabled=true;
-			
-			var res=post("/api/vcode",{phoneNumber:this.registerInfo.phone})
+			var res=post2("/api/vcode",{phoneNumber:this.registerInfo.phone})
 			res.then(data=>{
 			console.log(data);
 			alert(data.msg);
