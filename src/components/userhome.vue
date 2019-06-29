@@ -35,13 +35,23 @@
        <!--style属性多个属性之间用分号间隔  -->
       <el-dialog class="detail"  :visible.sync='detailVisible'>
         <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
-        <el-form style="  margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
+        <el-form style="margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
+
             <el-form-item label='姓名' prop='name' class="input">
               <el-input v-model='user.name' placeholder='请输入姓名' clearable></el-input>
             </el-form-item>
-            <el-form-item label='性别' prop='gender' class="input">
-              <el-input v-model='user.gender' type='text' placeholder='请输入性别'  clearable></el-input>
-            </el-form-item>
+
+            <el-form-item label="性别" class="input" prop='gender'>
+            <el-select v-model="user.gender" placeholder="请选择性别" label="性别"> 
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
             <el-form-item label='电话' prop='phoneNumber' class="input">
               <el-input v-model='user.phoneNumber' clearable></el-input>
             </el-form-item>
@@ -53,13 +63,13 @@
             <el-form-item label='工资' prop='salary' class="input">
               <el-input v-model='user.salary' clearable></el-input>
             </el-form-item>
-            <el-form-item label='第三方支付账号' prop='paymentAccount ' class="input">
+            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
               <el-input v-model='user.paymentAccount ' clearable></el-input>
             </el-form-item>
-            <el-form-item label='银行卡帐号' prop='bankAccount ' class="input">
+            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
               <el-input v-model='user.bankAccount ' clearable></el-input>
             </el-form-item>
-            <el-form-item label='身份证号' prop='idCardNumber ' class="input">
+            <el-form-item label='身份证号' prop='idCardNumber' class="input">
               <el-input v-model='user.idCardNumber' clearable></el-input>
             </el-form-item>
             <el-form-item style="margin-left:-80px;margin-top:20px">
@@ -151,7 +161,7 @@
 
         </el-menu>
       </el-aside>
-
+      
         <el-main>
           <transition name="fade" mode="out-in">
             <router-view></router-view>
@@ -183,7 +193,7 @@ export default {
       phoneNumber: null,
       paymentAccount: null,
       bankAccount: null,
-      lengthOfSerive:null,
+      lengthOfService:null,
       idCardNumber:null
     },
     invest:{
@@ -192,19 +202,30 @@ export default {
     withdraw:{
       money:0
     },
+    options: [{
+          value: 0,
+          label: '未设置'
+        },{
+          value: 1,
+          label: '男'
+        },{
+          value: 2,
+          label: '女'
+        }],
+
     detailrules:{
       name: [
       {required: true,message: '姓名不能为空',trigger: 'blur'}
       ],
-      sex: [
+      gender: [
       {required:true,message:'性别不能为空',	trigger: 'blur'},
       // {min:5,message:'密码长度必须大于5个字符字符',}
       ],
-      phone: [
+      phoneNumber: [
       {required: true,message: '电话不能为空',trigger: 'blur'}
       ],
-      pay: [
-      {required: true,message: '月薪不能为空',trigger: 'blur'}
+      salary: [
+      {required: true,message: '工资不能为空',trigger: 'blur'}
       ],
       paymentAccount: [
       {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
@@ -212,9 +233,12 @@ export default {
       bankAccount: [
       {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
       ],
-      identity: [
+      idCardNumber: [
       {required: true,message: '身份证号不能为空',trigger: 'blur'}
-      ]
+      ],
+      lengthOfService: [
+      {required: true,message: '工龄不能为空',trigger: 'blur'}
+      ],
     },
     investrules:{
        number: [
@@ -229,14 +253,19 @@ export default {
   }
   },
   mounted: function() {
-    var res = get("/api/userProfile/balance", {});
-    res.then(data=>{
-      this.money_remain = data.data.paymentBalance;
-      console.log(data);
-    })
+    this.getBalance();
+    this.getUser();    
 
-    var userres = get("/api/userProfile", {});
-    userres.then(user=>{
+  },
+  methods: {
+    bell:function(){
+        this.$router.push({path:'/userhome/information'});
+    },
+
+
+    getUser(){
+      var userres = get("/api/userProfile", {});
+      userres.then(user=>{
       this.userName = user.data.name;
       this.user.name = user.data.name;
       if(user.data.gender == 0){
@@ -251,24 +280,20 @@ export default {
       this.user.bankAccount = user.data.bankAccount;
       console.log(user.data);
     })
-
-  },
-  methods: {
-    bell:function(){
-        this.$router.push({path:'/userhome/information'});
     },
 
-    handleDetail(){
 
+    handleDetail(){
+      console.log(this.user)
       var res = post("/api/userProfile", {
-        idCardNumber:this.idCardNumber,
-        phoneNumber:this.phoneNumber,
-        gender:this.gender,
-        paymentAccount:this.paymentAccount,
-        bankAccount:this.bankAccount,
-        salary:this.salary,
-        name:this.name,
-        lengthOfSerive:this.lengthOfSerive
+        idCardNumber:this.user.idCardNumber,
+        phoneNumber:this.user.phoneNumber,
+        gender:this.user.gender,
+        paymentAccount:this.user.paymentAccount,
+        bankAccount:this.user.bankAccount,
+        salary:this.user.salary,
+        name:this.user.name,
+        lengthOfService:this.user.lengthOfService
       });
 
       res.then(result=>{
@@ -289,10 +314,8 @@ export default {
       res.then(data => {
         console.log(data);
         if(data.code == 0){
-          var remainres = get("/api/userProfile/balance", {});
-          remainres.then(remain=>{
-          this.money_remain = remain.data.paymentBalance;
-          })
+          this.getBalance();
+
           this.$msgbox({
             title: '提示',
             message: data.msg,
@@ -317,10 +340,8 @@ export default {
       res.then(data => {
         console.log(data);
         if(data.code == 0){
-          var remainres = get("/api/userProfile/balance", {});
-          remainres.then(remain=>{
-          this.money_remain = remain.data.paymentBalance;
-          })
+          this.getBalance();
+
           this.$msgbox({
             title: '提示',
             message: data.msg,
