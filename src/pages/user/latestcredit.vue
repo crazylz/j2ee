@@ -77,7 +77,7 @@
       align="center"
       label="审核评级">
       <template slot-scope="scope">
-      <span>{{ scope.row.evaluationRank }}</span>
+      <span>{{ rankState(scope.row.evaluationRank) }}</span>
       </template>
     </el-table-column>
 
@@ -104,9 +104,18 @@ import {post, get} from '../../request/http.js'
         return state == 0 ? '目前无配偶或配偶无工作' : '配偶有工作';
       },
 
+      rankState(rank){
+        if(rank != null){
+          if(rank == 0) return '';
+          else return rank;
+        }
+      },
+
       result(state){
         if(state != null){
-          return state == 1 ? '属实' : '不属实';
+          if(state == 0) return '未审核';
+          else if(state == 1) return '属实';
+          else return '不属实';
         }
       },
 
