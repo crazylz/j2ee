@@ -43,7 +43,7 @@
             </el-form-item>
 
             <el-form-item label="性别" class="input" prop='gender'>
-            <el-select v-model="user.gender" placeholder="请选择性别" label="性别"> 
+            <el-select v-model="user.gender" placeholder="请选择性别" label="性别" style="width:100%"> 
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -114,18 +114,14 @@
     <el-container>
       <!-- 侧栏 -->
       <el-aside width="200px">
-        <el-menu :default-active="$route.path" router unique-opened >
-          <!-- <el-menu-item index="/userhome/persondata">
-          <i class="el-icon-user"></i>个人资料
-          </el-menu-item> -->
-          <el-menu-item index="/userhome/loans">
+        <el-menu :default-active="$route.path" router unique-opened>
+          <el-menu-item index="/userhome/loans" style="text-align:left">
             <i class="el-icon-discount"></i>借款
           </el-menu-item>
 
-          <el-submenu index="1">
+          <el-submenu index="1" style="text-align:left">
             <template slot="title">
-              <i class="el-icon-shopping-cart-2"></i>
-              <span slot="title">产品</span>
+              <i class="el-icon-shopping-cart-2"></i>产品
             </template>
             <el-menu-item-group>
               <el-menu-item index="/userhome/newproducts">购买产品</el-menu-item>
@@ -134,18 +130,17 @@
           </el-submenu>
 
           
-          <el-menu-item index="/userhome/repay">
+          <el-menu-item index="/userhome/repay" style="text-align:left">
           <i class="el-icon-sold-out"></i>还款
           </el-menu-item>
 
-          <el-menu-item index="/userhome/record">
+          <el-menu-item index="/userhome/record" style="text-align:left">
           <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
 
-          <el-submenu index="2">
+          <el-submenu index="2" style="text-align:left">
             <template slot="title">
-              <i class="el-icon-user"></i>
-              <span slot="title">个人征信</span>
+              <i class="el-icon-user"></i>个人征信
             </template>
             <el-menu-item-group>
               <el-menu-item index="/userhome/credit">填写征信资料</el-menu-item>

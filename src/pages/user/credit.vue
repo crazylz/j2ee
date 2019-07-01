@@ -72,7 +72,7 @@
   :auto-upload="false">
 
   <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+  <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button> -->
   <div slot="tip" class="el-upload__tip">最大上传10MB大小的文件</div>
   </el-upload>
   </el-form-item>
@@ -114,15 +114,25 @@ import {post, get, post2} from '../../request/http.js'
         isSpouseWork:this.form.spouseValue});
         res.then(result=>{
           console.log(result);
+          if(result.code == 0){
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+          });
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+          });
+          }
         })
       },
 
       handleSuccess(){
-        this.$msgbox({
-            title: '提示',
-            message: '上传成功',
-            type: 'success'
-          });
+        return 0;
       },
 
       handleExceed(){

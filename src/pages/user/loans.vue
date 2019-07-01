@@ -8,12 +8,12 @@
   
 			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
-				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-					<el-form-item label='借款额' prop='amount' class="input">
-						<el-input v-model='Loan.amount' type='text' placeholder='请输入借款额' autocomplete="off"  clearable></el-input>
+				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules' label-position="right">
+					<el-form-item label='借款额(￥)' prop='amount' class="input">
+						<el-input v-model='Loan.amount' type='text' placeholder='请输入借款额(￥)' autocomplete="off"  clearable></el-input>
 					</el-form-item>
-					<el-form-item label='利息' prop='rate' class="input">
-						<el-input v-model='Loan.rate' autocomplete="off"  placeholder='请输入利息' clearable></el-input>
+					<el-form-item label='利率(%)' prop='rate' class="input">
+						<el-input v-model='Loan.rate' autocomplete="off"  placeholder='请输入利率(%)' clearable></el-input>
 					</el-form-item> 
           <el-form-item label='每月还款日期' prop='payDayOfMonth' class="input">
 						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
@@ -268,7 +268,7 @@ import {post, get} from '../../request/http.js'
       
       handleSave() {
       this.addVisible = false;
-      // var temp=post("/api/test/login",{})
+      
       var res = post("/api/borrower/request", {amount:this.Loan.amount,installmentNumber:this.Loan.installmentNumber,rate:this.Loan.rate,payDayOfMonth:this.Loan.payDayOfMonth})
       res.then(data => {
         console.log(data)
@@ -341,14 +341,6 @@ import {post, get} from '../../request/http.js'
     width:100%;
   }
 
-  /* .middle{
-    width:fit-content;
-    margin:auto;
-  } */
-  .el-table-column{
-    width:16.7%;
-  }
-
   .button_add{
     float:right;
   }
@@ -363,14 +355,13 @@ import {post, get} from '../../request/http.js'
     /* background-color: rgba(255,255,255,0.8);	 */
   }
 
-  .el-form{
-    margin-right:120px;
-    margin-left: -30px;
-  }  
-
   .input{
     width:80%;
     left:10%;
+  }
+
+  .el-select{
+    width: 100%
   }
   
 </style>
