@@ -166,6 +166,9 @@
             type="info"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 
+            <br/>
+            <br/>
+
             <el-button
             size="mini"
             type="danger"

@@ -58,11 +58,11 @@
               <el-input v-model='user.phoneNumber' clearable disabled="true"></el-input>
             </el-form-item>
 
-            <el-form-item label='工龄' prop='lengthOfService' class="input">
+            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
               <el-input v-model='user.lengthOfService' clearable></el-input>
             </el-form-item>
 
-            <el-form-item label='工资' prop='salary' class="input">
+            <el-form-item label='工资(￥)' prop='salary' class="input">
               <el-input v-model='user.salary' clearable></el-input>
             </el-form-item>
             <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">

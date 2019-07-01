@@ -23,6 +23,7 @@ import latestcredit from '../pages/user/latestcredit.vue'
 import adminhome from '../components/adminhome.vue'
 import users from '../pages/admin/users.vue'
 import produce from '../pages/admin/produce.vue'
+import operation from '../pages/admin/operation.vue'
 
 //担保员界面
 import guarantee from '../pages/guarantee/guarantee.vue'
@@ -93,6 +94,10 @@ const router = new Router({
         {
           path:'/adminhome/users',
           component:users
+        },
+        {
+          path:'/adminhome/operation',
+          component:operation
         }]
     },
     {
