@@ -26,7 +26,9 @@ import produce from '../pages/admin/produce.vue'
 import operation from '../pages/admin/operation.vue'
 
 //担保员界面
+import guaranteehome from '../components/guaranteehome.vue'
 import guarantee from '../pages/guarantee/guarantee.vue'
+import freeze from '../pages/guarantee/freeze.vue'
 
 //审核员界面
 import reviewer from '../components/reviewerhome.vue'
@@ -101,8 +103,18 @@ const router = new Router({
         }]
     },
     {
-      path:'/guarantee',
-      component:guarantee
+      path:'/guaranteehome',
+      component:guaranteehome,
+      children:[
+        {
+          path:'/guaranteehome/guarantee',
+          component:guarantee
+        },
+        {
+          path:'/guaranteehome/freeze',
+          component:freeze   
+        }
+      ]
     },
     {
       path:'/reviewer',
