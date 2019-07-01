@@ -21,11 +21,11 @@
         </div>
       </el-header>
 
-      <el-dialog style=" font-size: 14px " :visible.sync='addVisible'>
+      <el-dialog style=" font-size: 14px " :visible.sync='addVisible' label-position="right" :rules='rules'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">审核</h2>
 				<el-form :model='review' label-width='200px' :rules='rules'>
 
-					<el-form-item label="内容是否属实">
+					<el-form-item label="内容是否属实" prop='state'>
             <el-radio-group v-model="review.state">
               <el-radio label="内容属实"></el-radio>
               <el-radio label="内容不属实"></el-radio>
@@ -36,8 +36,8 @@
           <!-- <span style="display:inline-block;text-align:center;">
             分期
           </span> -->
-          <el-form-item label="评级" class="input">
-            <el-select v-model="review.rank" placeholder="请选择评级" label="评级"> 
+          <el-form-item label="评级" class="input" prop='rank'>
+            <el-select v-model="review.rank" placeholder="请选择评级" label="评级" style="width:100%"> 
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -47,7 +47,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label='描述' prop='rate' class="input">
+          <el-form-item label='描述' prop='desc' class="input">
 						<el-input v-model='review.desc' autocomplete="off"  placeholder='请输入描述'
             type="textarea"
             aotosize>
@@ -370,18 +370,6 @@ import {post, get} from '../request/http.js'
   
   .el_table{
   width:100%;
-  }
-
-   /* .bell{
-    float:right;
-    margin-right:70px;
-  } */
-   
-   
-   .guarantee{
-     font-size:18px;
-    float:right;
-    margin-right:100px;
   }
   
 </style>

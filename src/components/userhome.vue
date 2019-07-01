@@ -55,7 +55,7 @@
 
 
             <el-form-item label='电话' prop='phoneNumber' class="input">
-              <el-input v-model='user.phoneNumber' clearable></el-input>
+              <el-input v-model='user.phoneNumber' clearable disabled="true"></el-input>
             </el-form-item>
 
             <el-form-item label='工龄' prop='lengthOfService' class="input">

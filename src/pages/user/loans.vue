@@ -8,6 +8,7 @@
   
 			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
+        <h2 style="color: #F56C6C; font-size:20px">借款额度: ￥{{limit}}</h2>
 				<el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules' label-position="right">
 					<el-form-item label='借款额(￥)' prop='amount' class="input">
 						<el-input v-model='Loan.amount' type='text' placeholder='请输入借款额(￥)' autocomplete="off"  clearable></el-input>
@@ -16,13 +17,20 @@
 						<el-input v-model='Loan.rate' autocomplete="off"  placeholder='请输入利率(%)' clearable></el-input>
 					</el-form-item> 
           <el-form-item label='每月还款日期' prop='payDayOfMonth' class="input">
-						<el-input v-model='Loan.payDayOfMonth' placeholder='请输入还期' autocomplete="on" clearable></el-input>
+            <el-select v-model="Loan.payDayOfMonth" filterable placeholder="请选择每月还款日期">
+              <el-option
+                v-for="item in payDate"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
 					</el-form-item>
           <!-- <span style="display:inline-block;text-align:center;">
             分期
           </span> -->
-          <el-form-item label="分期" class="input">
-            <el-select v-model="Loan.installmentNumber" prop='installmentNumber'  placeholder="请选择分期" label="分期"> 
+          <el-form-item label="分期" class="input" prop='installmentNumber'>
+            <el-select v-model="Loan.installmentNumber" placeholder="请选择分期" label="分期"> 
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -175,6 +183,16 @@ import {post, get} from '../../request/http.js'
           label: '24'
         },
         ],
+
+        payDate:[{value:1,lable:'1'},{value:2,lable:'2'},{value:3,lable:'3'},{value:4,lable:'4'},{value:5,lable:'5'},
+        {value:6,lable:'6'},{value:7,lable:'7'},{value:8,lable:'8'},{value:9,lable:'9'},{value:10,lable:'10'},
+        {value:11,lable:'11'},{value:12,lable:'12'},{value:13,lable:'13'},{value:14,lable:'14'},{value:15,lable:'15'},
+        {value:16,lable:'16'},{value:17,lable:'17'},{value:18,lable:'18'},{value:19,lable:'19'},{value:20,lable:'20'},
+        {value:21,lable:'21'},{value:22,lable:'22'},{value:23,lable:'23'},{value:24,lable:'24'},{value:25,lable:'25'},
+        {value:26,lable:'26'},{value:27,lable:'27'},{value:28,lable:'28'}
+        ],
+
+
         Loan: {
           amount: null,
           installmentNumber:null,
@@ -183,6 +201,9 @@ import {post, get} from '../../request/http.js'
         },
 
         investor:[],
+        limit:0,
+
+
 				// 校验规则
 				rules:{
 					amount: [
@@ -308,15 +329,21 @@ import {post, get} from '../../request/http.js'
         this.getOriginalData();
         console.log(data)
       });
-      }
+      },
+
+      getLimit(){
+      var limit=get("api/borrower/limit",{})
+      limit.then(data =>{
+        console.log(data)
+        this.limit = data.data;
+      });
+    }
+
     },
 
     mounted(){
       this.getLoanData();
-      var limit=get("api/borrower/limit",{})
-      limit.then(data =>{
-        console.log(data)
-      });
+      this.getLimit();
     }
   }
 </script>
