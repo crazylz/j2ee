@@ -94,7 +94,7 @@ import {post, get, post1} from '../request/http.js'
 						console.log(data.code)
 						if(data.code == 0)
 						{
-							that.$router.push({path:'/guarantee'});
+							that.$router.push({path:'/guaranteehome'});
 						}
 						else{
 							alert(data.msg);

@@ -27,7 +27,8 @@ import operation from '../pages/admin/operation.vue'
 import admininformation from '../pages/admin/admininformation.vue'
 
 //担保员界面
-import guarantee from '../pages/guarantee/guarantee.vue'
+import guaranteehome from '../components/guaranteehome.vue'
+import guaranteeinformation from '../pages/guarantee/guaranteeinformation.vue'
 
 //审核员界面
 import reviewer from '../components/reviewerhome.vue'
@@ -106,9 +107,14 @@ const router = new Router({
         },]
     },
     {
-      path:'/guarantee',
-      component:guarantee
+      path:'/guaranteehome',
+      component:guaranteehome,
+      children:[
+        
+      ],
+      
     },
+    
     {
       path:'/reviewer',
       component:reviewer

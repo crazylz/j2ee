@@ -5,7 +5,7 @@
       <!-- 顶栏 -->
      <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
+        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
         <div class="guarantee">
           <el-dropdown>
             <span>
@@ -128,7 +128,7 @@
 
 
 <script>
-import {post, get} from '../../request/http.js'
+import {post, get} from '../request/http.js'
 
   export default {
     data(){
@@ -210,7 +210,11 @@ import {post, get} from '../../request/http.js'
         this.requestData = rdata.data;
         console.log(rdata);
       })
-      }
+      },
+
+      bell:function(){
+        this.$router.push({path:'/guaranteehome/information'});
+      },
     },
     mounted(){
       this.getGuaranteeData();
@@ -246,16 +250,16 @@ import {post, get} from '../../request/http.js'
   width:100%;
   }
 
-   /* .bell{
+  .bell{
     float:right;
     margin-right:70px;
-  } */
+  }
    
    
-   .guarantee{
-     font-size:18px;
+  .guarantee{
+    font-size:18px;
     float:right;
-    margin-right:100px;
+    margin-right:30px;
   }
   
 </style>
