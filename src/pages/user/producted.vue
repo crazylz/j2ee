@@ -6,6 +6,47 @@
       <el-breadcrumb-item :to="{ path: '/userhome/producted'}">已购产品</el-breadcrumb-item>
     </el-breadcrumb>
 
+
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
+        <el-form style="margin-right:120px"  ref='userForm' label-width='200px'>
+
+            <el-form-item label='姓名' prop='name' class="input">
+              <el-input v-model='borrower.name' placeholder='请输入姓名' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label="性别" class="input" prop='gender'>
+            <el-input v-model='borrower.gender' clearable></el-input>
+          </el-form-item>
+
+            <el-form-item label='电话' prop='phoneNumber' class="input">
+              <el-input v-model='borrower.phoneNumber' clearable disabled></el-input>
+            </el-form-item>
+
+            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
+              <el-input v-model='borrower.lengthOfService' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='工资(￥)' prop='salary' class="input">
+              <el-input v-model='borrower.salary' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
+              <el-input v-model='borrower.paymentAccount ' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
+              <el-input v-model='borrower.bankAccount ' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='身份证号' prop='idCardNumber' class="input">
+              <el-input v-model='borrower.idCardNumber' clearable></el-input>
+            </el-form-item>          
+        </el-form>   
+      </el-dialog>
+
+
+
   <el-table
     ref="filterTable"
     :data="tableData"
@@ -17,7 +58,7 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-      <el-popover trigger="click" placement="bottom">
+      <!-- <el-popover trigger="click" placement="bottom">
           <p>姓名: {{ borrower.name}}</p>
           <p>性别: {{ getGender(borrower.gender) }}</p>
           <p>电话: {{ borrower.phoneNumber }}</p>
@@ -25,12 +66,12 @@
           <p>工资: ￥{{ borrower.salary }}</p>
           <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
           <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper">
-          <el-button size="mini" @click="getBorrower(scope.row.userId)">
+        <div slot="reference" class="name-wrapper"> -->
+          <el-button size="mini" @click="getBorrower(scope.row.userId);detailVisible=true">
             {{scope.row.userId}}
           </el-button>
-      </div>
-      </el-popover>
+      <!-- </div>
+      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -106,6 +147,7 @@ import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
+        detailVisible:false,
         all_tableData: [],
         tableData: [],
         borrower: [],
