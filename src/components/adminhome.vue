@@ -5,7 +5,7 @@
       <!-- 顶栏 -->
       <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
+        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
         <div class="admin">
           <el-dropdown>
             <span>
@@ -31,7 +31,7 @@
               </el-menu-item>
 
                <el-menu-item index="/adminhome/produce" style="text-align:left">
-              <i class="el-icon-s-order"></i>产品
+              <i class="el-icon-shopping-cart-2"></i>产品
                </el-menu-item>
 
                <el-menu-item index="/adminhome/operation" style="text-align:left">
@@ -102,10 +102,10 @@ export default {
     font-size:20px;
   }
   
-   /* .bell{
+   .bell{
     float:right;
     margin-right:70px;
-  } */
+  }
    
    
    .admin{

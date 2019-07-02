@@ -115,6 +115,11 @@
       <!-- 侧栏 -->
       <el-aside width="200px">
         <el-menu :default-active="$route.path" router unique-opened>
+
+          <el-menu-item index="/userhome/personalinfo" style="text-align:left">
+            <i class="el-icon-user"></i>个人资料
+          </el-menu-item>
+
           <el-menu-item index="/userhome/loans" style="text-align:left">
             <i class="el-icon-discount"></i>借款
           </el-menu-item>
@@ -243,7 +248,7 @@ export default {
   },
   mounted: function() {
     this.getBalance();
-    this.getUser();    
+    this.getUser();
   },
   methods: {
     bell:function(){

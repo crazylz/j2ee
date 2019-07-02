@@ -18,6 +18,7 @@ import record from '../pages/user/record.vue'
 import information from '../pages/user/infromation.vue'
 import credit from '../pages/user/credit.vue'
 import latestcredit from '../pages/user/latestcredit.vue'
+import personalinfo from '../pages/user/personalinfo.vue'
 
 //管理员界面
 import adminhome from '../components/adminhome.vue'
@@ -80,6 +81,10 @@ const router = new Router({
         {
           path:'/userhome/latestcredit',
           component:latestcredit
+        },
+        {
+          path:'/userhome/personalinfo',
+          component:personalinfo
         }
       ]
     },
