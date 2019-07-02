@@ -23,8 +23,7 @@
 
     <!-- 资料卡片 start -->
     <div class="card-div">
-      <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+      <div style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
       <!-- 头像 -->
       <div style="margin-top: 80px; float: left;">
@@ -34,7 +33,7 @@
       <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
         <el-form-item>
           <label style="float:left;margin-left:40px">用户名</label>
-          <br />
+          <br/>
           <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
           <label
             style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
@@ -300,7 +299,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .el-select {
   width: 100px;
 }

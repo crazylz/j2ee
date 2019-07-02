@@ -243,7 +243,7 @@ import {post, get} from '../../request/http.js'
   }
 </script>
 
-<style scoped="scoped">
+<style scoped>
 /* 设置min-height调节最小高度来实现样式统一 */
 .el-header{
     background-color: #B3C0D1;
