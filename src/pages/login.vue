@@ -130,7 +130,7 @@ import {post, get, post1} from '../request/http.js'
 						console.log(data.code)
 						if(data.code == 0)
 						{
-							that.$router.push({path:'/reviewer'});
+							that.$router.push({path:'/reviewerhome'});
 						}
 						else{
 							alert(data.msg);

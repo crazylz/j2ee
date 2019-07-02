@@ -34,7 +34,9 @@ import guarantee from '../pages/guarantee/guarantee.vue'
 import freeze from '../pages/guarantee/freeze.vue'
 
 //审核员界面
-import reviewer from '../components/reviewerhome.vue'
+import reviewerhome from '../components/reviewerhome.vue'
+import review from '../pages/reviewer/review.vue'
+import reviewerinformation from '../pages/reviewer/reviewerinformation.vue'
 
 const router = new Router({
   routes: [
@@ -133,9 +135,20 @@ const router = new Router({
     },
     
     {
-      path:'/reviewer',
-      component:reviewer
+      path:'/reviewerhome',
+      component:reviewerhome,
+      children:[   
+        {
+          path:'/reviewerhome/reviewerinformation',
+          component:reviewerinformation
+        },
+        {
+          path:'/reviewerhome/review',
+          component:review
+        }
+      ]
     }
+   
   ]
   })
 
