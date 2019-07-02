@@ -16,6 +16,7 @@
           <el-option label="用户ID" value="1"></el-option>
           <el-option label="用户账号" value="2"></el-option>
         </el-select>
+        <!-- 这里需要实现点击发送搜索请求 -->
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
     </div>
@@ -27,38 +28,41 @@
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px"
       >| 基本资料</div>
 
+      <!-- 头像 -->
       <div style="margin-top: 80px; float: left;">
         <img src="../../assets/user.png" />
       </div>
 
-      <!-- <el-table :data="tableData" style="margin-top:50px;margin-bottom:30px;font-size:20px">
-        <el-table-column prop="tableData.name" label="用户名" width="180"></el-table-column>
-        <el-table-column prop="tableData.gender" label="性别" width="180"></el-table-column>
-        <el-table-column prop="tableData.phoneNumber" label="手机" width="180"></el-table-column>
-        <el-table-column prop="tableData.drtimes" label="失信次数" width="180"></el-table-column>
-        <el-table-column prop="tableData.los" label="工龄" width="180"></el-table-column>
-        <el-table-column prop="tableData.salary" label="工资" width="180"></el-table-column>
-        <el-table-column prop="tableData.bankAccount" label="银行卡号"></el-table-column>
-      </el-table>-->
-
       <el-form ref="base-form" model="formData" class="base-form">
         <el-form-item>
           <label style="float:left;margin-left:40px">用户名</label>
-          <br/>
-          <!-- 这里需要把查询结果替换为对应的用户名 -->
-          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">没有查询结果～</label>
+          <br />
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label
+            style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080"
+          >没有查询结果～</label>
         </el-form-item>
-        <el-form-item label="性别：" label-width="200px"> 
+        <el-form-item label="性别：" label-width="200px">
           <!-- 根据性别动态显示图标 -->
-          <img src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px"/>
+          <!-- 男：boy.png 女：girl.png 未设置：hide.png -->
+          <img src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
         </el-form-item>
         <el-form-item label="手机：" label-width="200px" />
         <el-form-item label="工龄：" label-width="200px" />
         <el-form-item label="工资：" label-width="200px" />
         <!-- 中间加条横线 -->
-        <div style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px" />
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
+        />
         <el-form-item label="失信次数：" label-width="200px" />
-        <el-form-item label="银行卡号：" label-width="200px" />
+        <el-form-item label="银行卡号：" label-width="200px">
+          <div style="float:left">
+          <label style="margin-right:50px">123456789123456789</label>
+          <el-button type="success" round>解冻</el-button>
+          <el-button type="danger" round>冻结</el-button>
+          </div>
+        </el-form-item>
+
       </el-form>
     </div>
     <!-- 资料卡片 end -->
@@ -108,7 +112,7 @@ export default {
       tableData: null
     };
   },
-
+  // 获取选择的搜索栏搜索方式
   methods: {
     change(value) {
       // console.log(value);
