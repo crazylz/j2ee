@@ -3,14 +3,14 @@
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
       <!-- 顶栏 -->
-     <el-header >
+      <el-header >
         <span  class="system-name">{{systemName}}</span>
         <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
-        <div class="guarantee">
+        <div class="admin">
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
-              担保人
+              {{adminName}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <a href="#/login">
@@ -21,206 +21,52 @@
         </div>
       </el-header>
         
-      <el-main>
-        <el-table
-        :data="requestData"
-        border
-        default-expand-all
-        >
-          <el-table-column
-            align="center"
-            prop="id"
-            label="单号"
-            sortable>
-          </el-table-column>
+        <!-- 需要将侧栏和主页面设置当一个容器里面 -->
+        <el-container>
+          <!-- 侧栏 -->
+          <el-aside width="200px">
+            <el-menu :default-active="$route.path" router unique-opened >
+              <el-menu-item index="/guaranteehome/guarantee" style="text-align:left">
+              <i class="el-icon-s-custom"></i>担保请求
+              </el-menu-item>
 
-          <el-table-column
-            align="center"
-            prop="userId"
-            label="申请人id"
-            sortable>
-            <template slot-scope="scope">
-            <el-popover trigger="click" placement="bottom">
-              <p>姓名: {{ borrower.name}}</p>
-              <p>性别: {{ getGender(borrower.gender) }}</p>
-              <p>电话: {{ borrower.phoneNumber }}</p>
-              <p>工龄: {{ borrower.lengthOfService }}</p>
-              <p>工资: ￥{{ borrower.salary }}</p>
-              <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
-              <p>信用评级: {{ borrower.rank }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-button
-              size="mini" @click="getBorrower(scope.row.userId)">
-              {{scope.row.userId}}
-              </el-button>
-            </div>
-          </el-popover>
-          </template>
-          </el-table-column>
+               <el-menu-item index="/guaranteehome/freeze" style="text-align:left">
+              <i class="el-icon-s-order"></i>处理逾期记录
+               </el-menu-item>
+            </el-menu>
+          </el-aside>
 
-          <el-table-column
-            align="center"
-            prop="commitTime"
-            label="借款申请日期"
-            sortable>
-            <template slot-scope="scope">
-              <span>{{ scope.row.commitTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="amount"
-            label="借款额"
-            sortable>
-            <template slot-scope="scope">
-              <span>￥{{ scope.row.amount }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="rate"
-            label="利率"
-            sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.rate }}%</span>
-          </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="installmentNumber"
-            label="分期"
-            sortable>
-            <template slot-scope="scope">
-              <span>{{ scope.row.installmentNumber }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="payDayOfMonth"
-            label="每月还款日期"
-            sortable>
-            <template slot-scope="scope">
-              <span>{{ scope.row.payDayOfMonth }}号</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            fixed="right"
-            label="操作">
-            <template slot-scope="scope">
-              <el-button @click="agree(scope.row)" type="text" size="small">同意</el-button>
-              <el-button @click="reject(scope.row)" type="text" size="small">否决</el-button>
-            </template>
-          </el-table-column>
-
-        </el-table>
-      </el-main>
-   </el-container>
- 
+          <el-main>
+            <transition name="fade" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </el-main>
+        </el-container>
+    </el-container>
     </div>
 </template>
 
 
 
 <script>
-import {post, get} from '../request/http.js'
-
-  export default {
-    data(){
-      return{
-        systemName: '担保员界面',
-        requestData:[],
-        borrower: [],
-
-      }
-    },
-    methods:{
-      agree(row){
-        var res = post("/api/guarantor/handleRequest", {id:row.id, action:1});
-        res.then(data=>{
-          console.log(data);
-          if(data.code == 0){
-          this.$msgbox({
-            title: '已同意该请求',
-            message: data.msg,
-            type: 'success'
-          });
-        var req = get("/api/guarantor/requestsToHandle", {});
-        req.then(rdata=>{
-          this.requestData = rdata.data;
-          console.log(rdata);
-        })
-        }
-        else{
-          this.$msgbox({
-            title: '操作失败',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        })
-
-      },
-      reject(row){
-        var res = post("/api/guarantor/handleRequest", {id:row.id, action:0});
-        res.then(data=>{
-          console.log(data);
-          if(data.code == 0){
-          this.$msgbox({
-            title: '已拒绝该请求',
-            message: data.msg,
-            type: 'success'
-          });
-        this.getGuaranteeData();
-        }
-        else{
-          this.$msgbox({
-            title: '操作失败',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        })
-      },
-      getBorrower(id){
-        var res = get("/api/userProfile/" + id, {});
-        res.then(bdata=>{
-          this.borrower = bdata.data;
-          console.log(this.borrower);
-        })
-      },
-
-      getGender(state){
-        if(state == 0){
-          return '未设置';
-        }
-        else{
-          return state == 1 ? '男' : '女';
-        }
-      },
-
-      getGuaranteeData(){
-        var req = get("/api/guarantor/requestsToHandle", {});
-        req.then(rdata=>{
-        this.requestData = rdata.data;
-        console.log(rdata);
-      })
-      },
-
-      bell:function(){
-        this.$router.push({path:'/guaranteehome/information'});
-      },
-    },
-    mounted(){
-      this.getGuaranteeData();
-    }
-    
+let data = () => {
+  return {
+    systemName: '担保人界面',
+    adminName: '担保人'
   }
+}
+
+export default {
+  data: data,
+  methods: {
+
+  },
+  mounted: function() {
+    bell:function(){
+        this.$router.push({path:'/guaranteehome/information'});
+    },
+  }
+}
 </script>
 
 <style scoped="scoped">
@@ -230,6 +76,14 @@ import {post, get} from '../request/http.js'
     color: #333;
     text-align: center;
     line-height: 60px;
+  }
+  
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+    min-height: 90vh;
   }
   
   .el-main {
@@ -246,20 +100,15 @@ import {post, get} from '../request/http.js'
     font-size:20px;
   }
   
-  .el_table{
-  width:100%;
-  }
-
   .bell{
     float:right;
     margin-right:70px;
-  }
+  } 
    
    
   .guarantee{
-    font-size:18px;
+     font-size:18px;
     float:right;
     margin-right:30px;
   }
-  
 </style>

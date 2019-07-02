@@ -5,6 +5,44 @@
     <el-breadcrumb-item :to="{ path: '/userhome/loans'}">借款</el-breadcrumb-item>
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
+
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
+        <el-form style="margin-right:120px"  ref='userForm' label-width='200px'>
+
+            <el-form-item label='姓名' prop='name' class="input">
+              <el-input v-model='investor.name' placeholder='请输入姓名' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label="性别" class="input" prop='gender'>
+            <el-input v-model='investor.gender' clearable></el-input>
+          </el-form-item>
+
+            <el-form-item label='电话' prop='phoneNumber' class="input">
+              <el-input v-model='investor.phoneNumber' clearable disabled></el-input>
+            </el-form-item>
+
+            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
+              <el-input v-model='investor.lengthOfService' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='工资(￥)' prop='salary' class="input">
+              <el-input v-model='investor.salary' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
+              <el-input v-model='investor.paymentAccount ' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
+              <el-input v-model='investor.bankAccount ' clearable></el-input>
+            </el-form-item>
+
+            <el-form-item label='身份证号' prop='idCardNumber' class="input">
+              <el-input v-model='investor.idCardNumber' clearable></el-input>
+            </el-form-item>          
+        </el-form>   
+      </el-dialog>
   
 			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
 				<h2 style="text-align: center;color: #606266; font-size:30px">新建借款</h2>
@@ -58,7 +96,7 @@
       label="投资者id"
       sortable>
       <template slot-scope="scope">
-      <el-popover trigger="click" placement="bottom">
+      <!-- <el-popover trigger="click" placement="bottom">
           <p>姓名: {{ investor.name}}</p>
           <p>性别: {{ getGender(investor.gender) }}</p>
           <p>电话: {{ investor.phoneNumber }}</p>
@@ -66,12 +104,12 @@
           <p>工资: ￥{{ investor.salary }}</p>
           <p>失信记录次数: {{ investor.discreditedRecords }}</p>
           <p>信用评级: {{ investor.rank }}</p>
-        <div slot="reference" class="name-wrapper">
-          <el-button size="mini" @click="getInvestor(scope.row.investorId)">
+        <div slot="reference" class="name-wrapper"> -->
+          <el-button size="mini" @click="getInvestor(scope.row.investorId);detailVisible=true">
             {{scope.row.investorId}}
           </el-button>
-      </div>
-      </el-popover>
+      <!-- </div>
+      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -166,23 +204,12 @@ import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-        addVisible: false,  
+        addVisible: false,
+        detailVisible:false,
         all_tableData: [],
         tableData: [],
-        options: [{
-          value: 6,
-          label: '6'
-        },{
-          value: 12,
-          label: '12'
-        },{
-          value: 18,
-          label: '18'
-        },{
-          value: 24,
-          label: '24'
-        },
-        ],
+        options: [{value: 6,label: '6'},{value: 12,label: '12'},{value: 18,label: '18'},{value: 24,label: '24'}],
+
 
         payDate:[{value:1,lable:'1'},{value:2,lable:'2'},{value:3,lable:'3'},{value:4,lable:'4'},{value:5,lable:'5'},
         {value:6,lable:'6'},{value:7,lable:'7'},{value:8,lable:'8'},{value:9,lable:'9'},{value:10,lable:'10'},

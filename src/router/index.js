@@ -15,9 +15,10 @@ import newproducts from '../pages/user/newproducts.vue'
 import producted from '../pages/user/producted.vue'
 import repay from '../pages/user/repay.vue'
 import record from '../pages/user/record.vue'
-import information from '../pages/user/infromation.vue'
+import message from '../pages/user/message.vue'
 import credit from '../pages/user/credit.vue'
 import latestcredit from '../pages/user/latestcredit.vue'
+import personalinfo from '../pages/user/personalinfo.vue'
 
 //管理员界面
 import adminhome from '../components/adminhome.vue'
@@ -29,6 +30,8 @@ import admininformation from '../pages/admin/admininformation.vue'
 //担保员界面
 import guaranteehome from '../components/guaranteehome.vue'
 import guaranteeinformation from '../pages/guarantee/guaranteeinformation.vue'
+import guarantee from '../pages/guarantee/guarantee.vue'
+import freeze from '../pages/guarantee/freeze.vue'
 
 //审核员界面
 import reviewer from '../components/reviewerhome.vue'
@@ -68,8 +71,8 @@ const router = new Router({
           component:repay
         },
         {
-          path:'/userhome/information',
-          component:information
+          path:'/userhome/message',
+          component:message
         },
         {
           path:'/userhome/record',
@@ -82,6 +85,10 @@ const router = new Router({
         {
           path:'/userhome/latestcredit',
           component:latestcredit
+        },
+        {
+          path:'/userhome/personalinfo',
+          component:personalinfo
         }
       ]
     },
@@ -109,10 +116,20 @@ const router = new Router({
     {
       path:'/guaranteehome',
       component:guaranteehome,
-      children:[
-        
-      ],
-      
+      children:[   
+        {
+          path:'/guaranteehome/guarantee',
+          component:guarantee
+        },
+        {
+          path:'/guaranteehome/freeze',
+          component:freeze   
+        },
+        {
+          path:'/guarantee/guaranteeinformation',
+          component:guaranteeinformation
+        }
+      ]
     },
     
     {

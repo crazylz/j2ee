@@ -6,21 +6,11 @@
     <el-breadcrumb-item><a href="/">消息中心</a></el-breadcrumb-item>
   </el-breadcrumb>
 
-    <el-select v-model="dataType" placeholder="消息状态">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
-
-
-
-
-    <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-    <!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
-
+<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+  <el-menu-item index="1" @click="dataType=2">全部消息</el-menu-item>
+  <el-menu-item index="2" @click="dataType=1">已读消息</el-menu-item>
+  <el-menu-item index="3" @click="dataType=0">未读消息</el-menu-item>
+</el-menu>
 
   <el-table
     ref="filterTable"
@@ -28,12 +18,6 @@
     border
     tooltip-effect="dark">
 
-<!-- @selection-change="handleSelectionChange" -->
-
-
-    <!-- <el-table-column
-      type="selection">
-    </el-table-column> -->
 
     <el-table-column
       align="center"
@@ -106,17 +90,7 @@ import {post, get} from '../../request/http.js'
       return{
         all_tableData: [],
         tableData:[],
-        options: [{
-          value: 2,
-          label: '全部消息'
-        }, {
-          value: 0,
-          label: '未读消息'
-        }, {
-          value: 1,
-          label: '已读消息'
-        }],
-
+        activeIndex:'1',
         dataType: 2
       }
     },

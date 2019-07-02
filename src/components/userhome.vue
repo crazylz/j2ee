@@ -13,9 +13,9 @@
               {{userName}}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <div @click='detailVisible=true'>
+              <!-- <div @click='detailVisible=true'>
                 <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
-              </div>
+              </div> -->
               <div @click='investVisible=true;getBalance()'>
               <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
               </div>
@@ -33,7 +33,7 @@
       <!-- 个人资料对话框 -->
       <!-- 需要在script的data里面定义所有的变量 -->
        <!--style属性多个属性之间用分号间隔  -->
-      <el-dialog class="detail"  :visible.sync='detailVisible'
+      <!-- <el-dialog class="detail"  :visible.sync='detailVisible'
       @open="getUser">
         <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
         <el-form style="margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
@@ -79,7 +79,7 @@
               >保存</el-button>
             </el-form-item>               
         </el-form>   
-      </el-dialog>
+      </el-dialog> -->
 
       <!--充值对话框  -->
       <el-dialog class="invest" :visible.sync='investVisible'>
@@ -115,6 +115,11 @@
       <!-- 侧栏 -->
       <el-aside width="200px">
         <el-menu :default-active="$route.path" router unique-opened>
+
+          <el-menu-item index="/userhome/personalinfo" style="text-align:left">
+            <i class="el-icon-user"></i>个人资料
+          </el-menu-item>
+
           <el-menu-item index="/userhome/loans" style="text-align:left">
             <i class="el-icon-discount"></i>借款
           </el-menu-item>
@@ -169,7 +174,7 @@ import {post, get} from '../request/http.js'
 export default {
   data(){
     return {
-    detailVisible:false,
+    // detailVisible:false,
     investVisible:false,
     withdrawVisible:false,
     money_remain:0,
@@ -202,33 +207,33 @@ export default {
           label: '女'
         }],
 
-    detailrules:{
-      name: [
-      {required: true,message: '姓名不能为空',trigger: 'blur'}
-      ],
-      gender: [
-      {required:true,message:'性别不能为空',	trigger: 'blur'},
-      // {min:5,message:'密码长度必须大于5个字符字符',}
-      ],
-      phoneNumber: [
-      {required: true,message: '电话不能为空',trigger: 'blur'}
-      ],
-      salary: [
-      {required: true,message: '工资不能为空',trigger: 'blur'}
-      ],
-      paymentAccount: [
-      {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
-      ],
-      bankAccount: [
-      {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
-      ],
-      idCardNumber: [
-      {required: true,message: '身份证号不能为空',trigger: 'blur'}
-      ],
-      lengthOfService: [
-      {required: true,message: '工龄不能为空',trigger: 'blur'}
-      ],
-    },
+    // detailrules:{
+    //   name: [
+    //   {required: true,message: '姓名不能为空',trigger: 'blur'}
+    //   ],
+    //   gender: [
+    //   {required:true,message:'性别不能为空',	trigger: 'blur'},
+    //   // {min:5,message:'密码长度必须大于5个字符字符',}
+    //   ],
+    //   phoneNumber: [
+    //   {required: true,message: '电话不能为空',trigger: 'blur'}
+    //   ],
+    //   salary: [
+    //   {required: true,message: '工资不能为空',trigger: 'blur'}
+    //   ],
+    //   paymentAccount: [
+    //   {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
+    //   ],
+    //   bankAccount: [
+    //   {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
+    //   ],
+    //   idCardNumber: [
+    //   {required: true,message: '身份证号不能为空',trigger: 'blur'}
+    //   ],
+    //   lengthOfService: [
+    //   {required: true,message: '工龄不能为空',trigger: 'blur'}
+    //   ],
+    // },
     investrules:{
        number: [
       {required: true,message: '充值额不能为空',trigger: 'blur'}
@@ -243,11 +248,11 @@ export default {
   },
   mounted: function() {
     this.getBalance();
-    this.getUser();    
+    this.getUser();
   },
   methods: {
     bell:function(){
-        this.$router.push({path:'/userhome/information'});
+        this.$router.push({path:'/userhome/message'});
     },
 
     getGender(state){
@@ -402,13 +407,13 @@ export default {
     font-size:20px;
   }
   
-  .bell{
+   .bell{
     float:right;
     margin-right:70px;
   }
    
    
-  .users{
+   .users{
     font-size:18px;
     float:right;
     margin-right:30px;

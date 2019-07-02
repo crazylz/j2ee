@@ -76,7 +76,7 @@ import {post, get, post1} from '../request/http.js'
 						console.log(localStorage.getItem('session'));
 						if(data.code == 0)
 						{
-							that.$router.push({path:'/userhome/loans'});
+							that.$router.push({path:'/userhome/personalinfo'});
 						}
 						else{
 							alert(data.msg);
