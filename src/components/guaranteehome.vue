@@ -6,7 +6,7 @@
       <el-header >
         <span  class="system-name">{{systemName}}</span>
         <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
-        <div class="admin">
+        <div class="guarantee">
           <el-dropdown>
             <span>
               <big><i class="el-icon-user-solid"></i></big>
