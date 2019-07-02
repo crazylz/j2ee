@@ -99,6 +99,15 @@
           </template>
         </el-table-column>
       </el-table>
+
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="100*(all_tableData.length/10)">
+        </el-pagination>
     </div>
     <!-- 还款记录 end -->
   </div>
@@ -165,9 +174,24 @@ export default {
             var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
             res1.then(result=>{
               if(result.code == 0){
-                this.tableData = result.data;
+                this.all_tableData = result.data;
+                this.getOriginalData();
+              }
+              else{
+                this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+              });
               }
             })
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: user.msg,
+            type: 'error'
+          });
           }
 
         })
@@ -192,9 +216,24 @@ export default {
             var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
             res1.then(result=>{
               if(result.code == 0){
-                this.tableData = result.data;
+                this.all_tableData = result.data;
+                this.getOriginalData();
+              }
+              else{
+                this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+              });
               }
             })
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: user.msg,
+            type: 'error'
+          });
           }
         })
       }
@@ -212,6 +251,34 @@ export default {
         }
       )
     },
+
+    handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.getDataByPage(val);
+      },
+
+    getDataByPage(pageindex){
+        var begin = pageindex * 10;
+        if(begin > this.all_tableData.length){
+          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(begin-10, begin);
+        }
+        // console.log(begin);
+      },
+
+      getOriginalData(){
+        if(this.all_tableData.length < 10){
+          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
+        }
+        else{
+          this.tableData = this.all_tableData.slice(0, 10);
+        }
+      },
 
     object(state){
         if(state==1){
