@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
       <el-breadcrumb-item :to="{ path: '/adminhome' }">管理员</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/adminhome/users' }">管理用户</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/adminhome/operation' }">查看日志</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-table
@@ -10,111 +10,71 @@
       :data="tableData"
       border>
       <el-table-column
-        label="用户id"
+        label="操作id"
         align="center"
         sortable
         prop="userId">
         <template slot-scope="scope">
-          <span>{{scope.row.userId}}</span>
+          <span>{{scope.row.opId}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="身份证"
+        label="操作时间"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.idCardNumber}}</span>
+          <span>{{scope.row.opTime | dateformat('YYYY-MM-DD HH:mm:ss')}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="手机号码"
+        label="操作类型"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.phoneNumber}}</span>
+          <span>{{scope.row.opType}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="性别"
+        label="操作人Id"
         align="center"
-        sortable
         prop="gender">
         <template slot-scope="scope">
-          <span>{{getGender(scope.row.gender)}}</span>
+          <span>{{scope.row.opCreatorId}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="第三方支付帐号"
+        label="操作人账号类型"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.paymentAccount}}</span>
+          <span>{{getAccountType(scope.row.opCreatorId, scope.row.opCreatorType)}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="银行卡帐号"
+        label="操作人IP"
         align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.bankAccount}}</span>
+          <span>{{scope.row.opCreatorIp}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="失信次数"
+        label="操作结果"
         align="center"
-        sortable
         prop="discreditedRecords">
         <template slot-scope="scope">
-          <span>{{scope.row.discreditedRecords}}</span>
+          <span>{{getOpResult(scope.row.opResult)}}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="工资"
+        label="结果描述"
         align="center"
-        sortable
         prop="salary">
         <template slot-scope="scope">
-          <span>{{scope.row.salary}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="信用评级"
-        align="center"
-        sortable
-        prop="rank">
-        <template slot-scope="scope">
-          <span>{{scope.row.rank}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="姓名"
-        align="center">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="工龄"
-        align="center"
-        sortable
-        prop="lengthOfService">
-        <template slot-scope="scope">
-          <span>{{scope.row.lengthOfService}}</span>
-        </template>
-      </el-table-column>
-
-
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <span>{{scope.row.opResultDesc}}</span>
         </template>
       </el-table-column>
     
@@ -179,20 +139,35 @@ import {post, get} from '../../request/http.js'
         const property = column['property'];
         return row[property] === value;
       },
-      getGender(state){
-        if(state == 0){
-          return '未设置';
+      getAccountType(id, account){
+        if(id == 0) {
+          return '--'
+        }
+        if(account == 0){
+          return '管理员';
+        }
+        else if(account == 1) {
+          return '担保人'
+        }
+        else if(account == 2) {
+          return '普通用户'
         }
         else{
-          return state == 1 ? '男' : '女';
+          return '审核员';
         }
+      },
+      getOpResult(state) {
+        if(state == 0) {
+          return '操作成功'
+        }
+        return '操作失败'
       },
     },
 
     mounted(){
-      var res = get("/api/admin/users", {});
-      res.then(user=>{
-        this.all_tableData = user.data;
+      var res = get("/api/admin/opLog", {});
+      res.then(logs=>{
+        this.all_tableData = logs.data;
         this.getOriginalData();
         console.log(this.tableData);
       }
