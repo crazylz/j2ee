@@ -6,17 +6,11 @@
     <el-breadcrumb-item><a href="/">消息中心</a></el-breadcrumb-item>
   </el-breadcrumb>
 
-<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
   <el-menu-item index="1" @click="dataType=2">全部消息</el-menu-item>
   <el-menu-item index="2" @click="dataType=1">已读消息</el-menu-item>
   <el-menu-item index="3" @click="dataType=0">未读消息</el-menu-item>
 </el-menu>
-
-
-
-    <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-    <!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
-
 
   <el-table
     ref="filterTable"
@@ -24,12 +18,6 @@
     border
     tooltip-effect="dark">
 
-<!-- @selection-change="handleSelectionChange" -->
-
-
-    <!-- <el-table-column
-      type="selection">
-    </el-table-column> -->
 
     <el-table-column
       align="center"
@@ -125,8 +113,8 @@ import {post, get} from '../../request/http.js'
             this.getOriginalData();
             console.log(info);
         }
-      )
-        }
+        )
+      }
     },
 
     methods:{
@@ -225,6 +213,9 @@ import {post, get} from '../../request/http.js'
         }
       },
 
+      handleClick(tab, event) {
+
+      }
     }
     
     
