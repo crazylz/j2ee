@@ -6,9 +6,9 @@
      <el-header >
         <span  class="system-name">{{systemName}}</span>
         <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
-        <div class="guarantee">
+        <div class="reviewer">
           <el-dropdown>
-            <span>
+            <span style="color: white">
               <big><i class="el-icon-user-solid"></i></big>
               审核员
             </span>
@@ -348,8 +348,8 @@ import {post, get} from '../request/http.js'
 <style scoped="scoped">
 /* 设置min-height调节最小高度来实现样式统一 */
 .el-header{
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #1b2226;
+    color: rgb(255, 255, 255);
     text-align: center;
     line-height: 60px;
   }
@@ -370,6 +370,12 @@ import {post, get} from '../request/http.js'
   
   .el_table{
   width:100%;
+  }
+
+  .reviewer{
+     font-size:18px;
+    float:right;
+    margin-right:30px;
   }
   
 </style>
