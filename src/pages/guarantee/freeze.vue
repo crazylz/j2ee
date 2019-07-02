@@ -31,33 +31,37 @@
         <img src="../../assets/user.png" />
       </div>
 
-      <el-form ref="base-form" v-model="formData" class="base-form">
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
         <el-form-item>
           <label style="float:left;margin-left:40px">用户名</label>
           <br />
           <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
           <label
-            style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080"
-          >没有查询结果～</label>
+            style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{user.name}}
+            </label>
         </el-form-item>
+
         <el-form-item label="性别：" label-width="200px">
           <!-- 根据性别动态显示图标 -->
-          男：boy.png 女：girl.png 未设置：hide.png
           <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
         </el-form-item>
-        <el-form-item label="手机：" label-width="200px" />
-        <el-form-item label="工龄：" label-width="200px" />
-        <el-form-item label="工资：" label-width="200px" />
+
+        <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
+        <el-form-item label="第三方账户号码：" style="text-align:left">{{user.bankAccount}}</el-form-item>
+        <el-form-item label="身份证号码：" style="text-align:left">{{user.idCardNumber}}</el-form-item>
         <!-- 中间加条横线 -->
         <div
-          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
-        />
-        <el-form-item label="失信次数：" label-width="200px" />
-        <el-form-item label="银行卡号：" label-width="200px">
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{user.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{user.rank}}</el-form-item>
+        <el-form-item label="银行卡号：">
           <div style="float:left">
-          <label style="margin-right:50px">123456789123456789</label>
+          <label style="margin-right:50px">{{user.bankAccount}}</label>
           <el-button type="success" round>解冻</el-button>
           <el-button type="danger" round>冻结</el-button>
           </div>
@@ -72,18 +76,19 @@
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px; margin-bottom:20px"
       >| 还款记录</div>
+
       <el-table :data="tableData" border default-expand-all>
-        <el-table-column align="center" label="单号" sortable>
+        <el-table-column align="center" label="单号" sortable prop="id">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="还款额" sortable>
+        <el-table-column align="center" label="还款额" sortable prop="amount">
           <template slot-scope="scope">
             <span>￥{{ scope.row.amount }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="还款截至时间" sortable>
+        <el-table-column align="center" label="还款截至时间" sortable prop="timeToRepay">
           <template slot-scope="scope">
             <span>{{ scope.row.timeToRepay | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
           </template>
@@ -91,11 +96,6 @@
         <el-table-column align="center" label="状态">
           <template slot-scope="scope">
             <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" fixed="right" label="操作">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">还款</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -112,7 +112,8 @@ export default {
     return {
       input_select: "",
       tableData: [],
-      formData:{},
+      all_tableData: [],
+
       user:{
       name:null,
       gender:null,
@@ -121,8 +122,12 @@ export default {
       paymentAccount: null,
       bankAccount: null,
       lengthOfService:null,
-      idCardNumber:null
-    },
+      idCardNumber:null,
+      discreditedRecords:null,
+      rank:null,
+      userId:null
+      },
+
       selectValue:null
     };
   },
@@ -141,21 +146,87 @@ export default {
           });
       }
       else if(this.selectValue == 1){
-        var res = get("/api/userProfile/" + this.input_select, {});
+        var res = get("/api/guarantor/" + this.input_select + "/userProfile", {});
         res.then(user=>{
-          this.user.name = user.data.name;
-          this.user.gender = user.data.gender;
-          this.user.salary = user.data.salary;
-          this.user.phoneNumber = user.data.phoneNumber;
-          this.user.paymentAccount = user.data.paymentAccount;
-          this.user.bankAccount = user.data.bankAccount;
-          this.user.lengthOfService = user.data.lengthOfService;
-          this.user.idCardNumber = user.data.idCardNumber;
+          if(user.code == 0){
+            console.log(user.data);
+            this.user.name = user.data.name;
+            this.user.gender = user.data.gender;
+            this.user.salary = user.data.salary;
+            this.user.phoneNumber = user.data.phoneNumber;
+            this.user.paymentAccount = user.data.paymentAccount;
+            this.user.bankAccount = user.data.bankAccount;
+            this.user.lengthOfService = user.data.lengthOfService;
+            this.user.idCardNumber = user.data.idCardNumber;
+            this.user.discreditedRecords = user.data.discreditedRecords;
+            this.user.rank = user.data.rank;
+            this.user.userId = user.data.userId;
+
+            var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
+            res1.then(result=>{
+              if(result.code == 0){
+                this.tableData = result.data;
+              }
+            })
+          }
+
         })
-        console.log(this.user);
       }
+      else{
+        var str_res = get("/api/guarantor/userProfile", {account: this.input_select});
+        str_res.then(user=>{
+          if(user.code == 0){
+            console.log(user.data);
+            this.user.name = user.data.name;
+            this.user.gender = user.data.gender;
+            this.user.salary = user.data.salary;
+            this.user.phoneNumber = user.data.phoneNumber;
+            this.user.paymentAccount = user.data.paymentAccount;
+            this.user.bankAccount = user.data.bankAccount;
+            this.user.lengthOfService = user.data.lengthOfService;
+            this.user.idCardNumber = user.data.idCardNumber;
+            this.user.discreditedRecords = user.data.discreditedRecords;
+            this.user.rank = user.data.rank;
+            this.user.userId = user.data.userId;
+
+            var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
+            res1.then(result=>{
+              if(result.code == 0){
+                this.tableData = result.data;
+              }
+            })
+          }
+        })
+      }
+
+
        
     },
+
+
+    getRepayData(){
+        var res = get("/api/borrower/repayRecordsToProcess", {})
+      res.then(repay=>{
+        this.tableData = repay.data;
+        console.log(repay);
+        }
+      )
+    },
+
+    object(state){
+        if(state==1){
+          return "未还款";
+        }
+        else if(state==2){
+          return "平台垫付";
+        }
+      },
+      textColor(state){
+        return{
+          unpay : state == 1,
+          help: state == 2,
+        }
+      },
   }
 };
 </script>
@@ -180,4 +251,11 @@ export default {
   /* float: left; */
   padding-top: 120px;
 }
+
+.help{
+    color: #F56C6C;
+  }
+  .unpay{
+    color: #E6A23C;
+  }
 </style>
