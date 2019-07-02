@@ -389,7 +389,7 @@ export default {
   }
   
   .el-main {
-    background-color: #E9EEF3;
+    background-color: rgb(243, 239, 233);
     color: #333;
     text-align: center;
     line-height: 30px;

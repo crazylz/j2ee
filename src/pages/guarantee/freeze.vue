@@ -3,21 +3,20 @@
     <!-- 面包屑 -->
     <el-breadcrumb
       separator="/"
-      style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;"
-    >
+      style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
       <el-breadcrumb-item :to="{ path: '/guaranteehome' }">担保人</el-breadcrumb-item>
       <el-breadcrumb-item>处理逾期记录</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 搜索栏 start -->
     <div style="margin-top: 15px;">
-      <el-input placeholder="请输入内容" class="input-with-select">
-        <el-select v-model="input_select" slot="prepend" placeholder="请选择" @change="change">
+      <el-input placeholder="请输入内容" class="input-with-select" v-model="input_select">
+        <el-select slot="prepend" placeholder="请选择" @change="change" v-model="selectValue">
           <el-option label="用户ID" value="1"></el-option>
           <el-option label="用户账号" value="2"></el-option>
         </el-select>
         <!-- 这里需要实现点击发送搜索请求 -->
-        <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
       </el-input>
     </div>
     <!-- 搜索栏 end -->
@@ -25,15 +24,14 @@
     <!-- 资料卡片 start -->
     <div class="card-div">
       <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px"
-      >| 基本资料</div>
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
       <!-- 头像 -->
       <div style="margin-top: 80px; float: left;">
         <img src="../../assets/user.png" />
       </div>
 
-      <el-form ref="base-form" model="formData" class="base-form">
+      <el-form ref="base-form" v-model="formData" class="base-form">
         <el-form-item>
           <label style="float:left;margin-left:40px">用户名</label>
           <br />
@@ -44,8 +42,10 @@
         </el-form-item>
         <el-form-item label="性别：" label-width="200px">
           <!-- 根据性别动态显示图标 -->
-          <!-- 男：boy.png 女：girl.png 未设置：hide.png -->
-          <img src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          男：boy.png 女：girl.png 未设置：hide.png
+          <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
         </el-form-item>
         <el-form-item label="手机：" label-width="200px" />
         <el-form-item label="工龄：" label-width="200px" />
@@ -105,18 +105,57 @@
 </template>
 
 <script>
+import {post, get} from '../../request/http.js'
+
 export default {
   data() {
     return {
       input_select: "",
-      tableData: null
+      tableData: [],
+      formData:{},
+      user:{
+      name:null,
+      gender:null,
+      salary: null,
+      phoneNumber: null,
+      paymentAccount: null,
+      bankAccount: null,
+      lengthOfService:null,
+      idCardNumber:null
+    },
+      selectValue:null
     };
   },
   // 获取选择的搜索栏搜索方式
   methods: {
     change(value) {
       // console.log(value);
-    }
+    },
+
+    search(){
+      if(this.selectValue == null){
+        this.$msgbox({
+            title: '提示',
+            message: '请选择搜索类型！',
+            type: 'error'
+          });
+      }
+      else if(this.selectValue == 1){
+        var res = get("/api/userProfile/" + this.input_select, {});
+        res.then(user=>{
+          this.user.name = user.data.name;
+          this.user.gender = user.data.gender;
+          this.user.salary = user.data.salary;
+          this.user.phoneNumber = user.data.phoneNumber;
+          this.user.paymentAccount = user.data.paymentAccount;
+          this.user.bankAccount = user.data.bankAccount;
+          this.user.lengthOfService = user.data.lengthOfService;
+          this.user.idCardNumber = user.data.idCardNumber;
+        })
+        console.log(this.user);
+      }
+       
+    },
   }
 };
 </script>
