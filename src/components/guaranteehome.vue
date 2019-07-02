@@ -8,7 +8,7 @@
         <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
         <div class="guarantee">
           <el-dropdown>
-            <span>
+            <span style="color: white">
               <big><i class="el-icon-user-solid"></i></big>
               {{adminName}}
             </span>
@@ -26,11 +26,11 @@
           <!-- 侧栏 -->
           <el-aside width="200px">
             <el-menu :default-active="$route.path" router unique-opened >
-              <el-menu-item index="/guaranteehome/guarantee" style="text-align:left">
+              <el-menu-item index="/guaranteehome/guarantee" style="text-align:left" class="item">
               <i class="el-icon-s-custom"></i>担保请求
               </el-menu-item>
 
-               <el-menu-item index="/guaranteehome/freeze" style="text-align:left">
+               <el-menu-item index="/guaranteehome/freeze" style="text-align:left" class="item">
               <i class="el-icon-s-order"></i>处理逾期记录
                </el-menu-item>
             </el-menu>
@@ -72,28 +72,33 @@ export default {
 <style scoped="scoped">
 /* 设置min-height调节最小高度来实现样式统一 */
 .el-header{
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #1b2226;
+    color: rgb(255, 255, 255);
     text-align: center;
     line-height: 60px;
   }
   
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #272a2d;
     color: #333;
+    /* background-image: url('../assets/back.jpeg'); */
     text-align: center;
     line-height: 200px;
     min-height: 90vh;
   }
   
   .el-main {
-    background-color: #E9EEF3;
+    background-color:  #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 30px;
     min-height: 90vh;
   }
 
+  .item {
+    background-color: #272a2d;
+    color: white;
+  }
   .system-name{
     float:left;
     margin-left:70px;

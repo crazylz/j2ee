@@ -8,7 +8,7 @@
         <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
         <div class="users">
           <el-dropdown>
-            <span>
+            <span style="color: white">
               <big><i class="el-icon-user-solid"></i></big>
               {{userName}}
             </span>
@@ -116,34 +116,33 @@
       <el-aside width="200px">
         <el-menu :default-active="$route.path" router unique-opened>
 
-          <el-menu-item index="/userhome/personalinfo" style="text-align:left">
+          <el-menu-item index="/userhome/personalinfo" style="text-align:left" class="item">
             <i class="el-icon-user"></i>个人资料
           </el-menu-item>
 
-          <el-menu-item index="/userhome/loans" style="text-align:left">
+          <el-menu-item index="/userhome/loans" style="text-align:left" class="item">
             <i class="el-icon-discount"></i>借款
           </el-menu-item>
 
-          <el-submenu index="1" style="text-align:left">
-            <template slot="title">
-              <i class="el-icon-shopping-cart-2"></i>产品
+          <el-submenu index="1" style="text-align:left" class="product">
+            <template slot="title" class="title">
+              <i class="el-icon-shopping-cart-2"></i><span style="color: white">产品</span>
             </template>
-            <el-menu-item-group>
-              <el-menu-item index="/userhome/newproducts">购买产品</el-menu-item>
-              <el-menu-item index="/userhome/producted">已购产品</el-menu-item>
+            <el-menu-item-group class="group">
+              <el-menu-item index="/userhome/newproducts"  class="item">购买产品</el-menu-item>
+              <el-menu-item index="/userhome/producted"  class="item">已购产品</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
           
-          <el-menu-item index="/userhome/repay" style="text-align:left">
+          <el-menu-item index="/userhome/repay" style="text-align:left" class="item">
           <i class="el-icon-sold-out"></i>还款
           </el-menu-item>
 
-          <el-menu-item index="/userhome/record" style="text-align:left">
+          <el-menu-item index="/userhome/record" style="text-align:left" class="item">
           <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
 
-          <el-menu-item index="/userhome/credit" style="text-align:left">
+          <el-menu-item index="/userhome/credit" style="text-align:left" class="item">
           <i class="el-icon-user"></i>个人征信
           </el-menu-item>
 
@@ -374,20 +373,41 @@ export default {
 <style scoped="scoped">
 /* 设置min-height调节最小高度来实现样式统一 */
 .el-header{
-    background-color: #B3C0D1;
-    color: #333;
+    background-color: #1b2226;
+    color: rgb(255, 255, 255);
     text-align: center;
     line-height: 60px;
   }
   
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #272a2d;
     color: #333;
     text-align: center;
     line-height: 200px;
     min-height: 90vh;
   }
-  
+  .item {
+    background-color: #272a2d;
+    color: white;
+  }
+  .title {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    background-color: #272a2d;
+    color: white;
+  }
+  .group {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    background-color: #272a2d;
+    color: white;
+  }
+  .product {
+    margin-top: 0%;
+    margin-bottom: 0%;
+    background-color: #272a2d;
+    color: white;
+  }
   .el-main {
     background-color: #E9EEF3;
     color: #333;
