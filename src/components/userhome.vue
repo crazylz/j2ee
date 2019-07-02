@@ -407,13 +407,13 @@ export default {
     font-size:20px;
   }
   
-  .bell{
+   .bell{
     float:right;
     margin-right:70px;
   }
    
    
-  .users{
+   .users{
     font-size:18px;
     float:right;
     margin-right:30px;
