@@ -126,7 +126,7 @@ const router = new Router({
           component:freeze   
         },
         {
-          path:'/guarantee/guaranteeinformation',
+          path:'/guaranteehome/guaranteeinformation',
           component:guaranteeinformation
         }
       ]

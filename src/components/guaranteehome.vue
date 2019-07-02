@@ -60,7 +60,7 @@ export default {
   data: data,
   methods: {
     bell:function(){
-        this.$router.push({path:'/guaranteehome/information'});
+        this.$router.push({path:'/guaranteehome/guaranteeinformation'});
     },
   },
   mounted: function() {
