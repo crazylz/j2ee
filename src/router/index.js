@@ -17,7 +17,7 @@ import repay from '../pages/user/repay.vue'
 import record from '../pages/user/record.vue'
 import message from '../pages/user/message.vue'
 import credit from '../pages/user/credit.vue'
-import latestcredit from '../pages/user/latestcredit.vue'
+// import latestcredit from '../pages/user/latestcredit.vue'
 import personalinfo from '../pages/user/personalinfo.vue'
 
 //管理员界面
@@ -82,10 +82,10 @@ const router = new Router({
           path:'/userhome/credit',
           component:credit
         },
-        {
-          path:'/userhome/latestcredit',
-          component:latestcredit
-        },
+        // {
+        //   path:'/userhome/latestcredit',
+        //   component:latestcredit
+        // },
         {
           path:'/userhome/personalinfo',
           component:personalinfo

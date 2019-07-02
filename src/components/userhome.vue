@@ -143,15 +143,10 @@
           <i class="el-icon-notebook-2"></i>资金流转记录
           </el-menu-item>
 
-          <el-submenu index="2" style="text-align:left">
-            <template slot="title">
-              <i class="el-icon-user"></i>个人征信
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/userhome/credit">填写征信资料</el-menu-item>
-              <el-menu-item index="/userhome/latestcredit">审核结果</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+          <el-menu-item index="/userhome/credit" style="text-align:left">
+          <i class="el-icon-user"></i>个人征信
+          </el-menu-item>
+
 
         </el-menu>
       </el-aside>
