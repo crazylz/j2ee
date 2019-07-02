@@ -59,12 +59,12 @@ let data = () => {
 export default {
   data: data,
   methods: {
-
-  },
-  mounted: function() {
     bell:function(){
         this.$router.push({path:'/guaranteehome/information'});
     },
+  },
+  mounted: function() {
+    
   }
 }
 </script>
