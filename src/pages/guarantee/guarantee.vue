@@ -1,25 +1,14 @@
 <template>
   <div>
+
+<!-- 面包屑 -->
+  <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
+    <el-breadcrumb-item :to="{ path: '/guaranteehome' }">担保人</el-breadcrumb-item>
+    <el-breadcrumb-item>担保请求</el-breadcrumb-item>
+  </el-breadcrumb>
+
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
-      <!-- 顶栏 -->
-     <el-header >
-        <span  class="system-name">{{systemName}}</span>
-        <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
-        <div class="guarantee">
-          <el-dropdown>
-            <span>
-              <big><i class="el-icon-user-solid"></i></big>
-              担保人
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <a href="#/login">
-              <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
-              </a>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </el-header>
         
       <el-main>
         <el-table
