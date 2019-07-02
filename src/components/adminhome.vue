@@ -63,7 +63,9 @@ let data = () => {
 export default {
   data: data,
   methods: {
-
+    bell:function(){
+        this.$router.push({path:'/adminhome/information'});
+    },
   },
   mounted: function() {
 
@@ -98,7 +100,7 @@ export default {
 
   .system-name{
     float:left;
-    margin-left:70px;
+    margin-left:35px;
     font-size:20px;
   }
   
@@ -108,9 +110,9 @@ export default {
   }
    
    
-   .admin{
+  .admin{
      font-size:18px;
     float:right;
-    margin-right:100px;
+    margin-right:30px;
   }
 </style>

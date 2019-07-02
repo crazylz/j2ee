@@ -25,6 +25,7 @@ import adminhome from '../components/adminhome.vue'
 import users from '../pages/admin/users.vue'
 import produce from '../pages/admin/produce.vue'
 import operation from '../pages/admin/operation.vue'
+import admininformation from '../pages/admin/admininformation.vue'
 
 //担保员界面
 import guarantee from '../pages/guarantee/guarantee.vue'
@@ -103,7 +104,11 @@ const router = new Router({
         {
           path:'/adminhome/operation',
           component:operation
-        }]
+        },
+        {
+          path:'/adminhome/information',
+          component:admininformation
+        },]
     },
     {
       path:'/guarantee',
