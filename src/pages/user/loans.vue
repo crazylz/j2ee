@@ -105,8 +105,12 @@
           <p>失信记录次数: {{ investor.discreditedRecords }}</p>
           <p>信用评级: {{ investor.rank }}</p>
         <div slot="reference" class="name-wrapper"> -->
-          <el-button size="mini" @click="getInvestor(scope.row.investorId);detailVisible=true">
+          <el-button v-if="scope.row.investorId!=0" size="mini" @click="getInvestor(scope.row.investorId);detailVisible=true">
             {{scope.row.investorId}}
+          </el-button>
+
+          <el-button type="text" v-else size="mini">
+            ——
           </el-button>
       <!-- </div>
       </el-popover> -->
