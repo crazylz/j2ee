@@ -15,7 +15,7 @@ import newproducts from '../pages/user/newproducts.vue'
 import producted from '../pages/user/producted.vue'
 import repay from '../pages/user/repay.vue'
 import record from '../pages/user/record.vue'
-import information from '../pages/user/infromation.vue'
+import message from '../pages/user/message.vue'
 import credit from '../pages/user/credit.vue'
 import latestcredit from '../pages/user/latestcredit.vue'
 import personalinfo from '../pages/user/personalinfo.vue'
@@ -68,8 +68,8 @@ const router = new Router({
           component:repay
         },
         {
-          path:'/userhome/information',
-          component:information
+          path:'/userhome/message',
+          component:message
         },
         {
           path:'/userhome/record',

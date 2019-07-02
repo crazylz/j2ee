@@ -252,7 +252,7 @@ export default {
   },
   methods: {
     bell:function(){
-        this.$router.push({path:'/userhome/information'});
+        this.$router.push({path:'/userhome/message'});
     },
 
     getGender(state){
