@@ -5,7 +5,7 @@
       <!-- 顶栏 -->
       <el-header >
         <span  class="system-name">{{systemName}}</span>
-        <!-- <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span> -->
+        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
         <div class="admin">
           <el-dropdown>
             <span>
@@ -63,7 +63,9 @@ let data = () => {
 export default {
   data: data,
   methods: {
-
+    bell:function(){
+        this.$router.push({path:'/adminhome/information'});
+    },
   },
   mounted: function() {
 
@@ -98,19 +100,19 @@ export default {
 
   .system-name{
     float:left;
-    margin-left:70px;
+    margin-left:35px;
     font-size:20px;
   }
   
-   /* .bell{
+   .bell{
     float:right;
     margin-right:70px;
-  } */
+  }
    
    
-   .admin{
+  .admin{
      font-size:18px;
     float:right;
-    margin-right:100px;
+    margin-right:30px;
   }
 </style>
