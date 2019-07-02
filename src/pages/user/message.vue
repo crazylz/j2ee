@@ -113,8 +113,8 @@ import {post, get} from '../../request/http.js'
             this.getOriginalData();
             console.log(info);
         }
-      )
-        }
+        )
+      }
     },
 
     methods:{
