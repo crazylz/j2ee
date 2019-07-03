@@ -5,6 +5,45 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/produce' }">管理产品</el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
+
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{user.name}}
+          </label>
+        </el-form-item>
+
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
+
+        <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{user.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{user.rank}}</el-form-item>
+        </el-form>
+        </div>
+      </el-dialog>
+
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
       <el-menu-item index="2" @click="dataType=1">待处理借款</el-menu-item>
@@ -106,7 +145,7 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-      <el-popover trigger="click" placement="bottom">
+      <!-- <el-popover trigger="click" placement="bottom">
           <p>姓名: {{ borrower.name}}</p>
           <p>性别: {{ getGender(borrower.gender) }}</p>
           <p>电话: {{ borrower.phoneNumber }}</p>
@@ -114,12 +153,12 @@
           <p>工资: ￥{{ borrower.salary }}</p>
           <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
           <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper">
-          <el-button size="mini" @click="getBorrower(scope.row.userId)">
+        <div slot="reference" class="name-wrapper"> -->
+          <el-button size="mini" @click="getUser(scope.row.userId);detailVisible=true;">
             {{scope.row.userId}}
           </el-button>
-        </div>
-      </el-popover>
+        <!-- </div>
+      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -130,7 +169,7 @@
       label="投资人id"
       sortable>
       <template slot-scope="scope">
-      <el-popover trigger="click" placement="bottom">
+      <!-- <el-popover trigger="click" placement="bottom">
           <p>姓名: {{ borrower.name}}</p>
           <p>性别: {{ getGender(borrower.gender) }}</p>
           <p>电话: {{ borrower.phoneNumber }}</p>
@@ -138,12 +177,12 @@
           <p>工资: ￥{{ borrower.salary }}</p>
           <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
           <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper">
-          <el-button size="mini" @click="getBorrower(scope.row.investorId)">
+        <div slot="reference" class="name-wrapper"> -->
+          <el-button size="mini"  @click="getUser(scope.row.investorId);detailVisible=true;">
             {{scope.row.investorId}}
           </el-button>
-        </div>
-      </el-popover>
+        <!-- </div>
+      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -197,10 +236,10 @@ import {post, get} from '../../request/http.js'
   export default {
     data() {
       return {
-        addVisible: false,
+        detailVisible:false,
         all_tableData: [],
         pageIndex:1,
-        borrower: [],
+        user: [],
         dataType: 0,
         activeIndex:'1',
       }
@@ -255,7 +294,16 @@ import {post, get} from '../../request/http.js'
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
-      }
+      },
+
+      getUser(id){
+        var res = get("/api/userProfile/" + id, {});
+        res.then(bdata=>{
+          this.user = bdata.data;
+          console.log(this.user);
+        })
+      },
+
     },
 
     mounted(){
@@ -310,4 +358,13 @@ import {post, get} from '../../request/http.js'
   .unpay{
     color: #F56C6C
   }
+  .card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
+}
 </style>
