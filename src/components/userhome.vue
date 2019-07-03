@@ -190,7 +190,7 @@ export default {
         },{
           value: 2,
           label: '女'
-        }],
+    }],
 
     // detailrules:{
     //   name: [

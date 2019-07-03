@@ -24,7 +24,7 @@
             {{user.name}}
           </label>
 
-          <el-input v-model="user.name" v-else></el-input>
+          <el-input v-model="user.name" v-else style="float:left;margin-left:40px;"></el-input>
         </el-form-item>
 
         <el-form-item label="性别：">
@@ -32,7 +32,15 @@
           <img v-if="user.gender==0 && editable==false" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==1 && editable==false" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==2 && editable==false" src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
-          <el-input v-model="user.gender" v-else-if="editable==true"></el-input>
+          <!-- <el-input v-model="user.gender" v-else-if="editable==true"></el-input> -->
+          <el-select v-model="user.gender" placeholder="请选择性别" label="性别" v-else-if="editable==true" style="width:60%;float:left"> 
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="手机：" style="text-align:left">
@@ -81,7 +89,7 @@
         <el-form-item>
           <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
           <div v-else>
-          <el-button type="info" round @click="editable = false">取消编辑</el-button>
+          <el-button type="danger" round @click="editable = false">取消编辑</el-button>
           <el-button type="success" round @click="handleDetail">保存</el-button>
           </div>
         </el-form-item>
