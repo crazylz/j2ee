@@ -40,6 +40,17 @@ export function get(url,params){
     });
 }
 
+// 获取本地文件
+export function getLocalUrl(url){
+    return new Promise((resolve, reject) =>{
+        axios.get(url,{}).then(res =>{
+            resolve(res.data)
+        }).catch(err=>{
+            reject(err.data)
+        })
+    })
+}
+
 
 
 //post
