@@ -64,7 +64,7 @@
         
       <el-main>
         <el-table
-        :data="requestData"
+        :data="requestData.slice(pageIndex*10-10, pageIndex*10)"
         border
         default-expand-all>
           
@@ -139,39 +139,6 @@
             </template>
           </el-table-column>
 
-          <!-- <el-table-column
-            align="center"
-            label="审核结果">
-            <template slot-scope="scope">
-              <span>{{result(scope.row.state)}}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            label="审核评级">
-            <template slot-scope="scope">
-            <span>{{ scope.row.evaluationRank }}</span>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            label="审核评价">
-            <template slot-scope="scope">
-            <span>{{ scope.row.evaluationDesc }}</span>
-            </template>
-          </el-table-column>
-
-
-          <el-table-column
-            align="center"
-            label="审核时间">
-            <template slot-scope="scope">
-            <span>{{ scope.row.processTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-          </el-table-column> -->
-
           <el-table-column
             align="center"
             fixed="right"
@@ -183,6 +150,16 @@
           </el-table-column>
 
         </el-table>
+
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="100*(requestData.length/10)">
+        </el-pagination>
+
       </el-main>
    </el-container>
  
@@ -200,6 +177,7 @@ import {post, get} from '../../request/http.js'
         addVisible: false,
         systemName: '审核员界面',
         requestData:[],
+        pageIndex:1,
         borrower: [],
         userId: null,
         options: [{
@@ -336,7 +314,15 @@ import {post, get} from '../../request/http.js'
           });
           }
         })
-      }
+      },
+
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.pageIndex = val;
+      },
       
 
     },
