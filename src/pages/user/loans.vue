@@ -88,7 +88,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -112,7 +112,11 @@
 
     <el-table-column
       align='center'
-      label="金额">
+      label="金额"
+      :filters="[{text:'10000', value:10000}]"
+      :filter-method="filterHandler"
+      prop="amount"
+      column-key="amount">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -120,7 +124,12 @@
 
     <el-table-column
     align='center'
-      label="分期">
+      label="分期"
+      :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
+      :filter-method="filterHandler"
+      prop="installmentNumber"
+      column-key="installmentNumber">
+
       <template slot-scope="scope">
         <span>{{ scope.row.installmentNumber }}</span>
       </template>
@@ -142,22 +151,6 @@
       </template>
     </el-table-column>
 
-    <!-- <el-table-column
-    align='center'
-      label="每期还款金额">
-      <template slot-scope="scope">
-        <el-popover 
-        trigger="hover"
-        placement="top-start"
-        title="计算公式: 金额 × (1 + 利率) ÷ 分期数">
-        <span>
-          ￥{{scope.row.amount}} × (1 + {{scope.row.rate}}%) ÷ {{scope.row.installmentNumber}}
-        </span>
-
-        <span slot="reference">￥{{ (scope.row.amount * (scope.row.rate / 100 + 1) / scope.row.installmentNumber).toFixed(2)  }}</span>
-        </el-popover>
-      </template>
-    </el-table-column> -->
 
     <el-table-column
     align='center'
@@ -203,7 +196,7 @@ import {post, get} from '../../request/http.js'
         addVisible: false,
         detailVisible:false,
         all_tableData: [],
-        tableData: [],
+        pageIndex:1,
         options: [{value: 6,label: '6'},{value: 12,label: '12'},{value: 18,label: '18'},{value: 24,label: '24'}],
 
 
@@ -261,6 +254,12 @@ import {post, get} from '../../request/http.js'
         if(state==5)return '未还清';
       },
 
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        console.log(value);
+        return row[property] === value;
+      },
+
       textColor(state){
         return{
           agree : state == 2,
@@ -278,36 +277,12 @@ import {post, get} from '../../request/http.js'
         })
       },
 
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
-      },
-
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
-      },
-      
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+        this.pageIndex = val;
       },
       
       handleSave() {
@@ -349,7 +324,6 @@ import {post, get} from '../../request/http.js'
         var res = get("/api/borrower/allRequests", {});
         res.then(data => {
         this.all_tableData = data.data;
-        this.getOriginalData();
         console.log(data)
       });
       },

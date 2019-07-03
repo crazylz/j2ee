@@ -48,7 +48,7 @@
 
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -155,7 +155,7 @@ import {post, get} from '../../request/http.js'
     data() {
       return {
         all_tableData: [],
-        tableData: [],
+        pageIndex:1,
         detailVisible:false,
         borrower: {
           name:null,
@@ -188,7 +188,6 @@ import {post, get} from '../../request/http.js'
           var res1 = get("/api/investor/productList", {})
           res1.then(tdata => {
             this.all_tableData = tdata.data
-            this.getOriginalData();
             console.log(tdata)
 
           })
@@ -210,18 +209,6 @@ import {post, get} from '../../request/http.js'
           });
         });
         
-        
-      },
-
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
       },
 
       handleSizeChange(val) {
@@ -229,17 +216,10 @@ import {post, get} from '../../request/http.js'
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
+        this.pageIndex=val;
       },
 
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
+
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
@@ -272,9 +252,7 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/investor/productList", {})
       res.then(data => {
         this.all_tableData = data.data;
-        this.getOriginalData();
         console.log(data);
-
       })
     }
   }

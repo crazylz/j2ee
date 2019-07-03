@@ -8,14 +8,15 @@
 
 
   <el-table
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border
     default-expand-all
     >
     <el-table-column
       align="center"
       label="单号"
-      sortable>
+      sortable
+      prop="id">
       <template slot-scope="scope">
       <span>{{ scope.row.id }}</span>
       </template>
@@ -29,7 +30,8 @@
     <el-table-column
       align="center"
       label="还款额"
-      sortable>
+      sortable
+      prop="amount">
       <template slot-scope="scope">
       <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -37,7 +39,8 @@
     <el-table-column
       align="center"
       label="还款截至时间"
-      sortable>
+      sortable
+      prop="timeToRepay">
       <template slot-scope="scope">
         <span>{{ scope.row.timeToRepay | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -77,7 +80,7 @@ import {post, get} from '../../request/http.js'
     data(){
       return{
         all_tableData: [],
-        tableData:[]
+        pageIndex:1,
       }
     },
 
@@ -91,20 +94,9 @@ import {post, get} from '../../request/http.js'
         var res = get("/api/borrower/repayRecordsToProcess", {})
       res.then(repay=>{
         this.all_tableData = repay.data;
-        this.getOriginalData();
         console.log(repay);
         }
       )
-      },
-
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.tableData.length){
-          this.tableData = this.tableData.slice(begin-10, this.tableData.length);
-        }
-        else{
-          this.tableData = this.tableData.slice(begin-10, begin);
-        }
       },
 
       handleSizeChange(val) {
@@ -112,7 +104,7 @@ import {post, get} from '../../request/http.js'
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
+        this.pageIndex=val;
       },
 
       object(state){
@@ -165,15 +157,6 @@ import {post, get} from '../../request/http.js'
         })
       },
 
-
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
     }
     
     
