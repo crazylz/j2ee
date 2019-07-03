@@ -71,8 +71,11 @@ import {post, get, post2} from '../../request/http.js'
         paymentAccount: null,
         bankAccount: null,
         lengthOfService:null,
-        idCardNumber:null
-      },
+        idCardNumber:null,
+        discreditedRecords:null,
+        rank:null,
+        userId:null
+        },
 
       detailrules:{
       name: [
@@ -128,6 +131,8 @@ import {post, get, post2} from '../../request/http.js'
       this.user.bankAccount = user.data.bankAccount;
       this.user.lengthOfService = user.data.lengthOfService;
       this.user.idCardNumber = user.data.idCardNumber;
+      this.user.discreditedRecords = user.data.discreditedRecords;
+      this.user.rank = user.data.rank;
     })
     },
 

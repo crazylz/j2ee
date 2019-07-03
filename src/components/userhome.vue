@@ -174,16 +174,7 @@ export default {
     money_remain:0,
     systemName: '用户界面',
     userName: 'null',
-    // user:{
-    //   name:null,
-    //   gender:null,
-    //   salary: null,
-    //   phoneNumber: null,
-    //   paymentAccount: null,
-    //   bankAccount: null,
-    //   lengthOfService:null,
-    //   idCardNumber:null
-    // },
+
     invest:{
       number:0
     },
@@ -263,14 +254,7 @@ export default {
       var userres = get("/api/userProfile", {});
       userres.then(user=>{
       this.userName = user.data.name;
-      // this.user.name = user.data.name;
-      // this.user.gender = user.data.gender;
-      // this.user.salary = user.data.salary;
-      // this.user.phoneNumber = user.data.phoneNumber;
-      // this.user.paymentAccount = user.data.paymentAccount;
-      // this.user.bankAccount = user.data.bankAccount;
-      // this.user.lengthOfService = user.data.lengthOfService;
-      // this.user.idCardNumber = user.data.idCardNumber;
+      console.log(user.data);
     })
     },
 
