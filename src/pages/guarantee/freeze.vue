@@ -51,7 +51,7 @@
         <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
         <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
         <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
-        <el-form-item label="第三方账户号码：" style="text-align:left">{{user.bankAccount}}</el-form-item>
+        <el-form-item label="第三方账户号码：" style="text-align:left">{{user.paymentAccount}}</el-form-item>
         <el-form-item label="身份证号码：" style="text-align:left">{{user.idCardNumber}}</el-form-item>
         <!-- 中间加条横线 -->
         <div
