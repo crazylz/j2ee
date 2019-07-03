@@ -38,6 +38,9 @@
 
 <script >
 import {post, get, post2, post_regist} from '../request/http.js'
+
+let Base64 = require('js-base64').Base64
+
 	export default {
 		data(){
 			var checkPhone=(rule,value,callback)=>{
@@ -103,9 +106,9 @@ import {post, get, post2, post_regist} from '../request/http.js'
 			register:function(){
 			var res=post_regist("/api/register",{
 				account:this.registerInfo.id,
-				password:this.registerInfo.password,
 				vcodeInput:this.registerInfo.check_num,
-				employeeId:this.registerInfo.employeeId
+				employeeId:this.registerInfo.employeeId,
+				password: Base64.encode(this.registerInfo.password)
 			})
 			res.then(data=>{
 				console.log(data.code);
