@@ -61,8 +61,8 @@
         <el-form-item label="银行卡号：">
           <div style="float:left">
           <label style="margin-right:50px">{{user.bankAccount}}</label>
-          <el-button type="success" round>解冻</el-button>
-          <el-button type="danger" round>冻结</el-button>
+          <el-button type="danger" round @click="freeze(user.userId)">冻结</el-button>
+          <el-button type="success" round @click="thaw(user.userId)">解冻</el-button>
           </div>
         </el-form-item>
 
@@ -272,6 +272,48 @@ export default {
           help: state == 2,
         }
       },
+
+      freeze(id){
+        var res = post("/api/guarantor/freeze", {userId:id});
+        res.then(result=>{
+          console.log(result);
+          if(result.code == 0){
+            this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'success'
+            });
+          }
+          else{
+            this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+            });
+          }
+        })
+      },
+
+      thaw(id){
+        var res = post("/api/guarantor/unfreeze", {userId:id});
+        res.then(result=>{
+          if(result.code == 0){
+            this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'success'
+            });
+          }
+          else{
+            this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+            });
+          }
+          console.log(result);
+        })
+      }
   }
 };
 </script>
