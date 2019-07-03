@@ -8,48 +8,49 @@
 
 
     <el-dialog class="detail"  :visible.sync='detailVisible'>
-        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
-        <el-form style="margin-right:120px"  ref='userForm' label-width='200px'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
-            <el-form-item label='姓名' prop='name' class="input">
-              <el-input v-model='borrower.name' placeholder='请输入姓名' clearable></el-input>
-            </el-form-item>
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
 
-            <el-form-item label="性别" class="input" prop='gender'>
-            <el-input v-model='borrower.gender' clearable></el-input>
-          </el-form-item>
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{borrower.name}}
+          </label>
+        </el-form-item>
 
-            <el-form-item label='电话' prop='phoneNumber' class="input">
-              <el-input v-model='borrower.phoneNumber' clearable disabled></el-input>
-            </el-form-item>
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
 
-            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
-              <el-input v-model='borrower.lengthOfService' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='工资(￥)' prop='salary' class="input">
-              <el-input v-model='borrower.salary' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
-              <el-input v-model='borrower.paymentAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
-              <el-input v-model='borrower.bankAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='身份证号' prop='idCardNumber' class="input">
-              <el-input v-model='borrower.idCardNumber' clearable></el-input>
-            </el-form-item>          
-        </el-form>   
+        <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
+        </el-form>
+        </div>
       </el-dialog>
 
 
 
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -120,7 +121,7 @@
     align='center'
       label="购买时间"
       sortable
-      prop="purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss')">
+      prop="purchaseTime">
       <template slot-scope="scope">
         <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -149,7 +150,7 @@ import {post, get} from '../../request/http.js'
       return {
         detailVisible:false,
         all_tableData: [],
-        tableData: [],
+        pageIndex:1,
         borrower: [],
       }
     },
@@ -158,33 +159,16 @@ import {post, get} from '../../request/http.js'
         console.log(index, row);
       },
 
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
-      },
 
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
+        this.pageIndex=val;
       },
 
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
+      
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
@@ -210,7 +194,6 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/investor/investedProductList", {})
       res.then(data => {
         this.all_tableData = data.data
-        this.getOriginalData();
         console.log(data)
       })
       },
@@ -233,5 +216,15 @@ import {post, get} from '../../request/http.js'
 
 .button_add{
   float:right;
+}
+
+.card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
 }
 </style>

@@ -10,48 +10,49 @@
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
         
-        <el-dialog class="detail"  :visible.sync='detailVisible'>
-        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
-        <el-form style="margin-right:120px"  ref='userForm' label-width='200px'>
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
-            <el-form-item label='姓名' prop='name' class="input">
-              <el-input v-model='borrower.name' placeholder='请输入姓名' clearable></el-input>
-            </el-form-item>
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
 
-            <el-form-item label="性别" class="input" prop='gender'>
-            <el-input v-model='borrower.gender' clearable></el-input>
-          </el-form-item>
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{borrower.name}}
+          </label>
+        </el-form-item>
 
-            <el-form-item label='电话' prop='phoneNumber' class="input">
-              <el-input v-model='borrower.phoneNumber' clearable disabled></el-input>
-            </el-form-item>
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
 
-            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
-              <el-input v-model='borrower.lengthOfService' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='工资(￥)' prop='salary' class="input">
-              <el-input v-model='borrower.salary' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
-              <el-input v-model='borrower.paymentAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
-              <el-input v-model='borrower.bankAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='身份证号' prop='idCardNumber' class="input">
-              <el-input v-model='borrower.idCardNumber' clearable></el-input>
-            </el-form-item>          
-        </el-form>   
+        <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
+        </el-form>
+        </div>
       </el-dialog>
 
 
       <el-main>
         <el-table
-        :data="requestData"
+        :data="requestData.slice(pageIndex*10-10, pageIndex*10)"
         border
         default-expand-all
         >
@@ -132,7 +133,7 @@
             label="每月还款日期"
             sortable>
             <template slot-scope="scope">
-              <span>{{ scope.row.payDayOfMonth }}号</span>
+              <span>{{scope.row.payDayOfMonth}}号</span>
             </template>
           </el-table-column>
 
@@ -147,6 +148,15 @@
           </el-table-column>
 
         </el-table>
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="100*(requestData.length/10)">
+        </el-pagination>
+
       </el-main>
    </el-container>
  
@@ -164,6 +174,7 @@ import {post, get} from '../../request/http.js'
         requestData:[],
         borrower: [],
         detailVisible:false,
+        pageIndex:1
       }
     },
     methods:{
@@ -192,6 +203,15 @@ import {post, get} from '../../request/http.js'
         }
         })
       },
+
+       handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.pageIndex = val;
+      },
+
       reject(row){
         var res = post("/api/guarantor/handleRequest", {id:row.id, action:0});
         res.then(data=>{
@@ -243,7 +263,7 @@ import {post, get} from '../../request/http.js'
   }
 </script>
 
-<style scoped="scoped">
+<style scoped>
 /* 设置min-height调节最小高度来实现样式统一 */
 .el-header{
     background-color: #B3C0D1;
@@ -279,5 +299,14 @@ import {post, get} from '../../request/http.js'
     float:right;
     margin-right:100px;
   }
+  .card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
+}
   
 </style>

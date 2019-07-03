@@ -23,8 +23,7 @@
 
     <!-- 资料卡片 start -->
     <div class="card-div">
-      <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+      <div style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
       <!-- 头像 -->
       <div style="margin-top: 80px; float: left;">
@@ -34,7 +33,7 @@
       <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
         <el-form-item>
           <label style="float:left;margin-left:40px">用户名</label>
-          <br />
+          <br/>
           <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
           <label
             style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
@@ -42,7 +41,7 @@
             </label>
         </el-form-item>
 
-        <el-form-item label="性别：" label-width="200px">
+        <el-form-item label="性别：">
           <!-- 根据性别动态显示图标 -->
           <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
@@ -77,7 +76,7 @@
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px; margin-bottom:20px"
       >| 还款记录</div>
 
-      <el-table :data="tableData" border default-expand-all>
+      <el-table :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)" border default-expand-all>
         <el-table-column align="center" label="单号" sortable prop="id">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
@@ -99,6 +98,15 @@
           </template>
         </el-table-column>
       </el-table>
+
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="100*(all_tableData.length/10)">
+        </el-pagination>
     </div>
     <!-- 还款记录 end -->
   </div>
@@ -111,7 +119,7 @@ export default {
   data() {
     return {
       input_select: "",
-      tableData: [],
+      pageIndex:1,
       all_tableData: [],
 
       user:{
@@ -165,9 +173,23 @@ export default {
             var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
             res1.then(result=>{
               if(result.code == 0){
-                this.tableData = result.data;
+                this.all_tableData = result.data;
+              }
+              else{
+                this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+              });
               }
             })
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: user.msg,
+            type: 'error'
+          });
           }
 
         })
@@ -192,9 +214,23 @@ export default {
             var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
             res1.then(result=>{
               if(result.code == 0){
-                this.tableData = result.data;
+                this.all_tableData = result.data;
+              }
+              else{
+                this.$msgbox({
+                title: '提示',
+                message: result.msg,
+                type: 'error'
+              });
               }
             })
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: user.msg,
+            type: 'error'
+          });
           }
         })
       }
@@ -212,6 +248,15 @@ export default {
         }
       )
     },
+
+    handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.pageIndex=val;
+      },
+
 
     object(state){
         if(state==1){
@@ -233,7 +278,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .el-select {
   width: 100px;
 }

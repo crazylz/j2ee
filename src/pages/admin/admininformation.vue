@@ -14,7 +14,7 @@
 
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border
     tooltip-effect="dark">
 
@@ -89,7 +89,7 @@ import {post, get} from '../../request/http.js'
     data(){
       return{
         all_tableData: [],
-        tableData:[],
+        pageIndex:1,
         activeIndex:'1',
         dataType: 2
       }
@@ -100,7 +100,6 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/message", {state: 2})
       res.then(info=>{
         this.all_tableData = info.data;
-        this.getOriginalData();
         console.log(info);
         }
       )
@@ -110,7 +109,6 @@ import {post, get} from '../../request/http.js'
             var res = get("/api/message", {state: val})
             res.then(info=>{
             this.all_tableData = info.data;
-            this.getOriginalData();
             console.log(info);
         }
       )
@@ -152,51 +150,16 @@ import {post, get} from '../../request/http.js'
           var res1 = get("/api/message", {state: this.dataType});
             res1.then(info=>{
             this.all_tableData = info.data;
-            this.getOriginalData();
             console.log(info);
             });
         },
-
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
-      },
-      
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
 
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
-      },
-
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.filterTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.filterTable.clearSelection();
-        }
+        this.pageIndex=val;
       },
 
       object(state){

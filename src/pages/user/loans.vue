@@ -7,41 +7,42 @@
     </el-breadcrumb>
 
     <el-dialog class="detail"  :visible.sync='detailVisible'>
-        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
-        <el-form style="margin-right:120px"  ref='userForm' label-width='200px'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
-            <el-form-item label='姓名' prop='name' class="input">
-              <el-input v-model='investor.name' placeholder='请输入姓名' clearable></el-input>
-            </el-form-item>
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
 
-            <el-form-item label="性别" class="input" prop='gender'>
-            <el-input v-model='investor.gender' clearable></el-input>
-          </el-form-item>
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{investor.name}}
+          </label>
+        </el-form-item>
 
-            <el-form-item label='电话' prop='phoneNumber' class="input">
-              <el-input v-model='investor.phoneNumber' clearable disabled></el-input>
-            </el-form-item>
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="investor.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="investor.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
 
-            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
-              <el-input v-model='investor.lengthOfService' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='工资(￥)' prop='salary' class="input">
-              <el-input v-model='investor.salary' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
-              <el-input v-model='investor.paymentAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
-              <el-input v-model='investor.bankAccount ' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='身份证号' prop='idCardNumber' class="input">
-              <el-input v-model='investor.idCardNumber' clearable></el-input>
-            </el-form-item>          
-        </el-form>   
+        <el-form-item label="手机：" style="text-align:left">{{investor.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{investor.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{investor.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{investor.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{investor.rank}}</el-form-item>
+        </el-form>
+        </div>
       </el-dialog>
   
 			<el-dialog style=" font-size: 14px " class="loans" :visible.sync='addVisible'>
@@ -87,7 +88,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -96,15 +97,6 @@
       label="投资者id"
       sortable>
       <template slot-scope="scope">
-      <!-- <el-popover trigger="click" placement="bottom">
-          <p>姓名: {{ investor.name}}</p>
-          <p>性别: {{ getGender(investor.gender) }}</p>
-          <p>电话: {{ investor.phoneNumber }}</p>
-          <p>工龄: {{ investor.lengthOfService }}</p>
-          <p>工资: ￥{{ investor.salary }}</p>
-          <p>失信记录次数: {{ investor.discreditedRecords }}</p>
-          <p>信用评级: {{ investor.rank }}</p>
-        <div slot="reference" class="name-wrapper"> -->
           <el-button v-if="scope.row.investorId!=0" size="mini" @click="getInvestor(scope.row.investorId);detailVisible=true">
             {{scope.row.investorId}}
           </el-button>
@@ -120,7 +112,11 @@
 
     <el-table-column
       align='center'
-      label="金额">
+      label="金额"
+      :filters="[{text:'10000', value:10000}]"
+      :filter-method="filterHandler"
+      prop="amount"
+      column-key="amount">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -128,7 +124,12 @@
 
     <el-table-column
     align='center'
-      label="分期">
+      label="分期"
+      :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
+      :filter-method="filterHandler"
+      prop="installmentNumber"
+      column-key="installmentNumber">
+
       <template slot-scope="scope">
         <span>{{ scope.row.installmentNumber }}</span>
       </template>
@@ -150,22 +151,6 @@
       </template>
     </el-table-column>
 
-    <!-- <el-table-column
-    align='center'
-      label="每期还款金额">
-      <template slot-scope="scope">
-        <el-popover 
-        trigger="hover"
-        placement="top-start"
-        title="计算公式: 金额 × (1 + 利率) ÷ 分期数">
-        <span>
-          ￥{{scope.row.amount}} × (1 + {{scope.row.rate}}%) ÷ {{scope.row.installmentNumber}}
-        </span>
-
-        <span slot="reference">￥{{ (scope.row.amount * (scope.row.rate / 100 + 1) / scope.row.installmentNumber).toFixed(2)  }}</span>
-        </el-popover>
-      </template>
-    </el-table-column> -->
 
     <el-table-column
     align='center'
@@ -211,7 +196,7 @@ import {post, get} from '../../request/http.js'
         addVisible: false,
         detailVisible:false,
         all_tableData: [],
-        tableData: [],
+        pageIndex:1,
         options: [{value: 6,label: '6'},{value: 12,label: '12'},{value: 18,label: '18'},{value: 24,label: '24'}],
 
 
@@ -269,6 +254,12 @@ import {post, get} from '../../request/http.js'
         if(state==5)return '未还清';
       },
 
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        console.log(value);
+        return row[property] === value;
+      },
+
       textColor(state){
         return{
           agree : state == 2,
@@ -286,36 +277,12 @@ import {post, get} from '../../request/http.js'
         })
       },
 
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
-      },
-
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
-      },
-      
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
+        this.pageIndex = val;
       },
       
       handleSave() {
@@ -357,7 +324,6 @@ import {post, get} from '../../request/http.js'
         var res = get("/api/borrower/allRequests", {});
         res.then(data => {
         this.all_tableData = data.data;
-        this.getOriginalData();
         console.log(data)
       });
       },
@@ -421,5 +387,15 @@ import {post, get} from '../../request/http.js'
   .el-select{
     width: 100%
   }
+
+  .card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
+}
   
 </style>

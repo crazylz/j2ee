@@ -7,42 +7,48 @@
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 
-    <!-- <el-dialog class="products" :visible.sync='addVisible'>
-      <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
-      <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-        <el-form-item label='账号' prop='id' class="input">
-          <el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
-        </el-form-item>
-        <el-form-item label='购买额' prop='loans' class="input">
-          <el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
-        </el-form-item>
-        <el-form-item label='利息' prop='interest' class="input">
-          <el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
-        </el-form-item>
-        <div class="repay">
-            <span class="demonstration">取回日期</span>
-            <el-date-picker
-            v-model="Loan.date"
-            align="right"
-            type="date"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-            </el-date-picker>
-        </div>
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
-        <el-form-item style="margin-right:200px;margin-top:10px">
-          <el-button type='primary' @click='addVisible = false'
-          >购买</el-button>
-          <el-button type='primary' @click='set()'
-          >保存</el-button>
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
+
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{borrower.name}}
+          </label>
         </el-form-item>
 
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
+
+        <el-form-item label="手机：" style="text-align:left">{{borrower.phone_number}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{borrower.length_of_service}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discredited_records}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
         </el-form>
-    </el-dialog> -->
+        </div>
+      </el-dialog>
 
   <el-table
     ref="filterTable"
-    :data="tableData"
+    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -85,21 +91,11 @@
       </template>
     </el-table-column>
 
-      <!-- <el-table-column
-        align="center"
-        prop = "process_time"
-        label="处理时间"
-        sortable
-        column-key="submit_date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler">
-      </el-table-column> -->
-
     <el-table-column
     align='center'
       label="处理时间"
       sortable
-      prop="process_time | dateformat('YYYY-MM-DD HH:mm:ss')">
+      prop="process_time">
       <template slot-scope="scope">
         <span>{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -110,7 +106,7 @@
       align="center"
         label="借款人">
         <template slot-scope="scope">
-          <el-popover trigger="click" placement="bottom">
+          <!-- <el-popover trigger="click" placement="bottom">
             <p>姓名: {{ scope.row.name}}</p>
             <p>性别: {{ getGender(scope.row.gender) }}</p>
             <p>电话: {{ scope.row.phone_number }}</p>
@@ -118,13 +114,13 @@
             <p>工资: ￥{{ scope.row.salary }}</p>
             <p>失信记录次数: {{ scope.row.discredited_records }}</p>
             <p>信用评级: {{ scope.row.rank }}</p>
-            <div slot="reference" class="name-wrapper">
+            <div slot="reference" class="name-wrapper"> -->
               <el-button
-              size="mini">
+              size="mini" @click="detailVisible=true;handleBorrower(scope.row)">
               {{scope.row.name}}
               </el-button>
-            </div>
-          </el-popover>
+            <!-- </div>
+          </el-popover> -->
         </template>
       </el-table-column>
 
@@ -159,7 +155,17 @@ import {post, get} from '../../request/http.js'
     data() {
       return {
         all_tableData: [],
-        tableData: []
+        pageIndex:1,
+        detailVisible:false,
+        borrower: {
+          name:null,
+          gender:null,
+          salary: null,
+          phone_number: null,
+          length_of_service:null,
+          discredited_records:null,
+          rank:null,
+        }
       }
     },
     methods: {
@@ -182,7 +188,6 @@ import {post, get} from '../../request/http.js'
           var res1 = get("/api/investor/productList", {})
           res1.then(tdata => {
             this.all_tableData = tdata.data
-            this.getOriginalData();
             console.log(tdata)
 
           })
@@ -204,18 +209,6 @@ import {post, get} from '../../request/http.js'
           });
         });
         
-        
-      },
-
-      getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
       },
 
       handleSizeChange(val) {
@@ -223,17 +216,10 @@ import {post, get} from '../../request/http.js'
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
+        this.pageIndex=val;
       },
 
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
+
       filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
@@ -245,16 +231,28 @@ import {post, get} from '../../request/http.js'
         else{
           return state == 1 ? '男' : '女';
         }
-      }
+      },
+
+
+
+    handleBorrower(row){
+      this.borrower.name = row.name;
+      this.borrower.gender = row.gender;
+      this.borrower.salary = row.salary;
+      this.borrower.phone_number = row.phone_number;
+      this.borrower.length_of_service = row.length_of_service;
+      this.borrower.rank = row.rank;
+      this.borrower.discredited_records = row.discredited_records;
+    }
+
+
     },
 
     mounted(){
       var res = get("/api/investor/productList", {})
       res.then(data => {
         this.all_tableData = data.data;
-        this.getOriginalData();
         console.log(data);
-
       })
     }
   }
@@ -272,22 +270,13 @@ import {post, get} from '../../request/http.js'
 .button_add{
   float:right;
 }
-/* .products{
-		border: 1px solid #999999;
-		border-radius: 30px;
-		text-align: center; */
-		/* background-color: rgba(255,255,255,0.8);
-
-
-    .main{
-        display:table;
-        width:fit-content;
-	}
-    /* .repay{
-        margin-right:30px;
-    } */
-    /* .input{
-        margin-left:100px;
-        margin-right:268px;
-    } */
+.card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
+}
 </style>
