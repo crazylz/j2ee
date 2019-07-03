@@ -34,13 +34,13 @@
           <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
         </el-form-item>
 
-        <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
-        <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item> 
+        <el-form-item label="手机：" style="text-align:left">{{borrower.phone_number}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{borrower.length_of_service}}年</el-form-item> 
         <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
         <!-- 中间加条横线 -->
         <div
           style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
-        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discredited_records}}</el-form-item>
         <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
         </el-form>
         </div>
@@ -116,7 +116,7 @@
             <p>信用评级: {{ scope.row.rank }}</p>
             <div slot="reference" class="name-wrapper"> -->
               <el-button
-              size="mini" @click="detailVisible=true">
+              size="mini" @click="detailVisible=true;handleBorrower(scope.row)">
               {{scope.row.name}}
               </el-button>
             <!-- </div>
@@ -157,7 +157,15 @@ import {post, get} from '../../request/http.js'
         all_tableData: [],
         tableData: [],
         detailVisible:false,
-        borrower: []
+        borrower: {
+          name:null,
+          gender:null,
+          salary: null,
+          phone_number: null,
+          length_of_service:null,
+          discredited_records:null,
+          rank:null,
+        }
       }
     },
     methods: {
@@ -243,7 +251,21 @@ import {post, get} from '../../request/http.js'
         else{
           return state == 1 ? '男' : '女';
         }
-      }
+      },
+
+
+
+    handleBorrower(row){
+      this.borrower.name = row.name;
+      this.borrower.gender = row.gender;
+      this.borrower.salary = row.salary;
+      this.borrower.phone_number = row.phone_number;
+      this.borrower.length_of_service = row.length_of_service;
+      this.borrower.rank = row.rank;
+      this.borrower.discredited_records = row.discredited_records;
+    }
+
+
     },
 
     mounted(){
@@ -270,22 +292,13 @@ import {post, get} from '../../request/http.js'
 .button_add{
   float:right;
 }
-/* .products{
-		border: 1px solid #999999;
-		border-radius: 30px;
-		text-align: center; */
-		/* background-color: rgba(255,255,255,0.8);
-
-
-    .main{
-        display:table;
-        width:fit-content;
-	}
-    /* .repay{
-        margin-right:30px;
-    } */
-    /* .input{
-        margin-left:100px;
-        margin-right:268px;
-    } */
+.card-div {
+  background-color: #ffffff;
+  padding: 5px；;
+  padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
+}
 </style>

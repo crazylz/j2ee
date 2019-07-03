@@ -121,7 +121,7 @@
     align='center'
       label="购买时间"
       sortable
-      prop="purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss')">
+      prop="purchaseTime">
       <template slot-scope="scope">
         <span>{{ scope.row.purchaseTime | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
