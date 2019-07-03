@@ -20,10 +20,9 @@
           <label style="float:left;margin-left:40px">用户名</label>
           <br/>
           <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
-          <label
-            style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
             {{user.name}}
-            </label>
+          </label>
         </el-form-item>
 
         <el-form-item label="性别：" label-width="200px">
@@ -146,13 +145,17 @@ import {post, get, post2} from '../../request/http.js'
 </script>
 
 <style scoped>
-  .el-form{
+  /* .el-form{
     text-align:left;
     width: 60%;
-  }
+  } */
 .card-div {
   background-color: #ffffff;
   padding: 5px；;
   padding-bottom: 10px;
+}
+.base-form {
+  /* float: left; */
+  padding-top: 120px;
 }
 </style>

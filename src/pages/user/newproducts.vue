@@ -7,38 +7,44 @@
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 
-    <!-- <el-dialog class="products" :visible.sync='addVisible'>
-      <h2 style="text-align: center;color: #606266; font-size:30px">新建购买</h2>
-      <el-form ref='userLoginForm' :model='Loan' label-width='200px' :rules='rules'>
-        <el-form-item label='账号' prop='id' class="input">
-          <el-input v-model='Loan.id' placeholder='请输入账号' autocomplete="on" id='userid' clearable></el-input>
-        </el-form-item>
-        <el-form-item label='购买额' prop='loans' class="input">
-          <el-input v-model='Loan.loans' type='text' placeholder='请输入借款额' autocomplete="off" id='loans' clearable></el-input>
-        </el-form-item>
-        <el-form-item label='利息' prop='interest' class="input">
-          <el-input v-model='Loan.interest' autocomplete="off" id='interest' clearable></el-input>
-        </el-form-item>
-        <div class="repay">
-            <span class="demonstration">取回日期</span>
-            <el-date-picker
-            v-model="Loan.date"
-            align="right"
-            type="date"
-            placeholder="选择日期"
-            :picker-options="pickerOptions">
-            </el-date-picker>
-        </div>
+    <el-dialog class="detail"  :visible.sync='detailVisible'>
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
 
-        <el-form-item style="margin-right:200px;margin-top:10px">
-          <el-button type='primary' @click='addVisible = false'
-          >购买</el-button>
-          <el-button type='primary' @click='set()'
-          >保存</el-button>
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
+
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{borrower.name}}
+          </label>
         </el-form-item>
 
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
+
+        <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
         </el-form>
-    </el-dialog> -->
+        </div>
+      </el-dialog>
 
   <el-table
     ref="filterTable"
@@ -85,21 +91,11 @@
       </template>
     </el-table-column>
 
-      <!-- <el-table-column
-        align="center"
-        prop = "process_time"
-        label="处理时间"
-        sortable
-        column-key="submit_date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler">
-      </el-table-column> -->
-
     <el-table-column
     align='center'
       label="处理时间"
       sortable
-      prop="process_time | dateformat('YYYY-MM-DD HH:mm:ss')">
+      prop="process_time">
       <template slot-scope="scope">
         <span>{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
       </template>
@@ -110,7 +106,7 @@
       align="center"
         label="借款人">
         <template slot-scope="scope">
-          <el-popover trigger="click" placement="bottom">
+          <!-- <el-popover trigger="click" placement="bottom">
             <p>姓名: {{ scope.row.name}}</p>
             <p>性别: {{ getGender(scope.row.gender) }}</p>
             <p>电话: {{ scope.row.phone_number }}</p>
@@ -118,13 +114,13 @@
             <p>工资: ￥{{ scope.row.salary }}</p>
             <p>失信记录次数: {{ scope.row.discredited_records }}</p>
             <p>信用评级: {{ scope.row.rank }}</p>
-            <div slot="reference" class="name-wrapper">
+            <div slot="reference" class="name-wrapper"> -->
               <el-button
-              size="mini">
+              size="mini" @click="detailVisible=true">
               {{scope.row.name}}
               </el-button>
-            </div>
-          </el-popover>
+            <!-- </div>
+          </el-popover> -->
         </template>
       </el-table-column>
 
@@ -159,7 +155,9 @@ import {post, get} from '../../request/http.js'
     data() {
       return {
         all_tableData: [],
-        tableData: []
+        tableData: [],
+        detailVisible:false,
+        borrower: []
       }
     },
     methods: {
