@@ -172,15 +172,21 @@
           </el-main>
           <!-- 底部 -->
           <el-footer>
-            <label style="color: #969696;margin-right:30px" @click="aboutUsDialogVisible=true">关于我们</label>
             <label
               style="color: #969696;margin-right:30px"
-              @click="lawDialogVisible=true"
+              @click="aboutUsDialogVisible=true;getAboutUsHtml()"
+            >关于我们</label>
+            <label
+              style="color: #969696;margin-right:30px"
+              @click="lawDialogVisible=true;getLawHtml()"
             >法律声明及隐私权政策</label>
-            <label style="color: #969696;margin-right:30px" @click="reportDialogVisible=true">廉政举报</label>
             <label
               style="color: #969696;margin-right:30px"
-              @click="contactUsDialogVisible=true"
+              @click="reportDialogVisible=true;getReportHtml()"
+            >廉政举报</label>
+            <label
+              style="color: #969696;margin-right:30px"
+              @click="contactUsDialogVisible=true;getContactUsHtml()"
             >联系我们</label>
             <br />
             <label style="color: #969696;">@ 2019 SCUT 软件学院</label>
@@ -189,21 +195,21 @@
           <!-- 底部的四个弹窗 -->
           <el-dialog class="footer-item-dialog" :visible.sync="aboutUsDialogVisible">
             <h2>关于我们</h2>
-            <p>这里是关于我们的页面</p>
+            <p v-html="aboutushtml" style="text-align:left" />
           </el-dialog>
 
           <el-dialog class="footer-item-dialog" :visible.sync="lawDialogVisible">
             <h2>法律声明及隐私权政策</h2>
-            <p>这里是法律声明及隐私权政策的页面</p>
+            <p v-html="lawhtml" style="text-align:left"></p>
           </el-dialog>
 
           <el-dialog class="footer-item-dialog" :visible.sync="reportDialogVisible">
             <h2>廉政举报</h2>
-            <p v-html="reporthtml" />
+            <p v-html="reporthtml" style="text-align:left" />
           </el-dialog>
           <el-dialog class="footer-item-dialog" :visible.sync="contactUsDialogVisible">
             <h2>联系我们</h2>
-            <p>这里是的页面</p>
+            <p v-html="contactushtml"></p>
           </el-dialog>
         </el-container>
       </el-container>
@@ -214,7 +220,8 @@
 
 
 <script>
-import { post, get } from "../request/http.js";
+import axios from "axios";
+import { post, get, getLocalUrl } from "../request/http.js";
 // template涉及的所有的变量都要写入data之中，数据传输的时候也是这些数据
 export default {
   data() {
@@ -226,6 +233,9 @@ export default {
       lawDialogVisible: false,
       reportDialogVisible: false,
       contactUsDialogVisible: false,
+      lawhtml: "",
+      aboutushtml: "",
+      contactushtml: "",
       reporthtml: "",
       money_remain: 0,
       systemName: "用户界面",
@@ -400,13 +410,33 @@ export default {
         }
       });
     },
-    getReportHtml() {
-      var res = this.$axios.get(
-        "http://localhost:8080/static/reportDialog.html"
-      );
+
+    getLawHtml() {
+      var res = getLocalUrl("http://localhost:8080/static/law.html");
       res.then(data => {
-        log.console("获取数据");
-        reporthtml = data;
+        console.log(data);
+        this.lawhtml = data;
+      });
+    },
+    getReportHtml() {
+      var res = getLocalUrl("http://localhost:8080/static/report.html");
+      res.then(data => {
+        console.log(data);
+        this.reporthtml = data;
+      });
+    },
+    getAboutUsHtml() {
+      var res = getLocalUrl("http://localhost:8080/static/aboutus.html");
+      res.then(data => {
+        console.log(data);
+        this.aboutushtml = data;
+      });
+    },
+    getContactUsHtml() {
+      var res = getLocalUrl("http://localhost:8080/static/contactus.html");
+      res.then(data => {
+        console.log(data);
+        this.contactushtml = data;
       });
     }
   }
