@@ -40,6 +40,9 @@
 
 <script >
 import {post, get, post1} from '../request/http.js'
+
+let Base64 = require('js-base64').Base64
+
 	export default {
 		name: 'login',
 		data(){
@@ -68,7 +71,7 @@ import {post, get, post1} from '../request/http.js'
 				if(that.loginRole==1){
 					var res = post1("/api/login", {
 						account: this.userLogin.id,
-						password: this.userLogin.password,
+						password: Base64.encode(this.userLogin.password),
 						type: 2
 					})
 					res.then(data => {
@@ -87,7 +90,7 @@ import {post, get, post1} from '../request/http.js'
 				else if(that.loginRole==2){
 					var res = post1("/api/login", {
 						account: this.userLogin.id,
-						password: this.userLogin.password,
+						password: Base64.encode(this.userLogin.password),
 						type: 1
 					})
 					res.then(data => {
@@ -105,7 +108,7 @@ import {post, get, post1} from '../request/http.js'
 				else if(that.loginRole==4){
 					var res = post1("/api/login", {
 						account: this.userLogin.id,
-						password: this.userLogin.password,
+						password: Base64.encode(this.userLogin.password),
 						type: 0
 					})
 					res.then(data => {
@@ -123,7 +126,7 @@ import {post, get, post1} from '../request/http.js'
 				else{
 					var res = post1("/api/login", {
 						account: this.userLogin.id,
-						password: this.userLogin.password,
+						password: Base64.encode(this.userLogin.password),
 						type: 3
 					})
 					res.then(data => {
