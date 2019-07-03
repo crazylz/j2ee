@@ -76,7 +76,7 @@
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px; margin-bottom:20px"
       >| 还款记录</div>
 
-      <el-table :data="tableData" border default-expand-all>
+      <el-table :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)" border default-expand-all>
         <el-table-column align="center" label="单号" sortable prop="id">
           <template slot-scope="scope">
             <span>{{ scope.row.id }}</span>
@@ -119,7 +119,7 @@ export default {
   data() {
     return {
       input_select: "",
-      tableData: [],
+      pageIndex:1,
       all_tableData: [],
 
       user:{
@@ -174,7 +174,6 @@ export default {
             res1.then(result=>{
               if(result.code == 0){
                 this.all_tableData = result.data;
-                this.getOriginalData();
               }
               else{
                 this.$msgbox({
@@ -216,7 +215,6 @@ export default {
             res1.then(result=>{
               if(result.code == 0){
                 this.all_tableData = result.data;
-                this.getOriginalData();
               }
               else{
                 this.$msgbox({
@@ -256,28 +254,9 @@ export default {
       },
 
       handleCurrentChange(val) {
-        this.getDataByPage(val);
+        this.pageIndex=val;
       },
 
-    getDataByPage(pageindex){
-        var begin = pageindex * 10;
-        if(begin > this.all_tableData.length){
-          this.tableData = this.all_tableData.slice(begin-10, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(begin-10, begin);
-        }
-        // console.log(begin);
-      },
-
-      getOriginalData(){
-        if(this.all_tableData.length < 10){
-          this.tableData = this.all_tableData.slice(0, this.all_tableData.length);
-        }
-        else{
-          this.tableData = this.all_tableData.slice(0, 10);
-        }
-      },
 
     object(state){
         if(state==1){

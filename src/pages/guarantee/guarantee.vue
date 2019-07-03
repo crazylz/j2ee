@@ -52,7 +52,7 @@
 
       <el-main>
         <el-table
-        :data="requestData"
+        :data="requestData.slice(pageIndex*10-10, pageIndex*10)"
         border
         default-expand-all
         >
@@ -133,7 +133,7 @@
             label="每月还款日期"
             sortable>
             <template slot-scope="scope">
-              <span>{{ scope.row.payDayOfMonth }}号</span>
+              <span>{{scope.row.payDayOfMonth}}号</span>
             </template>
           </el-table-column>
 
@@ -148,6 +148,15 @@
           </el-table-column>
 
         </el-table>
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="100*(requestData.length/10)">
+        </el-pagination>
+
       </el-main>
    </el-container>
  
@@ -165,6 +174,7 @@ import {post, get} from '../../request/http.js'
         requestData:[],
         borrower: [],
         detailVisible:false,
+        pageIndex:1
       }
     },
     methods:{
@@ -193,6 +203,15 @@ import {post, get} from '../../request/http.js'
         }
         })
       },
+
+       handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+
+      handleCurrentChange(val) {
+        this.pageIndex = val;
+      },
+
       reject(row){
         var res = post("/api/guarantor/handleRequest", {id:row.id, action:0});
         res.then(data=>{
