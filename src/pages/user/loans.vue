@@ -6,6 +6,17 @@
     <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建贷款</el-button>
     </el-breadcrumb>
 
+
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+      <el-menu-item index="0" @click="dataType=0">所有借款</el-menu-item>
+      <el-menu-item index="1" @click="dataType=1">待处理借款</el-menu-item>
+      <el-menu-item index="2" @click="dataType=2">担保人已同意借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=3">担保人已拒绝借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=4">已还清借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=5">未还清借款</el-menu-item>
+    </el-menu>
+
+
     <el-dialog class="detail"  :visible.sync='detailVisible'>
         <div class="card-div">
       <div
@@ -88,7 +99,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
+    :data="all_tableData.filter(data=>data.state.toLowerCase().includes(dataType.toLowerCase()))"
     border>
 
     <el-table-column
@@ -113,10 +124,11 @@
     <el-table-column
       align='center'
       label="金额"
-      :filters="[{text:'10000', value:10000}]"
-      :filter-method="filterHandler"
+      :filters="amountArray"
+      :filter-method="filterHandler_range"
       prop="amount"
-      column-key="amount">
+      column-key="amount"
+      :filter-multiple="false">
       <template slot-scope="scope">
         <span>￥{{ scope.row.amount }}</span>
       </template>
@@ -128,7 +140,8 @@
       :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
       :filter-method="filterHandler"
       prop="installmentNumber"
-      column-key="installmentNumber">
+      column-key="installmentNumber"
+      :filter-multiple="false">
 
       <template slot-scope="scope">
         <span>{{ scope.row.installmentNumber }}</span>
@@ -198,6 +211,9 @@ import {post, get} from '../../request/http.js'
         all_tableData: [],
         pageIndex:1,
         options: [{value: 6,label: '6'},{value: 12,label: '12'},{value: 18,label: '18'},{value: 24,label: '24'}],
+        amountArray:[{text:'10000及10000以上', value:10000},{text:'50000及50000以上', value:50000}],
+        dataType: 0,
+        activeIndex:'1',
 
 
         payDate:[{value:1,lable:'1'},{value:2,lable:'2'},{value:3,lable:'3'},{value:4,lable:'4'},{value:5,lable:'5'},
@@ -255,9 +271,14 @@ import {post, get} from '../../request/http.js'
       },
 
       filterHandler(value, row, column) {
+        // this.$refs.filterTable["data"] = "this.all_tableData";
         const property = column['property'];
-        console.log(value);
         return row[property] === value;
+      },
+
+      filterHandler_range(value, row, column) {
+        const property = column['property'];
+        return row[property] >= value;
       },
 
       textColor(state){
@@ -341,7 +362,8 @@ import {post, get} from '../../request/http.js'
     mounted(){
       this.getLoanData();
       this.getLimit();
-    }
+    },
+
   }
 </script>
 

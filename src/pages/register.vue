@@ -5,6 +5,9 @@
             <a style="text-decoration:none" href="#/login"><p style="text-align:right; margin:0 30px 15px 0;font-size:14px">已有账号，直接登录
 				</p></a>
 			<el-form ref='registerForm' :model='registerInfo' label-width='80px' :rules='rules' >
+				<el-form-item label='工号' prop='id'>
+					<el-input v-model='registerInfo.employeeId' placeholder='请输入工号' clearable></el-input>
+				</el-form-item>
 				<el-form-item label='账号' prop='id'>
 					<el-input v-model='registerInfo.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
 				</el-form-item>
@@ -63,6 +66,7 @@ import {post, get, post2, post_regist} from '../request/http.js'
 				checkDisabled:false,
 				checkVisible:true,
 				registerInfo: {
+					employeeId:'',
 					id: '',
 					password: '',
 					password_sure:'',
@@ -71,6 +75,9 @@ import {post, get, post2, post_regist} from '../request/http.js'
 				},
 				// 校验规则
 				rules:{
+					employeeId:[
+					{required: true,message: '用户名不能为空',trigger: 'blur'}
+					],
 					id: [
 					{required: true,message: '用户名不能为空',trigger: 'blur'}
 					],
@@ -97,7 +104,8 @@ import {post, get, post2, post_regist} from '../request/http.js'
 			var res=post_regist("/api/register",{
 				account:this.registerInfo.id,
 				password:this.registerInfo.password,
-                vcodeInput:this.registerInfo.check_num
+				vcodeInput:this.registerInfo.check_num,
+				employeeId:this.registerInfo.employeeId
 			})
 			res.then(data=>{
 				console.log(data.code);
