@@ -20,32 +20,70 @@
           <label style="float:left;margin-left:40px">用户名</label>
           <br/>
           <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
-          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080" v-if="editable == false">
             {{user.name}}
           </label>
+
+          <el-input v-model="user.name" v-else></el-input>
         </el-form-item>
 
-        <el-form-item label="性别：" label-width="200px">
+        <el-form-item label="性别：">
           <!-- 根据性别动态显示图标 -->
-          <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
-          <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
-          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-if="user.gender==0 && editable==false" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="user.gender==1 && editable==false" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="user.gender==2 && editable==false" src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+          <el-input v-model="user.gender" v-else-if="editable==true"></el-input>
         </el-form-item>
 
-        <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
-        <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
-        <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
-        <el-form-item label="第三方账户号码：" style="text-align:left">{{user.bankAccount}}</el-form-item>
-        <el-form-item label="身份证号码：" style="text-align:left">{{user.idCardNumber}}</el-form-item>
+        <el-form-item label="手机：" style="text-align:left">
+          <label v-if="editable == false">{{user.phoneNumber}}</label>
+          <el-input v-model="user.phoneNumber" v-else disabled></el-input>
+        </el-form-item>
+
+        <el-form-item label="工龄：" style="text-align:left">
+          <label v-if="editable == false">{{user.lengthOfService}}年</label>
+          <el-input v-model="user.lengthOfService" v-else></el-input>
+        </el-form-item> 
+
+        <el-form-item label="工资：" style="text-align:left">
+          <label v-if="editable == false">￥{{user.salary}}</label>
+          <el-input v-model="user.salary" v-else></el-input>
+        </el-form-item>
+
+        <el-form-item label="第三方账户号码：" style="text-align:left">
+          <label v-if="editable == false">{{user.bankAccount}}</label>
+          <el-input v-model="user.bankAccount" v-else></el-input>
+        </el-form-item>
+
+        <el-form-item label="身份证号码：" style="text-align:left">
+          <label v-if="editable == false">{{user.idCardNumber}}</label>
+          <el-input v-model="user.idCardNumber" v-else disabled></el-input>
+        </el-form-item>
+
         <!-- 中间加条横线 -->
-        <div
-          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
-        <el-form-item label="失信次数：" style="text-align:left">{{user.discreditedRecords}}</el-form-item>
-        <el-form-item label="信用评级：" style="text-align:left">{{user.rank}}</el-form-item>
-        <el-form-item label="银行卡号：" style="text-align:left">{{user.bankAccount}}</el-form-item>
+        <div style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+
+        <el-form-item label="失信次数：" style="text-align:left">
+          <label v-if="editable == false">{{user.discreditedRecords}}</label>
+          <el-input v-model="user.discreditedRecords" v-else></el-input>
+        </el-form-item>
+
+        <el-form-item label="信用评级：" style="text-align:left">
+          <label v-if="editable == false">{{user.rank}}</label>
+          <el-input v-model="user.rank" v-else></el-input>
+        </el-form-item>
+
+        <el-form-item label="银行卡号：" style="text-align:left">
+          <label v-if="editable == false">{{user.bankAccount}}</label>
+          <el-input v-model="user.bankAccount" v-else></el-input>
+        </el-form-item>
 
         <el-form-item>
-        <el-button type="success" round>保存</el-button>
+          <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
+          <div v-else>
+          <el-button type="info" round @click="editable = false">取消编辑</el-button>
+          <el-button type="success" round @click="handleDetail">保存</el-button>
+          </div>
         </el-form-item>
 
       </el-form>
@@ -75,6 +113,8 @@ import {post, get, post2} from '../../request/http.js'
         rank:null,
         userId:null
         },
+
+        editable: false,
 
       detailrules:{
       name: [
@@ -135,6 +175,41 @@ import {post, get, post2} from '../../request/http.js'
     })
     },
 
+
+    handleDetail(){
+      console.log(this.user)
+      var res = post("/api/userProfile", {
+        idCardNumber:this.user.idCardNumber,
+        phoneNumber:this.user.phoneNumber,
+        gender:this.user.gender,
+        paymentAccount:this.user.paymentAccount,
+        bankAccount:this.user.bankAccount,
+        salary:this.user.salary,
+        name:this.user.name,
+        lengthOfService:this.user.lengthOfService
+      });
+
+      res.then(result=>{
+        console.log(result);
+        if(result.code == 0){
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+          });
+          this.editable = false;
+        }
+        else{
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+          });
+        }
+      })
+
+    },
+
     },
 
     mounted(){
@@ -157,5 +232,9 @@ import {post, get, post2} from '../../request/http.js'
 .base-form {
   /* float: left; */
   padding-top: 120px;
+}
+
+.el-input{
+width:60%;
 }
 </style>

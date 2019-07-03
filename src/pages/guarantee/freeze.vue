@@ -41,7 +41,7 @@
             </label>
         </el-form-item>
 
-        <el-form-item label="性别：" label-width="200px">
+        <el-form-item label="性别：">
           <!-- 根据性别动态显示图标 -->
           <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
