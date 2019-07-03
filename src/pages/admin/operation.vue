@@ -5,9 +5,15 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/operation' }">查看日志</el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+        <el-menu-item index="1" @click="dataType=2">所有日志</el-menu-item>
+        <el-menu-item index="2" @click="dataType=0">操作成功的日志</el-menu-item>
+        <el-menu-item index="3" @click="dataType=1">操作失败的日志</el-menu-item>
+    </el-menu>
+
     <el-table
       ref="filterTable"
-      :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
+      :data="tableData.slice(pageIndex*10-10, pageIndex*10)"
       border>
       <el-table-column
         label="操作id"
@@ -65,7 +71,7 @@
         align="center"
         prop="discreditedRecords">
         <template slot-scope="scope">
-          <span>{{getOpResult(scope.row.opResult)}}</span>
+          <span v-bind:class="textColor(scope.row.opResult)">{{getOpResult(scope.row.opResult)}}</span>
         </template>
       </el-table-column>
 
@@ -85,7 +91,7 @@
       @current-change="handleCurrentChange"
       :page-size="100"
       layout="prev, pager, next, jumper"
-      :total="100*(all_tableData.length/10)">
+      :total="100*(tableData.length/10)">
     </el-pagination>
 
 
@@ -101,6 +107,8 @@ import {post, get} from '../../request/http.js'
       return {
         all_tableData: [],
         pageIndex:1,
+        dataType: 2,
+        activeIndex:'1',
       }
     },
     methods: {
@@ -114,6 +122,13 @@ import {post, get} from '../../request/http.js'
 
       handleCurrentChange(val) {
         this.pageIndex=val;
+      },
+
+      textColor(state){
+        return{
+          success : state == 0,
+          fail: state == 1,
+        }
       },
       
     
@@ -150,22 +165,42 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/admin/opLog", {});
       res.then(logs=>{
         this.all_tableData = logs.data;
-        console.log(this.tableData);
       }
       )
+    },
+
+
+    computed:{
+      tableData(){
+        if(this.dataType == 2){
+          return this.all_tableData;
+        }
+        else{
+          var that = this;
+          return this.all_tableData.filter(function (element, index, self){
+          // console.log(self[index].state == this.dataType);
+          return self[index].opResult == that.dataType;
+        });
+        }
+      }
+    },
+    watch:{
+      dataType:function(val){
+        this.pageIndex = 1;
+      }
     }
   }
 </script>
 
 <style scoped>
 .el-table{
-  /* display:inline-block;
-  text-align:center; */
   width: 100%;
-  /* width:fit-content;
-  margin:auto; */
 }
-.el-table.column{
-  width:9.09%;
+.success{
+  color: #67C23A;
+}
+
+.fail{
+  color: #F56C6C;
 }
 </style>

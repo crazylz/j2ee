@@ -5,9 +5,18 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/produce' }">管理产品</el-breadcrumb-item>
     </el-breadcrumb>
 
-      <el-table
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+      <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
+      <el-menu-item index="2" @click="dataType=1">待处理借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=2">担保人已同意借款</el-menu-item>
+      <el-menu-item index="4" @click="dataType=3">担保人已拒绝借款</el-menu-item>
+      <el-menu-item index="5" @click="dataType=4">已还清借款</el-menu-item>
+      <el-menu-item index="6" @click="dataType=5">未还清借款</el-menu-item>
+    </el-menu>
+
+    <el-table
     ref="filterTable"
-    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
+    :data="tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -59,16 +68,6 @@
         <span>{{ scope.row.payDayOfMonth }}号</span>
       </template>
     </el-table-column>
-
-      <!-- <el-table-column
-        align="center"
-        prop = "process_time"
-        label="处理时间"
-        sortable
-        column-key="submit_date"
-        :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-        :filter-method="filterHandler">
-      </el-table-column> -->
 
     <el-table-column
     align='center'
@@ -184,7 +183,7 @@
       @current-change="handleCurrentChange"
       :page-size="100"
       layout="prev, pager, next, jumper"
-      :total="100*(all_tableData.length/10)">
+      :total="100*(tableData.length/10)">
     </el-pagination>
 
 
@@ -202,6 +201,8 @@ import {post, get} from '../../request/http.js'
         all_tableData: [],
         pageIndex:1,
         borrower: [],
+        dataType: 0,
+        activeIndex:'1',
       }
     },
     methods: {
@@ -264,6 +265,27 @@ import {post, get} from '../../request/http.js'
         console.log(product);
       }
       )
+    },
+
+     computed:{
+      tableData(){
+        if(this.dataType == 0){
+          return this.all_tableData;
+        }
+        else{
+          var that = this;
+          return this.all_tableData.filter(function (element, index, self){
+          // console.log(self[index].state == this.dataType);
+          return self[index].state == that.dataType;
+        });
+        }
+      }
+    },
+
+    watch:{
+      dataType:function(val){
+        this.pageIndex = 1;
+      }
     }
   }
 </script>

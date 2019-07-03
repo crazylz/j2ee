@@ -8,12 +8,12 @@
 
 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-      <el-menu-item index="0" @click="dataType=0">所有借款</el-menu-item>
-      <el-menu-item index="1" @click="dataType=1">待处理借款</el-menu-item>
-      <el-menu-item index="2" @click="dataType=2">担保人已同意借款</el-menu-item>
-      <el-menu-item index="3" @click="dataType=3">担保人已拒绝借款</el-menu-item>
-      <el-menu-item index="3" @click="dataType=4">已还清借款</el-menu-item>
-      <el-menu-item index="3" @click="dataType=5">未还清借款</el-menu-item>
+      <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
+      <el-menu-item index="2" @click="dataType=1">待处理借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=2">担保人已同意借款</el-menu-item>
+      <el-menu-item index="4" @click="dataType=3">担保人已拒绝借款</el-menu-item>
+      <el-menu-item index="5" @click="dataType=4">已还清借款</el-menu-item>
+      <el-menu-item index="6" @click="dataType=5">未还清借款</el-menu-item>
     </el-menu>
 
 
@@ -99,7 +99,7 @@
 	
   <el-table
     ref="filterTable"
-    :data="all_tableData.filter(data=>data.state.toLowerCase().includes(dataType.toLowerCase()))"
+    :data="tableData.slice(pageIndex*10-10, pageIndex*10)"
     border>
 
     <el-table-column
@@ -192,7 +192,7 @@
     @current-change="handleCurrentChange"
     :page-size="100"
     layout="prev, pager, next, jumper"
-    :total="100*(all_tableData.length/10)">
+    :total="100*(tableData.length/10)">
   </el-pagination>
 
 
@@ -359,10 +359,31 @@ import {post, get} from '../../request/http.js'
 
     },
 
+    computed:{
+      tableData(){
+        if(this.dataType == 0){
+          return this.all_tableData;
+        }
+        else{
+          var that = this;
+          return this.all_tableData.filter(function (element, index, self){
+          // console.log(self[index].state == this.dataType);
+          return self[index].state == that.dataType;
+        });
+        }
+      }
+    },
+
     mounted(){
       this.getLoanData();
       this.getLimit();
     },
+
+    watch:{
+      dataType:function(val){
+        this.pageIndex = 1;
+      }
+    }
 
   }
 </script>

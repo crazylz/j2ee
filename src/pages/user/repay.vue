@@ -6,9 +6,15 @@
     <el-breadcrumb-item :to="{ path: '/userhome/repay' }">还款</el-breadcrumb-item>
   </el-breadcrumb>
 
+  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+      <el-menu-item index="1" @click="dataType=0">所有还款</el-menu-item>
+      <el-menu-item index="2" @click="dataType=2">平台已垫付的还款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=1">未还款的还款</el-menu-item>
+    </el-menu>
+
 
   <el-table
-    :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
+    :data="tableData.slice(pageIndex*10-10, pageIndex*10)"
     border
     default-expand-all
     >
@@ -67,7 +73,7 @@
     @current-change="handleCurrentChange"
     :page-size="100"
     layout="prev, pager, next, jumper"
-    :total="100*(all_tableData.length/10)">
+    :total="100*(tableData.length/10)">
   </el-pagination>
 
 </div>
@@ -81,6 +87,8 @@ import {post, get} from '../../request/http.js'
       return{
         all_tableData: [],
         pageIndex:1,
+        dataType:0,
+        activeIndex:'1',
       }
     },
 
@@ -157,6 +165,26 @@ import {post, get} from '../../request/http.js'
         })
       },
 
+    },
+    computed:{
+      tableData(){
+        if(this.dataType == 0){
+          return this.all_tableData;
+        }
+        else{
+          var that = this;
+          return this.all_tableData.filter(function (element, index, self){
+          // console.log(self[index].state == this.dataType);
+          return self[index].state == that.dataType;
+        });
+        }
+      }
+    },
+
+    watch:{
+      dataType:function(val){
+        this.pageIndex = 1;
+      }
     }
     
     
