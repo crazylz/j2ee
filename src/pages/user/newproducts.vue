@@ -7,6 +7,25 @@
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 
+    <el-dialog :visible.sync="investVisible">
+        <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">请输入支付密码</h2>
+        <el-form
+          ref="investForm"
+          label-width="200px"
+          label-position="right">
+
+          <el-form-item label="支付密码">
+            <span v-for="(item,index) in List" :key="item.id">
+              <input type="text" v-model="item.val" class="border-input" 
+              @keyup="nextFocus($event,index)" @keydown="changeValue(index)">
+            </span>
+          </el-form-item>
+          
+          <el-button type="primary" @click="expiry()">确认</el-button>
+
+        </el-form>
+      </el-dialog>
+
     <el-dialog :visible.sync='detailVisible' top="5vh" width="40%">
         <div class="card-div">
       <div
@@ -106,21 +125,11 @@
       align="center"
         label="借款人">
         <template slot-scope="scope">
-          <!-- <el-popover trigger="click" placement="bottom">
-            <p>姓名: {{ scope.row.name}}</p>
-            <p>性别: {{ getGender(scope.row.gender) }}</p>
-            <p>电话: {{ scope.row.phone_number }}</p>
-            <p>工龄: {{ scope.row.length_of_service }}</p>
-            <p>工资: ￥{{ scope.row.salary }}</p>
-            <p>失信记录次数: {{ scope.row.discredited_records }}</p>
-            <p>信用评级: {{ scope.row.rank }}</p>
-            <div slot="reference" class="name-wrapper"> -->
+
               <el-button
               size="mini" @click="detailVisible=true;handleBorrower(scope.row)">
               {{scope.row.name}}
               </el-button>
-            <!-- </div>
-          </el-popover> -->
         </template>
       </el-table-column>
 
@@ -128,7 +137,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleInvest(scope.$index, scope.row)">购买</el-button>
+            @click="investVisible=true;productId=scope.row.id">购买</el-button>
         </template>
       </el-table-column>
 
@@ -150,6 +159,7 @@
 
 <script>
 import {post, get} from '../../request/http.js'
+let Base64 = require('js-base64').Base64
 
   export default {
     data() {
@@ -165,20 +175,20 @@ import {post, get} from '../../request/http.js'
           length_of_service:null,
           discredited_records:null,
           rank:null,
-        }
+        },
+
+        investVisible:false,
+        List: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+        password:'',
+        productId:null
       }
     },
     methods: {
-      handleInvest(index, row) {
-        console.log(row);
-        this.$confirm('确定要购买此产品吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-          }).then(() => {
-            var res = post("/api/investor/invest", {id: row.id});
+      handleInvest() {
+          var res = post("/api/investor/invest", {id:this.productId, password:Base64.encode(this.password)});
           res.then(data=>{
           if(data.code == 0){
+            this.detailVisible=false;
             this.$msgbox({
             title: '提示',
             message: data.msg,
@@ -202,13 +212,55 @@ import {post, get} from '../../request/http.js'
           }
           console.log(data);
         })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消购买'
-          });
-        });
+  
         
+      },
+
+      nextFocus(el,index){
+        var dom = document.getElementsByClassName("border-input"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.List.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
+      changeValue(index) {
+        this.List[index].val = "";
+      },
+
+      expiry(){
+          let Input = document.getElementsByClassName('border-input');
+          let reg = /^[0-9]+$/;
+
+          for (let i = 0; i < Input.length; i++) {
+            if (Input[i].value === '') {
+              this.hintTxt = '请填写完整的密码';
+              return;
+            }
+            if (!reg.test(Input[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
+         
+          for (let i = 0; i < Input.length; i++) {
+            this.password += Input[i].value;
+          }
+
+          this.handleInvest();
+          this.password='';
+         
       },
 
       handleSizeChange(val) {
@@ -278,5 +330,19 @@ import {post, get} from '../../request/http.js'
 .base-form {
   /* float: left; */
   padding-top: 120px;
+}
+
+.border-input{
+  background: #ffffff;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
 }
 </style>
