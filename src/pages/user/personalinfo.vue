@@ -13,19 +13,19 @@
     <h3>请输入6位原密码</h3>
     <div>
       <span v-for="(item,index) in oldList" :key="item.id">
-        <input type="text" v-model="item.val" class="border-input-old" @keyup="nextFocusOld($event,index)" @keydown="changeValueOld(index)">
+        <input type="password" v-model="item.val" class="border-input-old" @keyup="nextFocusOld($event,index)" @keydown="changeValueOld(index)">
       </span>
     </div>
     <h3>请输入6位新密码</h3>
     <div>
       <span v-for="(item,index) in newList" :key="item.id">
-        <input type="text" v-model="item.val" class="border-input-new" @keyup="nextFocusNew($event,index)" @keydown="changeValueNew(index)">
+        <input type="password" v-model="item.val" class="border-input-new" @keyup="nextFocusNew($event,index)" @keydown="changeValueNew(index)">
       </span>
     </div>
     <h3>请输入确认密码</h3>
     <div>
       <span v-for="(item,index) in okList" :key="item.id">
-        <input type="text" v-model="item.val" class="border-input-ok" @keyup="nextFocusOk($event,index)" @keydown="changeValueOk(index)">
+        <input type="password" v-model="item.val" class="border-input-ok" @keyup="nextFocusOk($event,index)" @keydown="changeValueOk(index)">
       </span>
     </div>
     <div>{{hintTxt}}</div>

@@ -50,7 +50,7 @@
 
           <el-form-item label="支付密码">
             <span v-for="(item,index) in RechargeList" :key="item.id">
-              <input type="text" v-model="item.val" class="border-input-recharge" 
+              <input type="password" v-model="item.val" class="border-input-recharge" 
               @keyup="nextFocusRecharge($event,index)" @keydown="changeValueRecharge(index)">
             </span>
           </el-form-item>
@@ -76,7 +76,7 @@
 
           <el-form-item label="支付密码">
             <span v-for="(item,index) in WithdrawList" :key="item.id">
-              <input type="text" v-model="item.val" class="border-input-withdraw" 
+              <input type="password" v-model="item.val" class="border-input-withdraw" 
               @keyup="nextFocusWithdraw($event,index)" @keydown="changeValueWithdraw(index)">
             </span>
           </el-form-item>
