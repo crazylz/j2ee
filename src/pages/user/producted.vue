@@ -51,7 +51,7 @@
   <el-table
     ref="filterTable"
     :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
-    border>
+    >
 
     <el-table-column
       align="center"

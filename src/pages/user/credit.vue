@@ -86,7 +86,7 @@
       </el-form>
     </div>
     <br />
-    <el-table :data="tableData" border>
+    <el-table :data="tableData">
       <el-table-column align="center" label="负债金额">
         <template slot-scope="scope">
           <span>￥{{ scope.row.unpaidLoan }}</span>

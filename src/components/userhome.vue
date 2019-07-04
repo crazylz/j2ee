@@ -223,7 +223,7 @@ export default {
     };
   },
   mounted: function() {
-    this.getBalance();
+    // this.getBalance();
     this.getUser();
   },
   methods: {

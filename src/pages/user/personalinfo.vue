@@ -157,7 +157,7 @@
 
             <!-- 中间加条横线 -->
             <div
-              style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
+              style="background:#gray; height:3px; margin-left: 100px; margin-bottom:25px"
             />
 
             <el-form-item style="text-align:left">
