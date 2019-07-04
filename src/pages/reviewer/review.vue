@@ -134,7 +134,7 @@
             size="mini"
             type=text
             @click="getFile(scope.row.filePath)">
-              {{scope.row.filePath}}
+              点击下载
             </el-button>
             </template>
           </el-table-column>
