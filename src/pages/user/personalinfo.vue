@@ -336,6 +336,9 @@ let Base64 = require('js-base64').Base64
 
 
           this.handlePassword();
+          this.user.oldpassword = '';
+          this.user.newpassword = '';
+          this.user.checkpassword = '';
          
       },
 

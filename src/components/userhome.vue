@@ -55,7 +55,7 @@
             </span>
           </el-form-item>
           
-          <el-button type="primary" @click="handleInvest()">确认</el-button>
+          <el-button type="primary" @click="expiryRecharge()">确认</el-button>
 
         </el-form>
       </el-dialog>
@@ -82,7 +82,7 @@
           </el-form-item>
 
             
-          <el-button type="primary" @click="handleWithdraw()">确认</el-button>
+          <el-button type="primary" @click="expiryWithdraw()">确认</el-button>
         </el-form>
       </el-dialog>
 
@@ -180,9 +180,9 @@
 
 
 <script>
-import axios from "axios";
 import { post, get, getLocalUrl } from "../request/http.js";
-// template涉及的所有的变量都要写入data之中，数据传输的时候也是这些数据
+let Base64 = require('js-base64').Base64
+
 export default {
   data() {
     return {
@@ -199,13 +199,17 @@ export default {
       money_remain: 0,
       systemName: "用户界面",
       userName: "null",
+
       RechargeList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
       WithdrawList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+      rechargepassword:'',
+      withdrawpassword:'',
+
       invest: {
-        number: 0
+        number: null
       },
       withdraw: {
-        money: 0
+        money: null
       },
 
       investrules: {
@@ -273,6 +277,54 @@ export default {
         this.WithdrawList[index].val = "";
       },
 
+      expiryRecharge(){
+          let rechargeInput = document.getElementsByClassName('border-input-recharge');
+          let reg = /^[0-9]+$/;
+
+          for (let i = 0; i < rechargeInput.length; i++) {
+            if (rechargeInput[i].value === '') {
+              this.hintTxt = '请填写完整的密码';
+              return;
+            }
+            if (!reg.test(rechargeInput[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
+         
+          for (let i = 0; i < rechargeInput.length; i++) {
+            this.rechargepassword += rechargeInput[i].value;
+          }
+
+          this.handleInvest();
+          this.rechargepassword='';
+         
+      },
+
+      expiryWithdraw(){
+          let withdrawInput = document.getElementsByClassName('border-input-withdraw');
+          let reg = /^[0-9]+$/;
+
+          for (let i = 0; i < withdrawInput.length; i++) {
+            if (withdrawInput[i].value === '') {
+              this.hintTxt = '请填写完整的密码';
+              return;
+            }
+            if (!reg.test(withdrawInput[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
+         
+          for (let i = 0; i < withdrawInput.length; i++) {
+            this.withdrawpassword += withdrawInput[i].value;
+          }
+
+          this.handleWithdraw();
+          this.withdrawpassword='';
+         
+      },
+
     getUser() {
       var userres = get("/api/userProfile", {});
       userres.then(user => {
@@ -289,7 +341,7 @@ export default {
     },
 
     handleInvest: function() {
-      var res = post("/api/account/deposit", { amount: this.invest.number });
+      var res = post("/api/account/deposit", { amount: this.invest.number, password:Base64.encode(this.rechargepassword)});
       res.then(data => {
         console.log(data);
         if (data.code == 0) {
@@ -313,7 +365,7 @@ export default {
     },
 
     handleWithdraw: function() {
-      var res = post("/api/account/withdraw", { amount: this.withdraw.money });
+      var res = post("/api/account/withdraw", { amount: this.withdraw.money ,password:Base64.encode(this.withdrawpassword)});
       res.then(data => {
         console.log(data);
         if (data.code == 0) {
@@ -331,7 +383,7 @@ export default {
             message: data.msg,
             type: "error"
           });
-          this.invest.number = 0;
+          this.withdraw.number = 0;
         }
       });
     },
