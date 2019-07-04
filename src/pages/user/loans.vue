@@ -10,20 +10,20 @@
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
       <el-menu-item index="2" @click="dataType=1">
-        <img src='../../assets/black_circle.png' height="20%"/>
+        <img src='../../assets/black_circle.png' height="25%"/>
         待处理
         </el-menu-item>
       <el-menu-item index="3" @click="dataType=2">
-        <img src='../../assets/orange_circle.png' height="20%"/>
+        <img src='../../assets/orange_circle.png' height="25%"/>
         担保人已同意</el-menu-item>
       <el-menu-item index="4" @click="dataType=3">
-        <img src='../../assets/gray_circle.png' height="20%"/>
+        <img src='../../assets/gray_circle.png' height="25%"/>
         担保人已拒绝</el-menu-item>
       <el-menu-item index="5" @click="dataType=4">
-        <img src='../../assets/green_circle.png' height="20%"/>
+        <img src='../../assets/green_circle.png' height="25%"/>
         已还清</el-menu-item>
       <el-menu-item index="6" @click="dataType=5">
-        <img src='../../assets/red_circle.png' height="20%"/>
+        <img src='../../assets/red_circle.png' height="25%"/>
         未还清</el-menu-item>
     </el-menu>
 
@@ -193,7 +193,7 @@
       width="150">
       <template slot-scope="scope">
         <!-- 更换为图片状态 -->
-        <img :src='imgSrc(scope.row.state)' height="10px"/>
+        <img :src='imgSrc(scope.row.state)' height="15px" style="margin-right:5px"/>
         <span v-bind:class="textColor(scope.row.state)">{{ classObject(scope.row.state)}}</span>
       </template>
     </el-table-column>
