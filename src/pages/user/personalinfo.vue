@@ -8,7 +8,7 @@
 
 
   <el-dialog :visible.sync='editpassword'>
-    <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">支付密码</h2>
+    <!-- <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">支付密码</h2>
 
     <el-form style="margin-right:120px" label-width='200px'>
       <el-form-item style="margin-left:-44px" label='原始密码'>
@@ -22,7 +22,22 @@
       <el-form-item style="margin-left:-80px;margin-top:10px">
         <el-button type='primary'>确认</el-button>
       </el-form-item>
-    </el-form>   
+    </el-form>    -->
+    <h3>请输入6位原密码</h3>
+    <div>
+      <span v-for="(item,index) in oldList" :key="item.id">
+        <input type="text" v-model="item.val" class="border-input-old" @keyup="nextFocusOld($event,index)" @keydown="changeValueOld(index)">
+      </span>
+    </div>
+    <h3>请输入6位新密码</h3>
+    <div>
+      <span v-for="(item,index) in newList" :key="item.id">
+        <input type="text" v-model="item.val" class="border-input-new" @keyup="nextFocusNew($event,index)" @keydown="changeValueNew(index)">
+      </span>
+    </div>
+    <div>{{hintTxt}}</div>
+    <br>
+    <el-button type='primary' @click="expiry">确认</el-button>
   </el-dialog>
 
        <div class="card-div">
@@ -99,7 +114,7 @@
       
 
         <el-form-item>
-          <el-button type="primary" round @click="editable = true" v-if="editable == false" style="float:left;">编辑</el-button>
+          <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
           <div v-else>
           <el-button type="danger" round @click="editable = false;getUser()">取消编辑</el-button>
           <el-button type="success" round @click="handleDetail">保存</el-button>
@@ -157,11 +172,15 @@ import {post, get, post2} from '../../request/http.js'
         discreditedRecords:null,
         rank:null,
         userId:null,
-        password:null
+        password:"",
         },
 
         editable: false,
         editpassword: false,
+
+        newList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+        oldList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+        hintTxt:'',
 
       detailrules:{
       name: [
@@ -259,13 +278,90 @@ import {post, get, post2} from '../../request/http.js'
 
     handlePassword(){
 
-    }
+    },
+
+    expiry(){
+          let oInput = document.getElementsByClassName('border-input-old');
+          let nInput = document.getElementsByClassName('border-input-new');
+          let reg = /^[0-9]+$/;
+          for (let i = 0; i < oInput.length; i++) {
+            if (oInput[i].value === '') {
+              this.hintTxt = '请填写完整的兑换码';
+              return;
+            }
+            if (!reg.test(oInput[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
+          for (let i = 0; i < nInput.length; i++) {
+            if (nInput[i].value === '') {
+              this.hintTxt = '请填写完整的兑换码';
+              return;
+            }
+            if (!reg.test(nInput[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
+          for (let i = 0; i < nInput.length; i++) {
+            this.user.password += nInput[i].value;
+          }
+          console.log(this.user.password);
+      },
+
+      nextFocusOld(el,index){
+        var dom = document.getElementsByClassName("border-input-old"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.oldList.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
+      nextFocusNew(el,index){
+        var dom = document.getElementsByClassName("border-input-new"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.newList.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
+      changeValueOld(index) {
+        this.oldList[index].val = "";
+      },
+
+      changeValueNew(index) {
+        this.newList[index].val = "";
+      },
 
     },
 
     mounted(){
       this.getUser();
-    }
+    },
+
     
   }
 </script>
@@ -287,5 +383,33 @@ import {post, get, post2} from '../../request/http.js'
 
 .el-input{
 width:60%;
+}
+
+.border-input-old{
+  background: #ffffff;
+  width: 40px;
+  font-size: 60px;
+  height: 60px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+.border-input-new{
+  background: #ffffff;
+  width: 40px;
+  font-size: 60px;
+  height: 60px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
 }
 </style>
