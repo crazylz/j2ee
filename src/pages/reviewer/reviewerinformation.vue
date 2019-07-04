@@ -2,8 +2,8 @@
 <div>
   <!-- 面包屑 -->
   <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/' }">管理员</el-breadcrumb-item>
-    <el-breadcrumb-item><a href="/">消息中心</a></el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/reviewerhome' }">审核员</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/reviewerhome/reviewerinformation' }">消息中心</el-breadcrumb-item>
   </el-breadcrumb>
 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">

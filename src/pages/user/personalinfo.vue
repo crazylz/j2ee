@@ -75,6 +75,16 @@
           <el-input v-model="user.phoneNumber" v-else disabled></el-input>
         </el-form-item>
 
+        <el-form-item label="QQ：" style="text-align:left">
+          <label v-if="editable == false">{{user.qq}}</label>
+          <el-input v-model="user.qq" v-else></el-input>
+        </el-form-item>
+
+        <el-form-item label="家庭地址：" style="text-align:left">
+          <label v-if="editable == false">{{user.address}}</label>
+          <el-input v-model="user.address" v-else></el-input>
+        </el-form-item>
+
         <el-form-item label="工龄：" style="text-align:left">
           <label v-if="editable == false">{{user.lengthOfService}}年</label>
           <el-input v-model="user.lengthOfService" v-else disabled></el-input>
@@ -104,17 +114,15 @@
           <el-input v-model="user.rank" v-else disabled></el-input>
         </el-form-item>
 
-      
+      </el-form>
 
-        <el-form-item>
+      <div style="text-align: left; margin-left:200px;">
           <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
           <div v-else>
           <el-button type="danger" round @click="editable = false;getUser()">取消编辑</el-button>
           <el-button type="success" round @click="handleDetail">保存</el-button>
           </div>
-        </el-form-item>
-
-      </el-form>
+      </div>
     </div>
 
 
@@ -166,6 +174,8 @@ let Base64 = require('js-base64').Base64
         discreditedRecords:null,
         rank:null,
         userId:null,
+        qq:null,
+        address:null,
         oldpassword:"",
         newpassword:"",
         checkpassword:""
@@ -235,6 +245,8 @@ let Base64 = require('js-base64').Base64
       this.user.idCardNumber = user.data.idCardNumber;
       this.user.discreditedRecords = user.data.discreditedRecords;
       this.user.rank = user.data.rank;
+      this.user.qq = user.data.qq;
+      this.user.address = user.data.address;
     })
     },
 
@@ -249,7 +261,9 @@ let Base64 = require('js-base64').Base64
         bankAccount:this.user.bankAccount,
         salary:this.user.salary,
         name:this.user.name,
-        lengthOfService:this.user.lengthOfService
+        lengthOfService:this.user.lengthOfService,
+        qq:this.user.qq,
+        address:this.user.address
       });
 
       res.then(result=>{
