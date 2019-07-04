@@ -66,9 +66,9 @@
             <img src="../../assets/user.png" />
           </div>
 
-          <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+          <el-form ref="base-form" class="base-form" label-position="right" label-width="130px">
             <el-form-item>
-              <label style="float:left;margin-left:40px">用户名</label>
+              <label style="float:left;margin-left:40px;color:gray;font-size:15px ">用户名</label>
               <br />
               <label
                 style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080"
@@ -78,7 +78,14 @@
               <el-input v-model="user.name" v-else style="float:left;margin-left:40px;"></el-input>
             </el-form-item>
 
-            <el-form-item label="性别：">
+            <el-form-item style="text-align:left">
+              <label style="float:left;color:gray;font-size:15px;margin-left:30px">工号：</label>
+              <label v-if="editable == false">{{user.employeeId}}</label>
+              <el-input v-model="user.employeeId" v-else disabled></el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <label style="float:left;color:gray;font-size:15px;margin-left:30px">性别：</label>
               <!-- 根据性别动态显示图标 -->
               <img
                 v-if="user.gender==0 && editable==false"
@@ -112,32 +119,38 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="手机：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px ">手机号码：</label>
               <label v-if="editable == false">{{user.phoneNumber}}</label>
               <el-input v-model="user.phoneNumber" v-else disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="QQ：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px;margin-left:30px">QQ：</label>
               <label v-if="editable == false">{{user.qq}}</label>
               <el-input v-model="user.qq" v-else></el-input>
             </el-form-item>
 
-            <el-form-item label="家庭地址：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px ">家庭地址：</label>
               <label v-if="editable == false">{{user.address}}</label>
               <el-input v-model="user.address" v-else></el-input>
             </el-form-item>
 
-            <el-form-item label="工龄：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px;margin-left:30px">工龄：</label>
               <label v-if="editable == false">{{user.lengthOfService}}年</label>
               <el-input v-model="user.lengthOfService" v-else disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="工资：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px;margin-left:30px">工资：</label>
               <label v-if="editable == false">￥{{user.salary}}</label>
               <el-input v-model="user.salary" v-else disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="身份证号码：" style="text-align:left">
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px ">身份证号：</label>
               <label v-if="editable == false">{{user.idCardNumber}}</label>
               <el-input v-model="user.idCardNumber" v-else disabled></el-input>
             </el-form-item>
@@ -147,18 +160,20 @@
               style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
             />
 
-            <el-form-item label="失信次数：" style="text-align:left">
-              <label v-if="editable == false">{{user.discreditedRecords}}</label>
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px ">失信次数：</label>
+              <label v-if="editable == false" style="color:#f56c6c;font-size:30px">{{user.discreditedRecords}} <span style="color:gray;font-size:15px"> 次 </span> </label>
               <el-input v-model="user.discreditedRecords" v-else disabled></el-input>
             </el-form-item>
 
-            <el-form-item label="信用评级：" style="text-align:left">
-              <label v-if="editable == false">{{user.rank}}</label>
+            <el-form-item style="text-align:left">
+              <label style="color:gray;font-size:15px ">信用评级：</label>
+              <label v-if="editable == false" style="color:#67c23a;font-size:30px">{{user.rank}}</label>
               <el-input v-model="user.rank" v-else disabled></el-input>
             </el-form-item>
           </el-form>
 
-          <div style="text-align: left; margin-left:200px;">
+          <div style="text-align: left; margin-left:180px;">
             <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
             <div v-else>
               <el-button type="danger" round @click="editable = false;getUser()">取消编辑</el-button>
@@ -205,7 +220,7 @@
               label-width="200px"
               style="padding-top: 80px;"
             >
-              <el-form-item label="银行卡号：" style="text-align:left">
+              <el-form-item label="银行卡号码：" style="text-align:left">
                 <label v-if="editable == false">{{user.bankAccount}}</label>
                 <el-input v-model="user.bankAccount" v-else disabled></el-input>
               </el-form-item>
@@ -248,6 +263,7 @@ export default {
         userId: null,
         qq: null,
         address: null,
+        employeeId: null,
         oldpassword: "",
         newpassword: "",
         checkpassword: ""
@@ -339,6 +355,7 @@ export default {
         this.user.rank = user.data.rank;
         this.user.qq = user.data.qq;
         this.user.address = user.data.address;
+        this.user.employeeId = user.data.employeeId;
       });
     },
 
@@ -354,7 +371,8 @@ export default {
         name: this.user.name,
         lengthOfService: this.user.lengthOfService,
         qq: this.user.qq,
-        address: this.user.address
+        address: this.user.address,
+        employeeId: this.user.employeeId
       });
 
       res.then(result => {

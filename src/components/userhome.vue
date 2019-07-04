@@ -158,7 +158,7 @@
             <p v-html="aboutushtml" style="text-align:left" />
           </el-dialog>
 
-          <el-dialog class="footer-item-dialog" :visible.sync="lawDialogVisible">
+          <el-dialog class="footer-item-dialog" :visible.sync="lawDialogVisible" style="margin-top:-100px">
             <h2>法律声明及隐私权政策</h2>
             <p v-html="lawhtml" style="text-align:left"></p>
           </el-dialog>
