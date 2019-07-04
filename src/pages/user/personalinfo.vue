@@ -35,6 +35,12 @@
         <input type="text" v-model="item.val" class="border-input-new" @keyup="nextFocusNew($event,index)" @keydown="changeValueNew(index)">
       </span>
     </div>
+    <h3>请输入确认密码</h3>
+    <div>
+      <span v-for="(item,index) in okList" :key="item.id">
+        <input type="text" v-model="item.val" class="border-input-ok" @keyup="nextFocusOk($event,index)" @keydown="changeValueOk(index)">
+      </span>
+    </div>
     <div>{{hintTxt}}</div>
     <br>
     <el-button type='primary' @click="expiry">确认</el-button>
@@ -180,6 +186,7 @@ import {post, get, post2} from '../../request/http.js'
 
         newList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
         oldList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+        okList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
         hintTxt:'',
 
       detailrules:{
@@ -283,6 +290,7 @@ import {post, get, post2} from '../../request/http.js'
     expiry(){
           let oInput = document.getElementsByClassName('border-input-old');
           let nInput = document.getElementsByClassName('border-input-new');
+          let okInput = document.getElementsByClassName('border-input-ok');
           let reg = /^[0-9]+$/;
           for (let i = 0; i < oInput.length; i++) {
             if (oInput[i].value === '') {
@@ -304,10 +312,26 @@ import {post, get, post2} from '../../request/http.js'
               return;
             }
           }
+          for (let i = 0; i < okInput.length; i++) {
+            if (okInput[i].value === '') {
+              this.hintTxt = '请填写完整的密码';
+              return;
+            }
+            if (!reg.test(okInput[i].value)){
+              this.hintTxt = '请填写数字';
+              return;
+            }
+          }
           for (let i = 0; i < nInput.length; i++) {
             this.user.password += nInput[i].value;
+            if(okInput[i].value!=nInput[i].value)
+            {
+              this.hintTxt = '请检查两次输入是否一致';
+              return;
+            }
+
           }
-          console.log(this.user.password);
+         
       },
 
       nextFocusOld(el,index){
@@ -348,12 +372,35 @@ import {post, get, post2} from '../../request/http.js'
          }
       },
 
+      nextFocusOk(el,index){
+        var dom = document.getElementsByClassName("border-input-ok"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.okList.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
       changeValueOld(index) {
         this.oldList[index].val = "";
       },
 
       changeValueNew(index) {
         this.newList[index].val = "";
+      },
+
+      changeValueOk(index) {
+        this.okList[index].val = "";
       },
 
     },
@@ -400,6 +447,20 @@ width:60%;
 }
 
 .border-input-new{
+  background: #ffffff;
+  width: 40px;
+  font-size: 60px;
+  height: 60px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+.border-input-ok{
   background: #ffffff;
   width: 40px;
   font-size: 60px;
