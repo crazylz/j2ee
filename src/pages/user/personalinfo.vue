@@ -8,21 +8,8 @@
 
 
   <el-dialog :visible.sync='editpassword'>
-    <!-- <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">支付密码</h2>
+    <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">设置支付密码</h2>
 
-    <el-form style="margin-right:120px" label-width='200px'>
-      <el-form-item style="margin-left:-44px" label='原始密码'>
-        <el-input v-model='user.password' placeholder='请输入原始密码' clearable></el-input>
-      </el-form-item>
-
-      <el-form-item style="margin-left:-44px" label='支付密码'>
-        <el-input v-model='user.password' placeholder='请输入支付密码' clearable></el-input>
-      </el-form-item>
-
-      <el-form-item style="margin-left:-80px;margin-top:10px">
-        <el-button type='primary'>确认</el-button>
-      </el-form-item>
-    </el-form>    -->
     <h3>请输入6位原密码</h3>
     <div>
       <span v-for="(item,index) in oldList" :key="item.id">
@@ -178,7 +165,9 @@ import {post, get, post2} from '../../request/http.js'
         discreditedRecords:null,
         rank:null,
         userId:null,
-        password:"",
+        oldpassword:"",
+        newpassword:"",
+        checkpassword:""
         },
 
         editable: false,
@@ -284,6 +273,12 @@ import {post, get, post2} from '../../request/http.js'
     },
 
     handlePassword(){
+      var res = post("/api/account/set_password", 
+      {oldPassword:this.oldpassword,newPassword1:this.newpassword,newPassword2:this.checkpassword});
+
+      res.then(result=>{
+        console.log(result);
+      })
 
     },
 
@@ -292,38 +287,24 @@ import {post, get, post2} from '../../request/http.js'
           let nInput = document.getElementsByClassName('border-input-new');
           let okInput = document.getElementsByClassName('border-input-ok');
           let reg = /^[0-9]+$/;
+
+
           for (let i = 0; i < oInput.length; i++) {
-            if (oInput[i].value === '') {
+            if (oInput[i].value === '' || nInput[i].value === '' || okInput[i].value === '') {
               this.hintTxt = '请填写完整的密码';
               return;
             }
-            if (!reg.test(oInput[i].value)){
+            if (!reg.test(oInput[i].value) || !reg.test(nInput[i].value) || !reg.test(okInput[i].value)){
               this.hintTxt = '请填写数字';
               return;
             }
           }
+         
           for (let i = 0; i < nInput.length; i++) {
-            if (nInput[i].value === '') {
-              this.hintTxt = '请填写完整的密码';
-              return;
-            }
-            if (!reg.test(nInput[i].value)){
-              this.hintTxt = '请填写数字';
-              return;
-            }
-          }
-          for (let i = 0; i < okInput.length; i++) {
-            if (okInput[i].value === '') {
-              this.hintTxt = '请填写完整的密码';
-              return;
-            }
-            if (!reg.test(okInput[i].value)){
-              this.hintTxt = '请填写数字';
-              return;
-            }
-          }
-          for (let i = 0; i < nInput.length; i++) {
-            this.user.password += nInput[i].value;
+            this.user.oldpassword += oInput[i].value;
+            this.user.newpassword += nInput[i].value;
+            this.user.checkpassword += okInput[i].value;
+
             if(okInput[i].value!=nInput[i].value)
             {
               this.hintTxt = '请检查两次输入是否一致';
@@ -331,6 +312,9 @@ import {post, get, post2} from '../../request/http.js'
             }
 
           }
+
+
+          this.handlePassword();
          
       },
 
