@@ -99,7 +99,7 @@
       
 
         <el-form-item>
-          <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
+          <el-button type="primary" round @click="editable = true" v-if="editable == false" style="float:left;">编辑</el-button>
           <div v-else>
           <el-button type="danger" round @click="editable = false;getUser()">取消编辑</el-button>
           <el-button type="success" round @click="handleDetail">保存</el-button>
