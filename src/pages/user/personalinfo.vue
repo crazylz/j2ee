@@ -286,7 +286,7 @@ import {post, get, post2} from '../../request/http.js'
           let reg = /^[0-9]+$/;
           for (let i = 0; i < oInput.length; i++) {
             if (oInput[i].value === '') {
-              this.hintTxt = '请填写完整的兑换码';
+              this.hintTxt = '请填写完整的密码';
               return;
             }
             if (!reg.test(oInput[i].value)){
@@ -296,7 +296,7 @@ import {post, get, post2} from '../../request/http.js'
           }
           for (let i = 0; i < nInput.length; i++) {
             if (nInput[i].value === '') {
-              this.hintTxt = '请填写完整的兑换码';
+              this.hintTxt = '请填写完整的密码';
               return;
             }
             if (!reg.test(nInput[i].value)){
