@@ -434,9 +434,9 @@ width:60%;
 
 .border-input-old{
   background: #ffffff;
-  width: 40px;
-  font-size: 60px;
-  height: 60px;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
   margin-left: 15px;
   margin-right: 15px;
   text-align: center;
@@ -448,9 +448,9 @@ width:60%;
 
 .border-input-new{
   background: #ffffff;
-  width: 40px;
-  font-size: 60px;
-  height: 60px;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
   margin-left: 15px;
   margin-right: 15px;
   text-align: center;
@@ -462,9 +462,9 @@ width:60%;
 
 .border-input-ok{
   background: #ffffff;
-  width: 40px;
-  font-size: 60px;
-  height: 60px;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
   margin-left: 15px;
   margin-right: 15px;
   text-align: center;

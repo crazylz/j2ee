@@ -19,9 +19,6 @@
               {{userName}}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <!-- <div @click='detailVisible=true'>
-                <el-dropdown-item icon="el-icon-user">个人资料</el-dropdown-item>
-              </div>-->
               <div @click="investVisible=true;getBalance()">
                 <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
               </div>
@@ -37,41 +34,55 @@
       </el-header>
 
       <!--充值对话框  -->
-      <el-dialog class="invest" :visible.sync="investVisible">
+      <el-dialog :visible.sync="investVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
         <p style="color: #606266; font-size:18px">第三方账户余额：￥{{money_remain}}</p>
         <el-form
-          style="margin-right:120px"
           ref="investForm"
           :model="invest"
           label-width="200px"
           :rules="investrules"
-        >
-          <el-form-item style="margin-left:-44px" label="充值金额" prop="number" class="input">
-            <el-input v-model="invest.number" placeholder="请输入充值金额" clearable></el-input>
+          label-position="right">
+
+          <el-form-item label="充值金额" prop="number" class="input">
+            <el-input v-model="invest.number" placeholder="请输入充值金额" clearable style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item style="margin-left:-80px;margin-top:10px">
-            <el-button type="primary" @click="handleInvest()">确认</el-button>
+
+          <el-form-item label="支付密码">
+            <span v-for="(item,index) in RechargeList" :key="item.id">
+              <input type="text" v-model="item.val" class="border-input-recharge" 
+              @keyup="nextFocusRecharge($event,index)" @keydown="changeValueRecharge(index)">
+            </span>
           </el-form-item>
+          
+          <el-button type="primary" @click="handleInvest()">确认</el-button>
+
         </el-form>
       </el-dialog>
 
-      <el-dialog class="withdraw" :visible.sync="withdrawVisible">
+      <el-dialog :visible.sync="withdrawVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">提现</h2>
         <p style="color: #606266; font-size:18px">第三方账户余额 {{money_remain}}</p>
         <el-form
-          style="margin-right:120px"
           ref="withdrawForm"
           :model="withdraw"
           label-width="200px"
           :rules="withdrawrules"
-        >
-          <el-form-item style="margin-left:-44px" label="提现金额" prop="money" class="input">
-            <el-input v-model="withdraw.money" placeholder="请输入提现金额" clearable></el-input>
+          label-position="right">
+
+          <el-form-item label="提现金额" prop="money" class="input">
+            <el-input v-model="withdraw.money" placeholder="请输入提现金额" clearable style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item style="margin-left:-80px;margin-top:10px">
-            <el-button type="primary" @click="handleWithdraw()">确认</el-button>
+
+          <el-form-item label="支付密码">
+            <span v-for="(item,index) in WithdrawList" :key="item.id">
+              <input type="text" v-model="item.val" class="border-input-withdraw" 
+              @keyup="nextFocusWithdraw($event,index)" @keydown="changeValueWithdraw(index)">
+            </span>
           </el-form-item>
+
+            
+          <el-button type="primary" @click="handleWithdraw()">确认</el-button>
         </el-form>
       </el-dialog>
 
@@ -175,7 +186,6 @@ import { post, get, getLocalUrl } from "../request/http.js";
 export default {
   data() {
     return {
-      // detailVisible:false,
       investVisible: false,
       withdrawVisible: false,
       aboutUsDialogVisible: false,
@@ -189,25 +199,14 @@ export default {
       money_remain: 0,
       systemName: "用户界面",
       userName: "null",
-
+      RechargeList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
+      WithdrawList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
       invest: {
         number: 0
       },
       withdraw: {
         money: 0
       },
-      options: [
-        {value: 0,label: "未设置"
-        },
-        {
-          value: 1,
-          label: "男"
-        },
-        {
-          value: 2,
-          label: "女"
-        }
-      ],
 
       investrules: {
         number: [{ required: true, message: "充值额不能为空", trigger: "blur" }]
@@ -228,51 +227,57 @@ export default {
       this.$router.push({ path: "/userhome/message" });
     },
 
-    getGender(state) {
-      if (state == 0) {
-        return "未设置";
-      } else {
-        return state == 1 ? "男" : "女";
-      }
-    },
+    nextFocusRecharge(el,index){
+        var dom = document.getElementsByClassName("border-input-recharge"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.RechargeList.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
+      nextFocusWithdraw(el,index){
+        var dom = document.getElementsByClassName("border-input-withdraw"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+        if (el.keyCode != 8) {
+          if (index < (this.WithdrawList.length - 1)) {
+            nextInput.focus();
+          } else {
+            currInput.blur();
+          }
+        }else{
+          if (index !=0) {
+            lastInput.focus();
+          }
+         }
+      },
+
+      changeValueRecharge(index) {
+        this.RechargeList[index].val = "";
+      },
+
+      changeValueWithdraw(index) {
+        this.WithdrawList[index].val = "";
+      },
 
     getUser() {
       var userres = get("/api/userProfile", {});
       userres.then(user => {
         this.userName = user.data.name;
         console.log(user.data);
-      });
-    },
-
-    handleDetail() {
-      console.log(this.user);
-      var res = post("/api/userProfile", {
-        idCardNumber: this.user.idCardNumber,
-        phoneNumber: this.user.phoneNumber,
-        gender: this.user.gender,
-        paymentAccount: this.user.paymentAccount,
-        bankAccount: this.user.bankAccount,
-        salary: this.user.salary,
-        name: this.user.name,
-        lengthOfService: this.user.lengthOfService
-      });
-
-      res.then(result => {
-        console.log(result);
-        if (result.code == 0) {
-          this.$msgbox({
-            title: "提示",
-            message: result.msg,
-            type: "success"
-          });
-          this.detailVisible = false;
-        } else {
-          this.$msgbox({
-            title: "提示",
-            message: result.msg,
-            type: "error"
-          });
-        }
       });
     },
 
@@ -430,19 +435,32 @@ export default {
   margin-right: 30px;
 }
 
-.detail {
-  width: 80%;
-  left: 10%;
-  height: 100%;
+
+.border-input-recharge{
+  background: #ffffff;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
 }
 
-.invest {
-  width: 60%;
-  left: 20%;
-}
-
-.withdraw {
-  width: 60%;
-  left: 20%;
+.border-input-withdraw{
+  background: #ffffff;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
 }
 </style>
