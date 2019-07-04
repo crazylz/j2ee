@@ -36,7 +36,7 @@
       <!--充值对话框  -->
       <el-dialog :visible.sync="investVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额：￥{{money_remain}}</p>
+        <p style="color: #606266; font-size:18px">第三方账户余额：￥<label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label></p>
         <el-form
           ref="investForm"
           :model="invest"
@@ -62,7 +62,7 @@
 
       <el-dialog :visible.sync="withdrawVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">提现</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额 {{money_remain}}</p>
+        <p style="color: #606266; font-size:18px">第三方账户余额 ¥ <label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label></p>
         <el-form
           ref="withdrawForm"
           :model="withdraw"
