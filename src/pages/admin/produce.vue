@@ -5,7 +5,7 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/produce' }">管理产品</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-dialog class="detail"  :visible.sync='detailVisible'>
+    <el-dialog :visible.sync='detailVisible' top="3vh">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>

@@ -36,57 +36,6 @@
         </div>
       </el-header>
 
-      <!-- 个人资料对话框 -->
-      <!-- 需要在script的data里面定义所有的变量 -->
-      <!--style属性多个属性之间用分号间隔  -->
-      <!-- <el-dialog class="detail"  :visible.sync='detailVisible'
-      @open="getUser">
-        <h2 style=" text-align: center;color: #606266; font-size:30px">个人资料</h2>
-        <el-form style="margin-right:120px"  ref='userForm' :model='user' label-width='200px' :rules='detailrules'>
-
-            <el-form-item label='姓名' prop='name' class="input">
-              <el-input v-model='user.name' placeholder='请输入姓名' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label="性别" class="input" prop='gender'>
-            <el-select v-model="user.gender" placeholder="请选择性别" label="性别" style="width:100%"> 
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-
-
-            <el-form-item label='电话' prop='phoneNumber' class="input">
-              <el-input v-model='user.phoneNumber' clearable disabled="true"></el-input>
-            </el-form-item>
-
-            <el-form-item label='工龄(年)' prop='lengthOfService' class="input">
-              <el-input v-model='user.lengthOfService' clearable></el-input>
-            </el-form-item>
-
-            <el-form-item label='工资(￥)' prop='salary' class="input">
-              <el-input v-model='user.salary' clearable></el-input>
-            </el-form-item>
-            <el-form-item label='第三方支付账号' prop='paymentAccount' class="input">
-              <el-input v-model='user.paymentAccount ' clearable></el-input>
-            </el-form-item>
-            <el-form-item label='银行卡帐号' prop='bankAccount' class="input">
-              <el-input v-model='user.bankAccount ' clearable></el-input>
-            </el-form-item>
-            <el-form-item label='身份证号' prop='idCardNumber' class="input">
-              <el-input v-model='user.idCardNumber' clearable></el-input>
-            </el-form-item>
-            <el-form-item style="margin-left:-80px;margin-top:20px">
-              <el-button type='primary' @click='handleDetail()'
-              >保存</el-button>
-            </el-form-item>               
-        </el-form>   
-      </el-dialog>-->
-
       <!--充值对话框  -->
       <el-dialog class="invest" :visible.sync="investVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
@@ -248,9 +197,7 @@ export default {
         money: 0
       },
       options: [
-        {
-          value: 0,
-          label: "未设置"
+        {value: 0,label: "未设置"
         },
         {
           value: 1,
