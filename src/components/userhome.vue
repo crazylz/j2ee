@@ -180,7 +180,7 @@
 
 
 <script>
-import { post, get, getLocalUrl } from "../request/http.js";
+import { post, get } from "../request/http.js";
 let Base64 = require('js-base64').Base64
 
 export default {
@@ -389,28 +389,28 @@ export default {
     },
 
     getLawHtml() {
-      var res = getLocalUrl("http://localhost:8080/static/law.html");
-      res.then(data => {
-        // console.log(data);
-        this.lawhtml = data;
-      });
+      var res = get("/static/law.html",{});
+      res.then(
+        data =>{
+          this.lawhtml = data;
+        }
+      )
     },
     getReportHtml() {
-      var res = getLocalUrl("http://localhost:8080/static/report.html");
+      var res = get("static/report.html",{});
       res.then(data => {
-        // console.log(data);
         this.reporthtml = data;
       });
     },
     getAboutUsHtml() {
-      var res = getLocalUrl("http://localhost:8080/static/aboutus.html");
+      var res = get("/static/aboutus.html",{});
       res.then(data => {
         // console.log(data);
         this.aboutushtml = data;
       });
     },
     getContactUsHtml() {
-      var res = getLocalUrl("http://localhost:8080/static/contactus.html");
+      var res = get("/static/contactus.html");
       res.then(data => {
         // console.log(data);
         this.contactushtml = data;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 
-axios.defaults.timeout=10000;
+axios.defaults.timeout = 10000;
 // axios.defaults.headers.post['Content-Type']='charset=UTF-8';
 axios.defaults.withCredentials = true;
 
@@ -26,86 +26,79 @@ axios.defaults.withCredentials = true;
 // }];
 
 //get
-export function get(url,params){
-    return new Promise((resolve,reject)=>{
-        axios.get(url,{
-            params:params,
-            headers:{"Access-Session": localStorage.getItem('session'),
-            "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"}
-        }).then(res=>{
+export function get(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.get(url, {
+            params: params,
+            headers: {
+                "Access-Session": localStorage.getItem('session'),
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+            }
+        }).then(res => {
             resolve(res.data);
-        }).catch(err=>{
+        }).catch(err => {
             reject(err.data)
         })
     });
 }
-
-// 获取本地文件
-export function getLocalUrl(url){
-    return new Promise((resolve, reject) =>{
-        axios.get(url,{}).then(res =>{
-            resolve(res.data)
-        }).catch(err=>{
-            reject(err.data)
-        })
-    })
-}
-
-
 
 //post
-export function post(url,params){
-    return new Promise((resolve,reject)=>{
-        axios.post(url,qs.stringify(params),{
-            headers:{"Access-Session": localStorage.getItem('session'),
-            "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"}
+export function post(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, qs.stringify(params), {
+            headers: {
+                "Access-Session": localStorage.getItem('session'),
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+            }
         })
-        .then(res=>{
-            resolve(res.data);
-        }).catch(err=>{
-            reject(err.data)
-        })
+            .then(res => {
+                resolve(res.data);
+            }).catch(err => {
+                reject(err.data)
+            })
     });
 }
 
 
-export function post1(url,params){
-    return new Promise((resolve,reject)=>{
-        axios.post(url,qs.stringify(params))
-        .then(res=>{
-            resolve(res.data);
-            localStorage.setItem('session', res.headers["access-session"]);
-            // console.log(localStorage.getItem('session'));
-        }).catch(err=>{
-            reject(err.data)
-        })
+export function post1(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, qs.stringify(params))
+            .then(res => {
+                resolve(res.data);
+                localStorage.setItem('session', res.headers["access-session"]);
+                // console.log(localStorage.getItem('session'));
+            }).catch(err => {
+                reject(err.data)
+            })
     });
 }
 
-export function post2(url,params){
-    return new Promise((resolve,reject)=>{
-        axios.post(url,qs.stringify(params))
-        .then(res=>{
-            console.log(res.headers)
-            resolve(res.data);
-            localStorage.setItem('validation', res.headers["access-session"]);
-            // console.log(localStorage.getItem('session'));
-        }).catch(err=>{
-            reject(err.data)
-        })
+export function post2(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, qs.stringify(params))
+            .then(res => {
+                console.log(res.headers)
+                resolve(res.data);
+                localStorage.setItem('validation', res.headers["access-session"]);
+                // console.log(localStorage.getItem('session'));
+            }).catch(err => {
+                reject(err.data)
+            })
     });
 }
 
-export function post_regist(url,params){
-    return new Promise((resolve,reject)=>{
-        axios.post(url,qs.stringify(params),{
-            headers:{"Access-Session": localStorage.getItem('validation'),
-            "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"}
+export function post_regist(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, qs.stringify(params), {
+            headers: {
+                "Access-Session": localStorage.getItem('validation'),
+                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+            }
         })
-        .then(res=>{
-            resolve(res.data);
-        }).catch(err=>{
-            reject(err.data)
-        })
+            .then(res => {
+                resolve(res.data);
+            }).catch(err => {
+                reject(err.data)
+            })
     });
 }
