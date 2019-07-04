@@ -51,6 +51,7 @@
       align="center"
       label="操作类型">
       <template slot-scope="scope">
+        <img :src='getFundInOut(scope.row.operationType)' height="15px" style="margin-right:5px"/>
         <span v-bind:class="textColor(scope.row.operationType)">{{object(scope.row.operationType)}}</span>
       </template>
     </el-table-column>
@@ -70,6 +71,8 @@
 
 
 <script>
+import fundIn from "../../assets/in.png"
+import fundOut from "../../assets/out.png"
 import {post, get} from '../../request/http.js'
 
   export default {
@@ -104,6 +107,10 @@ import {post, get} from '../../request/http.js'
         this.pageIndex=val;
       },
 
+      getFundInOut(state){
+        if(state == 0) return fundIn;
+        else return fundOut;
+      },
       object(state){
         return state == 0 ? '转入' : '转出';
       },
