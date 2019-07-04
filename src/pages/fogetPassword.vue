@@ -1,7 +1,7 @@
 <template>
 	<div class="main">
 		<div class="register">
-			<h2 style="text-align:left; margin-left:50px;color: #606266;">账号注册</h2>
+			<h2 style="text-align:left; margin-left:50px;color: #606266;">忘记密码</h2>
             <a style="text-decoration:none" href="#/login"><p style="text-align:right; margin:0 30px 15px 0;font-size:14px">已有账号，直接登录
 				</p></a>
 			<el-form ref='registerForm' :model='registerInfo' label-width='80px' :rules='rules' >
@@ -138,20 +138,14 @@ let Base64 = require('js-base64').Base64
 			
 			var res=post2("/api/vcode",{phoneNumber:this.registerInfo.phone})
 			res.then(data=>{
-				if(data.code==0){
-					this.$msgbox({
-					title: '提示',
-					message: data.msg,
-					type: 'success'
-					});
-				}
-				else{
-					this.$msgbox({
-					title: '提示',
-					message: data.msg,
-					type: 'error'
-					});
-				}
+			console.log(data);
+			this.$msgbox({
+			title: '提示',
+			message: data.msg,
+			type: 'error'
+             });
+			}).catch(error=>{
+				alert(error);
 			})
 			},
 

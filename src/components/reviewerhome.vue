@@ -46,8 +46,8 @@
 <script>
 let data = () => {
   return {
-    systemName: '担保人界面',
-    adminName: '担保人'
+    systemName: '审核员界面',
+    adminName: '审核员'
   }
 }
 

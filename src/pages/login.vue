@@ -32,7 +32,7 @@
 			</el-form>
 
 			<el-row>
-				<el-button type='text'>忘记密码？</el-button>
+				<el-button type='text' @click="forgetpassword()">忘记密码？</el-button>
 			</el-row>
 		</div>
 	</div>
@@ -160,6 +160,9 @@ let Base64 = require('js-base64').Base64
 			},
 			register:function(){
 				this.$router.push({path:'/register'});
+			},
+			forgetpassword(){
+				this.$router.push({path:'/forgetpassword'});
 			}
 		}
 	}

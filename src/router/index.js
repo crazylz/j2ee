@@ -7,6 +7,7 @@ Vue.use(Router)
 // 登陆、注册界面
 import login from '../pages/login.vue'
 import register from '../pages/register.vue'
+import forgetpassword from '../pages/fogetPassword.vue'
 
 //用户界面
 import userhome from '../components/userhome.vue'
@@ -51,6 +52,10 @@ const router = new Router({
     {
       path:'/register',
       component:register
+    },
+    {
+      path:'/forgetpassword',
+      component:forgetpassword
     },
     {
       path:'/userhome',
