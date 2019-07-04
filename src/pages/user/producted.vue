@@ -7,13 +7,13 @@
     </el-breadcrumb>
 
 
-    <el-dialog :visible.sync='detailVisible' top="3vh">
+    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%">
         <div class="card-div">
       <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px">| 基本资料</div>
 
       <!-- 头像 -->
-      <div style="margin-top: 80px; float: left;">
+      <div style="margin-top: 60px; float: left;">
         <img src="../../assets/user.png" />
       </div>
 
@@ -27,7 +27,7 @@
           </label>
         </el-form-item>
 
-        <el-form-item label="性别：" label-width="200px">
+        <el-form-item label="性别：">
           <!-- 根据性别动态显示图标 -->
           <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
@@ -59,20 +59,9 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-      <!-- <el-popover trigger="click" placement="bottom">
-          <p>姓名: {{ borrower.name}}</p>
-          <p>性别: {{ getGender(borrower.gender) }}</p>
-          <p>电话: {{ borrower.phoneNumber }}</p>
-          <p>工龄: {{ borrower.lengthOfService }}</p>
-          <p>工资: ￥{{ borrower.salary }}</p>
-          <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
-          <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper"> -->
           <el-button size="mini" @click="getBorrower(scope.row.userId);detailVisible=true">
             {{scope.row.userId}}
           </el-button>
-      <!-- </div>
-      </el-popover> -->
       </template>
       </el-table-column>
 

@@ -145,20 +145,9 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-      <!-- <el-popover trigger="click" placement="bottom">
-          <p>姓名: {{ borrower.name}}</p>
-          <p>性别: {{ getGender(borrower.gender) }}</p>
-          <p>电话: {{ borrower.phoneNumber }}</p>
-          <p>工龄: {{ borrower.lengthOfService }}</p>
-          <p>工资: ￥{{ borrower.salary }}</p>
-          <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
-          <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper"> -->
           <el-button size="mini" @click="getUser(scope.row.userId);detailVisible=true;">
             {{scope.row.userId}}
           </el-button>
-        <!-- </div>
-      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -169,20 +158,9 @@
       label="投资人id"
       sortable>
       <template slot-scope="scope">
-      <!-- <el-popover trigger="click" placement="bottom">
-          <p>姓名: {{ borrower.name}}</p>
-          <p>性别: {{ getGender(borrower.gender) }}</p>
-          <p>电话: {{ borrower.phoneNumber }}</p>
-          <p>工龄: {{ borrower.lengthOfService }}</p>
-          <p>工资: ￥{{ borrower.salary }}</p>
-          <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
-          <p>信用评级: {{ borrower.rank }}</p>
-        <div slot="reference" class="name-wrapper"> -->
           <el-button size="mini"  @click="getUser(scope.row.investorId);detailVisible=true;">
             {{scope.row.investorId}}
           </el-button>
-        <!-- </div>
-      </el-popover> -->
       </template>
       </el-table-column>
 
@@ -199,18 +177,18 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <span>
-          <el-button
+          <!-- <el-button
             size="mini"
             type="info"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 
             <br/>
-            <br/>
+            <br/> -->
 
             <el-button
             size="mini"
             type="danger"
-            @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+            @click="handleDelete(scope.row)">删除</el-button>
           </span>
         </template>
       </el-table-column>
@@ -245,8 +223,30 @@ import {post, get} from '../../request/http.js'
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
+      handleDelete(row) {
+        var res = post("/api/admin/deleteRequest", {id: row.id});
+        res.then(result=>{
+          if(result.code == 0){
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+            });
+            var res = get("/api/admin/requests", {});
+            res.then(product=>{
+              this.all_tableData = product.data;
+              console.log(product);
+            });
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+            });
+          }
+
+        })
       },
       getGender(state){
         if(state == 0){

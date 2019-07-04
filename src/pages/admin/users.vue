@@ -114,7 +114,8 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            type="danger"
+            @click="handleEdit(scope.row)">删除用户</el-button>
         </template>
       </el-table-column>
     
@@ -144,8 +145,30 @@ import {post, get} from '../../request/http.js'
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
+      handleEdit(row) {
+        var res = post("/api/admin/deleteAccount", {account:'user001'});
+        res.then(result=>{
+          if(result.code == 0){
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+            });
+            var res1 = get("/api/admin/users", {});
+            res1.then(user=>{
+              this.all_tableData = user.data;
+            }
+      )
+          }
+          else{
+            this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+            });
+          }
+
+        })
       },
 
 
