@@ -391,28 +391,28 @@ export default {
     getLawHtml() {
       var res = getLocalUrl("http://localhost:8080/static/law.html");
       res.then(data => {
-        console.log(data);
+        // console.log(data);
         this.lawhtml = data;
       });
     },
     getReportHtml() {
       var res = getLocalUrl("http://localhost:8080/static/report.html");
       res.then(data => {
-        console.log(data);
+        // console.log(data);
         this.reporthtml = data;
       });
     },
     getAboutUsHtml() {
       var res = getLocalUrl("http://localhost:8080/static/aboutus.html");
       res.then(data => {
-        console.log(data);
+        // console.log(data);
         this.aboutushtml = data;
       });
     },
     getContactUsHtml() {
       var res = getLocalUrl("http://localhost:8080/static/contactus.html");
       res.then(data => {
-        console.log(data);
+        // console.log(data);
         this.contactushtml = data;
       });
     }
