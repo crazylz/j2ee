@@ -149,6 +149,7 @@
 
 <script>
 import {post, get, post2} from '../../request/http.js'
+let Base64 = require('js-base64').Base64
 
   export default {
     data(){
@@ -274,9 +275,29 @@ import {post, get, post2} from '../../request/http.js'
 
     handlePassword(){
       var res = post("/api/account/set_password", 
-      {oldPassword:this.oldpassword,newPassword1:this.newpassword,newPassword2:this.checkpassword});
+      {oldPassword:Base64.encode(this.user.oldpassword), 
+      newPassword1:Base64.encode(this.user.newpassword), 
+      newPassword2:Base64.encode(this.user.checkpassword)});
 
       res.then(result=>{
+        if(result.code == 0){
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'success'
+          });
+          this.newList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.oldList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.okList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.editpassword = false;
+        }
+        else{
+          this.$msgbox({
+            title: '提示',
+            message: result.msg,
+            type: 'error'
+          });
+        }
         console.log(result);
       })
 
