@@ -15,6 +15,10 @@
 				<el-form-item label='新密码' prop='password'>
 					<el-input v-model='forgetInfo.password' type='password' placeholder='请输入新密码'  clearable></el-input>
 				</el-form-item>
+
+				<el-form-item label='确认密码' prop='checkpassword'>
+					<el-input v-model='forgetInfo.checkpassword' type='password' placeholder='请确认密码'  clearable></el-input>
+				</el-form-item>
 				
 				<el-form-item style="margin-right:40px">
 					<el-button type='primary' @click='handleForget()'
@@ -32,11 +36,20 @@ let Base64 = require('js-base64').Base64
 
 	export default {
 		data(){
+			var checkpassword=(rule,value,callback)=>{
+				if(this.forgetInfo.password==value){
+					 callback();
+				}else{
+					return callback(new Error('密码不一致'));
+				}
+			};
+
 			return {
 				forgetInfo: {
 					account:'',
 					idCardNumber: '',
 					password: '',
+					checkpassword:''
 				},
 				// 校验规则
 				rules:{
@@ -50,39 +63,53 @@ let Base64 = require('js-base64').Base64
 					{required:true,message:'密码不能为空',	trigger: 'blur'},
 					{min:5,message:'密码长度必须大于5个字符字符',}
 					],
+					checkpassword: [
+					{required:true,message:'密码不能为空',	trigger: 'blur'},
+					{validator:checkpassword, trigger: 'blur'},
+					{min:5,message:'密码长度必须大于5个字符字符',}
+					],
 				}
 			};
 		},
 		methods:{
 			handleForget(){
-				console.log(this.forgetInfo);
-				var res = post("/api/forgetPassword", {newPassword:Base64.encode(this.forgetInfo.password), 
-				idCardNumber:this.forgetInfo.idCardNumber, 
-				account:this.forgetInfo.account});
-
-				res.then(result=>{
-					if(result.code == 0){
-						this.$msgbox({
+				if(this.forgetInfo.password != this.forgetInfo.checkpassword){
+					this.$msgbox({
 							title: '提示',
-							message: result.msg,
-							type: 'success'
-						});
-						
-						this.forgetInfo = {
-							account:'',
-							idCardNumber: '',
-							password: '',
-						};
-					}
-					else{
-						this.$msgbox({
-							title: '提示',
-							message: result.msg,
+							message: '新密码与确认密码不匹配',
 							type: 'error'
-                    	});
-					}
-				})
-			}
+                    });
+				}
+				else{
+					var res = post("/api/forgetPassword", {newPassword:Base64.encode(this.forgetInfo.password), 
+					idCardNumber:this.forgetInfo.idCardNumber, 
+					account:this.forgetInfo.account});
+
+					res.then(result=>{
+						if(result.code == 0){
+							this.$msgbox({
+								title: '提示',
+								message: result.msg,
+								type: 'success'
+							});
+							
+							this.forgetInfo = {
+								account:'',
+								idCardNumber: '',
+								password: '',
+							};
+						}
+						else{
+							this.$msgbox({
+								title: '提示',
+								message: result.msg,
+								type: 'error'
+							});
+						}
+					})
+				}
+				
+			},
 
 		}
 	}
