@@ -40,17 +40,16 @@
       </el-menu-item>
     </el-menu>
 
-    <el-dialog class="detail" :visible.sync="detailVisible" top="3vh">
+    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
       <div class="card-div">
         <div
-          style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px"
+          style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
         >| 基本资料</div>
 
         <!-- 头像 -->
-        <div style="margin-top: 80px; float: left;">
+        <div style="margin-top: 60px; float: left;">
           <img src="../../assets/user.png" />
         </div>
-
         <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
           <el-form-item>
             <label style="float:left;margin-left:40px">用户名</label>
@@ -205,7 +204,7 @@
       <el-table-column align="center" label="状态" width="150">
         <template slot-scope="scope">
           <!-- 更换为图片状态 -->
-        <img :src='imgSrc(scope.row.state)' height="15px" style="margin-right:5px"/>
+          <img :src="imgSrc(scope.row.state)" height="15px" style="margin-right:5px" />
           <span v-bind:class="textColor(scope.row.state)">{{ classObject(scope.row.state)}}</span>
         </template>
       </el-table-column>
@@ -224,11 +223,11 @@
 
 
 <script>
-import red_circle from '../../assets/red_circle.png'
-import green_circle from '../../assets/green_circle.png'
-import orange_circle from '../../assets/orange_circle.png'
-import gray_circle from '../../assets/gray_circle.png'
-import black_circle from '../../assets/black_circle.png'
+import red_circle from "../../assets/red_circle.png";
+import green_circle from "../../assets/green_circle.png";
+import orange_circle from "../../assets/orange_circle.png";
+import gray_circle from "../../assets/gray_circle.png";
+import black_circle from "../../assets/black_circle.png";
 import { post, get } from "../../request/http.js";
 export default {
   data() {
@@ -334,14 +333,14 @@ export default {
       return row[property] >= value;
     },
 
-      imgSrc(state){
-        // console.log(state);
-        if(state == 1) return black_circle;
-        if(state == 2) return orange_circle;
-        if(state == 3) return gray_circle;
-        if(state == 4) return green_circle;
-        if(state == 5) return red_circle;
-      },
+    imgSrc(state) {
+      // console.log(state);
+      if (state == 1) return black_circle;
+      if (state == 2) return orange_circle;
+      if (state == 3) return gray_circle;
+      if (state == 4) return green_circle;
+      if (state == 5) return red_circle;
+    },
 
     textColor(state) {
       return {
