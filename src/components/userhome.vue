@@ -262,33 +262,6 @@ export default {
         }
       ],
 
-      // detailrules:{
-      //   name: [
-      //   {required: true,message: '姓名不能为空',trigger: 'blur'}
-      //   ],
-      //   gender: [
-      //   {required:true,message:'性别不能为空',	trigger: 'blur'},
-      //   // {min:5,message:'密码长度必须大于5个字符字符',}
-      //   ],
-      //   phoneNumber: [
-      //   {required: true,message: '电话不能为空',trigger: 'blur'}
-      //   ],
-      //   salary: [
-      //   {required: true,message: '工资不能为空',trigger: 'blur'}
-      //   ],
-      //   paymentAccount: [
-      //   {required: true,message: '第三方支付账号不能为空',trigger: 'blur'}
-      //   ],
-      //   bankAccount: [
-      //   {required: true,message: '银行卡帐号不能为空',trigger: 'blur'}
-      //   ],
-      //   idCardNumber: [
-      //   {required: true,message: '身份证号不能为空',trigger: 'blur'}
-      //   ],
-      //   lengthOfService: [
-      //   {required: true,message: '工龄不能为空',trigger: 'blur'}
-      //   ],
-      // },
       investrules: {
         number: [{ required: true, message: "充值额不能为空", trigger: "blur" }]
       },
