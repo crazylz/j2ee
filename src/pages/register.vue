@@ -114,11 +114,19 @@ let Base64 = require('js-base64').Base64
 				console.log(data.code);
 				if(data.code==0)
 				{
-					alert(data.msg);
+					this.$msgbox({
+					title: '提示',
+					message: data.msg,
+					type: 'success'
+            		 });
 					this.$router.push({path:'/login'});
 				}
 				else {
-					alert(data.msg);
+					this.$msgbox({
+					title: '提示',
+					message: data.msg,
+					type: 'error'
+                    });
 				}
 			}).catch(error=>{
             alert(error);
@@ -131,7 +139,11 @@ let Base64 = require('js-base64').Base64
 			var res=post2("/api/vcode",{phoneNumber:this.registerInfo.phone})
 			res.then(data=>{
 			console.log(data);
-			alert(data.msg);
+			this.$msgbox({
+			title: '提示',
+			message: data.msg,
+			type: 'error'
+             });
 			}).catch(error=>{
 				alert(error);
 			})
@@ -142,7 +154,11 @@ let Base64 = require('js-base64').Base64
 			var res=post("/api/vcode",{phoneNumber:this.registerInfo.phone})
 			res.then(data=>{
 			console.log(data);
-			alert(data.msg);
+			this.$msgbox({
+			title: '提示',
+			message: data.msg,
+			type: 'error'
+             });
 			}).catch(error=>{
 				alert(error);
 			})

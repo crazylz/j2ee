@@ -82,7 +82,11 @@ let Base64 = require('js-base64').Base64
 							that.$router.push({path:'/userhome/personalinfo'});
 						}
 						else{
-							alert(data.msg);
+							this.$msgbox({
+							title: '提示',
+							message: data.msg,
+							type: 'error'
+                    		});
 						}
 					}).catch(error => {
 						console.log(error)})
@@ -100,7 +104,11 @@ let Base64 = require('js-base64').Base64
 							that.$router.push({path:'/guaranteehome'});
 						}
 						else{
-							alert(data.msg);
+							this.$msgbox({
+							title: '提示',
+							message: data.msg,
+							type: 'error'
+                    		});
 						}
 					}).catch(error => {
 						console.log(error)})
@@ -118,7 +126,11 @@ let Base64 = require('js-base64').Base64
 							that.$router.push({path:'/adminhome'});
 						}
 						else{
-							alert(data.msg);
+							this.$msgbox({
+							title: '提示',
+							message: data.msg,
+							type: 'error'
+                    		});
 						}
 					}).catch(error => {
 						console.log(error)})
@@ -136,7 +148,11 @@ let Base64 = require('js-base64').Base64
 							that.$router.push({path:'/reviewerhome'});
 						}
 						else{
-							alert(data.msg);
+							this.$msgbox({
+							title: '提示',
+							message: data.msg,
+							type: 'error'
+                    		});
 						}
 					}).catch(error => {
 						console.log(error)})
