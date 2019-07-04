@@ -9,26 +9,15 @@
 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
-      <el-menu-item index="2" @click="dataType=1">
-        <img src='../../assets/black_circle.png' height="25%"/>
-        待处理
-        </el-menu-item>
-      <el-menu-item index="3" @click="dataType=2">
-        <img src='../../assets/orange_circle.png' height="25%"/>
-        担保人已同意</el-menu-item>
-      <el-menu-item index="4" @click="dataType=3">
-        <img src='../../assets/gray_circle.png' height="25%"/>
-        担保人已拒绝</el-menu-item>
-      <el-menu-item index="5" @click="dataType=4">
-        <img src='../../assets/green_circle.png' height="25%"/>
-        已还清</el-menu-item>
-      <el-menu-item index="6" @click="dataType=5">
-        <img src='../../assets/red_circle.png' height="25%"/>
-        未还清</el-menu-item>
+      <el-menu-item index="2" @click="dataType=1">待处理借款</el-menu-item>
+      <el-menu-item index="3" @click="dataType=2">担保人已同意借款</el-menu-item>
+      <el-menu-item index="4" @click="dataType=3">担保人已拒绝借款</el-menu-item>
+      <el-menu-item index="5" @click="dataType=4">已还清借款</el-menu-item>
+      <el-menu-item index="6" @click="dataType=5">未还清借款</el-menu-item>
     </el-menu>
 
 
-    <el-dialog class="detail"  :visible.sync='detailVisible'>
+    <el-dialog class="detail"  :visible.sync='detailVisible' top="3vh">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
@@ -190,10 +179,8 @@
     <el-table-column
     align='center'
       label="状态"
-      width="150">
+      width="100">
       <template slot-scope="scope">
-        <!-- 更换为图片状态 -->
-        <img :src='imgSrc(scope.row.state)' height="15px" style="margin-right:5px"/>
         <span v-bind:class="textColor(scope.row.state)">{{ classObject(scope.row.state)}}</span>
       </template>
     </el-table-column>
@@ -215,13 +202,7 @@
 
 
 <script>
-import red_circle from '../../assets/red_circle.png'
-import green_circle from '../../assets/green_circle.png'
-import orange_circle from '../../assets/orange_circle.png'
-import gray_circle from '../../assets/gray_circle.png'
-import black_circle from '../../assets/black_circle.png'
 import {post, get} from '../../request/http.js'
-
   export default {
     data() {
       return {
@@ -283,8 +264,8 @@ import {post, get} from '../../request/http.js'
 
       classObject(state){
         if(state==1)return '待处理';
-        if(state==2)return '已同意';
-        if(state==3)return '已拒绝';
+        if(state==2)return '担保人同意';
+        if(state==3)return '担保人拒绝';
         if(state==4)return '已还清';
         if(state==5)return '未还清';
       },
@@ -298,15 +279,6 @@ import {post, get} from '../../request/http.js'
       filterHandler_range(value, row, column) {
         const property = column['property'];
         return row[property] >= value;
-      },
-
-      imgSrc(state){
-        // console.log(state);
-        if(state == 1) return black_circle;
-        if(state == 2) return orange_circle;
-        if(state == 3) return gray_circle;
-        if(state == 4) return green_circle;
-        if(state == 5) return red_circle;
       },
 
       textColor(state){
@@ -468,5 +440,5 @@ import {post, get} from '../../request/http.js'
   /* float: left; */
   padding-top: 120px;
 }
-  
+
 </style>

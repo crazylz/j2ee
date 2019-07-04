@@ -5,13 +5,13 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/operation' }">查看日志</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-dialog :visible.sync='detailVisible' top="3vh">
+    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%">
         <div class="card-div">
       <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px">| 基本资料</div>
 
       <!-- 头像 -->
-      <div style="margin-top: 80px; float: left;">
+      <div style="margin-top: 60px; float: left;">
         <img src="../../assets/user.png" />
       </div>
 
@@ -25,7 +25,7 @@
           </label>
         </el-form-item>
 
-        <el-form-item label="性别：" label-width="200px">
+        <el-form-item label="性别：">
           <!-- 根据性别动态显示图标 -->
           <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
           <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
