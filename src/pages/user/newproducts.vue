@@ -7,7 +7,7 @@
       <!-- <el-button type='success' icon='el-icon-plus' round class='button_add' size='small' @click='addVisible = true'>新建购买</el-button> -->
     </el-breadcrumb>
 
-    <el-dialog class="detail"  :visible.sync='detailVisible'>
+    <el-dialog :visible.sync='detailVisible' top="3vh">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>

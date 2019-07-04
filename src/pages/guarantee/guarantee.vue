@@ -10,7 +10,7 @@
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
         
-    <el-dialog class="detail"  :visible.sync='detailVisible'>
+    <el-dialog :visible.sync='detailVisible' top="3vh">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>

@@ -5,6 +5,45 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/operation' }">查看日志</el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-dialog :visible.sync='detailVisible' top="3vh">
+        <div class="card-div">
+      <div
+        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
+
+      <!-- 头像 -->
+      <div style="margin-top: 80px; float: left;">
+        <img src="../../assets/user.png" />
+      </div>
+
+      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+        <el-form-item>
+          <label style="float:left;margin-left:40px">用户名</label>
+          <br/>
+          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
+            {{user.name}}
+          </label>
+        </el-form-item>
+
+        <el-form-item label="性别：" label-width="200px">
+          <!-- 根据性别动态显示图标 -->
+          <img v-if="user.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else-if="user.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
+          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+        </el-form-item>
+
+        <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
+        <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
+        <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
+        <!-- 中间加条横线 -->
+        <div
+          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
+        <el-form-item label="失信次数：" style="text-align:left">{{user.discreditedRecords}}</el-form-item>
+        <el-form-item label="信用评级：" style="text-align:left">{{user.rank}}</el-form-item>
+        </el-form>
+        </div>
+      </el-dialog>
+
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
         <el-menu-item index="1" @click="dataType=2">所有日志</el-menu-item>
         <el-menu-item index="2" @click="dataType=0">操作成功的日志</el-menu-item>
@@ -46,7 +85,13 @@
         align="center"
         prop="gender">
         <template slot-scope="scope">
-          <span>{{scope.row.opCreatorId}}</span>
+          <el-button size="mini"  @click="getUser(scope.row.opCreatorId);detailVisible=true;" v-if="scope.row.opCreatorType == 2">
+            {{scope.row.opCreatorId}}
+          </el-button>
+
+          <el-button size="mini" v-else>
+            {{scope.row.opCreatorId}}
+          </el-button>
         </template>
       </el-table-column>
 
@@ -109,6 +154,8 @@ import {post, get} from '../../request/http.js'
         pageIndex:1,
         dataType: 2,
         activeIndex:'1',
+        user: [],
+        detailVisible:false,
       }
     },
     methods: {
@@ -129,6 +176,14 @@ import {post, get} from '../../request/http.js'
           success : state == 0,
           fail: state == 1,
         }
+      },
+
+      getUser(id){
+          var res = get("/api/userProfile/" + id, {});
+          res.then(bdata=>{
+          this.user = bdata.data;
+          console.log(this.user);
+        })
       },
       
     

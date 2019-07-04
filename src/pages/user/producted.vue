@@ -7,7 +7,7 @@
     </el-breadcrumb>
 
 
-    <el-dialog class="detail"  :visible.sync='detailVisible'>
+    <el-dialog :visible.sync='detailVisible' top="3vh">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
@@ -207,11 +207,7 @@ import {post, get} from '../../request/http.js'
 
 <style scoped>
 .el-table{
-  /* display:inline-block;
-  text-align:center; */
   width: 100%;
-  /* width:fit-content;
-  margin:auto; */
 }
 
 .button_add{
