@@ -249,7 +249,19 @@ let Base64 = require("js-base64").Base64;
 export default {
   data() {
     return {
-      user: {},
+      user: {
+      name:'暂无数据',
+      gender:0,
+      salary: '暂无数据',
+      phoneNumber: '暂无数据',
+      paymentAccount: '暂无数据',
+      bankAccount: '暂无数据',
+      lengthOfService:'暂无数据',
+      idCardNumber:'暂无数据',
+      discreditedRecords:'暂无数据',
+      rank:'暂无数据',
+      userId:null
+      },
 
 
       paypassword:{
