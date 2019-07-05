@@ -1,204 +1,204 @@
 <template>
-<div>
-  <!-- 面包屑 -->
-  <el-breadcrumb separator="/" style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;">
-    <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
-    <el-breadcrumb-item :to="{ path: '/userhome/repay' }">还款</el-breadcrumb-item>
-  </el-breadcrumb>
+  <div>
+    <!-- 面包屑 -->
+    <el-breadcrumb
+      separator="/"
+      style="postion:absolute;left:20px;top:20px;margin-bottom:30px;font-size:18px;"
+    >
+      <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/userhome/repay' }">还款</el-breadcrumb-item>
+    </el-breadcrumb>
 
-  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+    <!-- 卡片布局 -->
+    <div style="margin-right:0px; padding: 10px;background:#fff;text-align:left">
+      <img src="../../assets/laba.png" style="width:20px;margin-top:10px;margin-right:10px" />
+      <span style="color:gray; font-size:14px">
+        诚信借款，按时还款，请及时处理还款记录。想了解逾期还款处理办法请点击
+        <a
+          href="#"
+          style="color:black"
+          @click="outOfTimeDialigVisible=true"
+        >这里</a> 。
+      </span>
+    </div>
+
+    <el-dialog :visible.sync="outOfTimeDialigVisible">
+      <h2>逾期处理办法</h2>
+      <p
+        style="text-align:left"
+      >本平台为企业内部员工提供24小时在线 p2p 小额贷款服务，所有员工资料均已在财务部备案并审核。若逾期时间不满28天，则该员工的失信记录加1，并由担保人垫付还款金额，用户需尽快处理。逾期28天后，平台将通知担保人进行处理，不排除采用冻结员工工资卡等措施。情节严重、涉及资金数额特别巨大者，不排除采取提起诉讼、上报公安机关等强制措施。
+      </p>
+      <p style="text-align:left">
+      本平台担保人将由企业财务部担任，详细处理办法请在工作时间咨询财务部。
+      </p>
+    </el-dialog>
+
+    <!-- 菜单 -->
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1" @click="dataType=0">所有还款</el-menu-item>
       <el-menu-item index="2" @click="dataType=2">平台已垫付的还款</el-menu-item>
       <el-menu-item index="3" @click="dataType=1">未还款的还款</el-menu-item>
     </el-menu>
 
-
-  <el-table
-    :data="tableData.slice(pageIndex*10-10, pageIndex*10)"
-    border
-    default-expand-all
-    >
-    <el-table-column
-      align="center"
-      label="单号"
-      sortable
-      prop="id">
-      <template slot-scope="scope">
-      <span>{{ scope.row.id }}</span>
-      </template>
-    </el-table-column>
-    <!-- <el-table-column
+    <!-- 待还款记录表 -->
+    <el-table :data="tableData.slice(pageIndex*10-10, pageIndex*10)" border default-expand-all>
+      <el-table-column align="center" label="单号" sortable prop="id">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
       align="center"
       prop="loans_date"
       label="借款日期"
       sortable>
-    </el-table-column> -->
-    <el-table-column
-      align="center"
-      label="还款额"
-      sortable
-      prop="amount">
-      <template slot-scope="scope">
-      <span>￥{{ scope.row.amount }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      align="center"
-      label="还款截至时间"
-      sortable
-      prop="timeToRepay">
-      <template slot-scope="scope">
-        <span>{{ scope.row.timeToRepay | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      align="center"
-      label="状态">
-      <template slot-scope="scope">
-        <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      align="center"
-      fixed="right"
-      label="操作">
-      <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">还款</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+      </el-table-column>-->
+      <el-table-column align="center" label="还款额" sortable prop="amount">
+        <template slot-scope="scope">
+          <span>￥{{ scope.row.amount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="还款截至时间" sortable prop="timeToRepay">
+        <template slot-scope="scope">
+          <span>{{ scope.row.timeToRepay | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="状态">
+        <template slot-scope="scope">
+          <span v-bind:class="textColor(scope.row.state)">{{object(scope.row.state)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" fixed="right" label="操作">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="text" size="small">还款</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-  <el-pagination
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    :page-size="100"
-    layout="prev, pager, next, jumper"
-    :total="100*(tableData.length/10)">
-  </el-pagination>
-
-</div>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="100*(tableData.length/10)"
+    ></el-pagination>
+  </div>
 </template>
 
 
 <script>
-import {post, get} from '../../request/http.js'
-  export default {
-    data(){
-      return{
-        all_tableData: [],
-        pageIndex:1,
-        dataType:0,
-        activeIndex:'1',
-      }
-    },
+import { post, get } from "../../request/http.js";
+export default {
+  data() {
+    return {
+      all_tableData: [],
+      pageIndex: 1,
+      dataType: 0,
+      activeIndex: "1",
+      outOfTimeDialigVisible: false
+    };
+  },
 
-// 必须加上this.tableData=[];才能够不被覆盖
-    mounted(){
-      this.getRepayData();
-    },
+  // 必须加上this.tableData=[];才能够不被覆盖
+  mounted() {
+    this.getRepayData();
+  },
 
-    methods:{
-      getRepayData(){
-        var res = get("/api/borrower/repayRecordsToProcess", {})
-      res.then(repay=>{
+  methods: {
+    getRepayData() {
+      var res = get("/api/borrower/repayRecordsToProcess", {});
+      res.then(repay => {
         this.all_tableData = repay.data;
         console.log(repay);
-        }
-      )
-      },
-
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-
-      handleCurrentChange(val) {
-        this.pageIndex=val;
-      },
-
-      object(state){
-        if(state==1){
-          return "未还款";
-        }
-        else if(state==2){
-          return "平台垫付";
-        }
-      },
-      textColor(state){
-        return{
-          unpay : state == 1,
-          help: state == 2,
-        }
-      },
-
-      handleClick(row){
-        this.$confirm('确定要对此产品还款吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-          }).then(() => {
-          var res=get("/api/account/repay",{recordId:row.id});
-          res.then(data=>{
-          if(data.code==0){
-          this.$msgbox({
-            title: '提示',
-            message: data.msg,
-            type: 'success'
-          });
-
-          this.getRepayData();
-          
-        }
-        else{
-          this.$msgbox({
-            title: '提示',
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消还款'
-          });
-        });
-
-        })
-      },
-
+      });
     },
-    computed:{
-      tableData(){
-        if(this.dataType == 0){
-          return this.all_tableData;
-        }
-        else{
-          var that = this;
-          return this.all_tableData.filter(function (element, index, self){
+
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+
+    handleCurrentChange(val) {
+      this.pageIndex = val;
+    },
+
+    object(state) {
+      if (state == 1) {
+        return "未还款";
+      } else if (state == 2) {
+        return "平台垫付";
+      }
+    },
+    textColor(state) {
+      return {
+        unpay: state == 1,
+        help: state == 2
+      };
+    },
+
+    handleClick(row) {
+      this.$confirm("确定要对此产品还款吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        var res = get("/api/account/repay", { recordId: row.id });
+        res
+          .then(data => {
+            if (data.code == 0) {
+              this.$msgbox({
+                title: "提示",
+                message: data.msg,
+                type: "success"
+              });
+
+              this.getRepayData();
+            } else {
+              this.$msgbox({
+                title: "提示",
+                message: data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消还款"
+            });
+          });
+      });
+    }
+  },
+  computed: {
+    tableData() {
+      if (this.dataType == 0) {
+        return this.all_tableData;
+      } else {
+        var that = this;
+        return this.all_tableData.filter(function(element, index, self) {
           // console.log(self[index].state == this.dataType);
           return self[index].state == that.dataType;
         });
-        }
-      }
-    },
-
-    watch:{
-      dataType:function(val){
-        this.pageIndex = 1;
       }
     }
-    
-    
+  },
+
+  watch: {
+    dataType: function(val) {
+      this.pageIndex = 1;
+    }
   }
+};
 </script>
 
 <style scoped>
-  .el_table{
-  width:100%;
-  }
-  .help{
-    color: #F56C6C;
-  }
-  .unpay{
-    color: #E6A23C;
-  }
+.el_table {
+  width: 100%;
+}
+.help {
+  color: #f56c6c;
+}
+.unpay {
+  color: #e6a23c;
+}
 </style>

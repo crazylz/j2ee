@@ -24,7 +24,7 @@
         @click="addVisible = true"
       >新建贷款</el-button>
 
-      <br/>
+      <br />
     </div>
 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
@@ -158,6 +158,9 @@
           <el-button
             v-if="scope.row.investorId!=0"
             size="mini"
+            plain
+            round
+            type="info"
             @click="getInvestor(scope.row.investorId);detailVisible=true"
           >{{scope.row.investorId}}</el-button>
 
