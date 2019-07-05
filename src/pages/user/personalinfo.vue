@@ -176,7 +176,7 @@
           <div style="text-align: left; margin-left:180px;">
             <el-button type="info" round @click="editable = true" v-if="editable == false">编辑</el-button>
             <div v-else>
-              <el-button type="danger" round @click="editable = false;getUser()">取消编辑</el-button>
+              <el-button type="danger" round @click="editable = false;getLocalUser()">取消编辑</el-button>
               <el-button type="success" round @click="handleDetail">保存</el-button>
             </div>
           </div>
@@ -243,7 +243,7 @@
 
 
 <script>
-import { post, get, post2, getObj } from "../../request/http.js";
+import { post, get, post2, getObj, storageObj } from "../../request/http.js";
 let Base64 = require("js-base64").Base64;
 
 export default {
@@ -329,7 +329,7 @@ export default {
   },
 
   methods: {
-    getUser() {
+    getLocalUser() {
       this.user = getObj("userinfo");
       console.log(this.user);
       // var userres = get("/api/userProfile", {});
@@ -348,6 +348,14 @@ export default {
       //   this.user.address = user.data.address;
       //   this.user.employeeId = user.data.employeeId;
       // });
+    },
+
+    getUser() {
+      var userres = get("/api/userProfile", {});
+      userres.then(user => {
+        storageObj("userinfo", user.data);
+        // console.log(getObj("userinfo"));
+      });
     },
 
     handleDetail() {
@@ -375,6 +383,7 @@ export default {
             type: "success"
           });
           this.editable = false;
+          this.getUser();
         } else {
           this.$msgbox({
             title: "提示",
@@ -559,7 +568,7 @@ export default {
   },
 
   mounted() {
-    this.getUser();
+    this.getLocalUser();
   }
 };
 </script>

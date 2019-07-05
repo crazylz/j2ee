@@ -158,12 +158,17 @@
       <el-table-column
         align="center"
         label="金额"
-        :filters="amountArray"
+        sortable=""
+        prop="amount"
+      >
+
+      <!-- :filters="amountArray"
         :filter-method="filterHandler_range"
         prop="amount"
         column-key="amount"
-        :filter-multiple="false"
-      >
+        :filter-multiple="false" -->
+
+
         <template slot-scope="scope">
           <span>￥{{ scope.row.amount }}</span>
         </template>
@@ -172,12 +177,17 @@
       <el-table-column
         align="center"
         label="分期"
-        :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
+        sortable
+        prop="installmentNumber">
+
+      <!-- :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
         :filter-method="filterHandler"
         prop="installmentNumber"
         column-key="installmentNumber"
-        :filter-multiple="false"
-      >
+        :filter-multiple="false" -->
+
+
+
         <template slot-scope="scope">
           <span>{{ scope.row.installmentNumber }}</span>
         </template>
@@ -322,16 +332,21 @@ export default {
       if (state == 5) return "未还清";
     },
 
-    filterHandler(value, row, column) {
-      // this.$refs.filterTable["data"] = "this.all_tableData";
-      const property = column["property"];
-      return row[property] === value;
-    },
+    // filterHandler(value, row, column) {
+    //   // this.tableData = this.tableData.filter(function(element, index, self) {
+    //   //     // console.log(self[index].state == this.dataType);
+    //   //     return self[index].installmentNumber == value;
+    //   // });
 
-    filterHandler_range(value, row, column) {
-      const property = column["property"];
-      return row[property] >= value;
-    },
+    //   // this.$refs.filterTable["data"] = "this.all_tableData";
+    //   const property = column["property"];
+    //   return row[property] === value;
+    // },
+
+    // filterHandler_range(value, row, column) {
+    //   const property = column["property"];
+    //   return row[property] >= value;
+    // },
 
     imgSrc(state) {
       // console.log(state);
