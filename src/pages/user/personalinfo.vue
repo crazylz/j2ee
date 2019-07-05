@@ -249,21 +249,10 @@ let Base64 = require("js-base64").Base64;
 export default {
   data() {
     return {
-      user: {
-        name: null,
-        gender: null,
-        salary: null,
-        phoneNumber: null,
-        paymentAccount: null,
-        bankAccount: null,
-        lengthOfService: null,
-        idCardNumber: null,
-        discreditedRecords: null,
-        rank: null,
-        userId: null,
-        qq: null,
-        address: null,
-        employeeId: null,
+      user: {},
+
+
+      paypassword:{
         oldpassword: "",
         newpassword: "",
         checkpassword: ""
@@ -342,6 +331,7 @@ export default {
   methods: {
     getUser() {
       this.user = getObj("userinfo");
+      console.log(this.user);
       // var userres = get("/api/userProfile", {});
       // userres.then(user => {
       //   this.user.name = user.data.name;
@@ -397,9 +387,9 @@ export default {
 
     handlePassword() {
       var res = post("/api/account/set_password", {
-        oldPassword: Base64.encode(this.user.oldpassword),
-        newPassword1: Base64.encode(this.user.newpassword),
-        newPassword2: Base64.encode(this.user.checkpassword)
+        oldPassword: Base64.encode(this.paypassword.oldpassword),
+        newPassword1: Base64.encode(this.paypassword.newpassword),
+        newPassword2: Base64.encode(this.paypassword.checkpassword)
       });
 
       res.then(result => {
@@ -471,9 +461,9 @@ export default {
       }
 
       for (let i = 0; i < nInput.length; i++) {
-        this.user.oldpassword += oInput[i].value;
-        this.user.newpassword += nInput[i].value;
-        this.user.checkpassword += okInput[i].value;
+        this.paypassword.oldpassword += oInput[i].value;
+        this.paypassword.newpassword += nInput[i].value;
+        this.paypassword.checkpassword += okInput[i].value;
 
         if (okInput[i].value != nInput[i].value) {
           this.hintTxt = "请检查两次输入是否一致";
@@ -482,9 +472,9 @@ export default {
       }
 
       this.handlePassword();
-      this.user.oldpassword = "";
-      this.user.newpassword = "";
-      this.user.checkpassword = "";
+      this.paypassword.oldpassword = "";
+      this.paypassword.newpassword = "";
+      this.paypassword.checkpassword = "";
     },
 
     nextFocusOld(el, index) {
