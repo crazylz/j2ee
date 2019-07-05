@@ -146,7 +146,7 @@ import {post, get} from '../../request/http.js'
     },
     methods: {
       handleEdit(row) {
-        var res = post("/api/admin/deleteAccount", {account:'user001'});
+        var res = post("/api/admin/deleteAccount", {id:row.userId});
         res.then(result=>{
           if(result.code == 0){
             this.$msgbox({
