@@ -78,15 +78,18 @@
       </div>
     </el-dialog>
 
+    <!-- 卡片布局 -->
+    <div style="margin-right:0px; padding: 10px;background:#fff;text-align:left">
+      <img src="../../assets/laba.png" style="width:20px;margin-top:10px;margin-right:10px" />
+      <span style="color:gray; font-size:14px">网贷有风险，出借需谨慎</span>
+    </div>
+
+    <!-- 产品列表 -->
     <el-table ref="filterTable" :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)">
       <el-table-column type="expand" width="100px">
         <template slot-scope="props">
           <div style="float:left;padding-left:70px;padding-right:70px">
-            <el-form
-              class="table-expand"
-              label-position="left"
-              label-width="150px"
-            >
+            <el-form class="table-expand" label-position="left" label-width="150px">
               <el-form-item label="产品 ID">
                 <span style="color:black;font-weigth:bold;font-size:15px">{{ props.row.id }}</span>
               </el-form-item>
@@ -104,11 +107,7 @@
           </div>
 
           <div style="float:left;padding-left:70px;padding-right:70px">
-            <el-form
-              class="table-expand"
-              label-position="left"
-              label-width="150px"
-            >
+            <el-form class="table-expand" label-position="left" label-width="150px">
               <el-form-item label="产品发布人">
                 <span style="color:black;font-weigth:bold;font-size:15px">{{ props.row.name }}</span>
               </el-form-item>
@@ -121,13 +120,17 @@
                 <span
                   style="color:black;font-weigth:bold;font-size:15px"
                 >{{ getAdvice(props.row.discredited_records, props.row.rank) }}</span>
+                <img
+                  :src="getAdviceIcon(props.row.discredited_records, props.row.rank)"
+                  style="width:20px;"
+                />
               </el-form-item>
             </el-form>
           </div>
         </template>
       </el-table-column>
 
-      <el-table-column width="180" label="金额" sortable prop="amount">
+      <el-table-column width="180" label="金额" prop="amount">
         <template slot-scope="scope">
           <span style="color:green;font-size:25px">
             <span style="font-size:12px;color:gray">¥</span>
@@ -136,13 +139,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" width="180" label="利率" sortable prop="rate">
+      <el-table-column align="center" width="180" label="利率" prop="rate">
         <template slot-scope="scope">
           <span style="font-size:18px">{{ scope.row.rate }} %</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="发布时间" sortable prop="process_time">
+      <el-table-column align="center" label="发布时间" prop="process_time">
         <template slot-scope="scope">
           <i class="el-icon-time" style="color:black"></i>
           <span
@@ -151,10 +154,22 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="借款人">
+      <el-table-column align="center">
+        <template slot="header">
+          <span>借款人</span>
+          <el-tooltip effect="dark" placement="top">
+            <div slot="content">
+              点击借款人名可以了解借款人的基本信息
+            </div>
+            <i class="el-icon-question" style="color:#409eff"></i>
+          </el-tooltip>
+        </template>
         <template slot-scope="scope">
           <el-button
+          type="info"
             size="mini"
+            plain
+            round
             @click="detailVisible=true;handleBorrower(scope.row)"
           >{{scope.row.name}}</el-button>
         </template>
@@ -164,11 +179,13 @@
         <template slot-scope="scope">
           <el-button
             type="primary"
+            round
             size="mini"
             @click="investVisible=true;productId=scope.row.id"
           >购买</el-button>
           <el-button
             type="info"
+            round
             size="mini"
             @click="removeProductFormTable(scope.$index + (pageIndex-1)*10)"
           >不感兴趣</el-button>
@@ -191,6 +208,8 @@
 <script>
 import { post, get } from "../../request/http.js";
 let Base64 = require("js-base64").Base64;
+import warningImg from "../../assets/warning.png";
+import okImg from "../../assets/ok.png";
 
 export default {
   data() {
@@ -328,18 +347,28 @@ export default {
       this.borrower.discredited_records = row.discredited_records;
     },
 
-    removeProductFormTable(index) { // 移除元素
+    removeProductFormTable(index) {
+      // 移除元素
       this.all_tableData.splice(index, 1);
     },
 
-    getExpectedIncome(amount, rate){  // 获取预期收入
-      return Math.round(amount * (1 + rate / 100) * 100)/100;
+    getExpectedIncome(amount, rate) {
+      // 获取预期收入
+      return Math.round(amount * (1 + rate / 100) * 100) / 100;
     },
 
-    getAdvice(dn, rank){  // 获取投资意见
-      if(dn >= 3) return '当前用户的失信次数已达 ' + dn + ' 次，请谨慎投资。'
-      if(rank <= 5) return '当前用户的信用评级为' + rank + '，处于较低水平，请谨慎投资。'
-      return '状况良好，请放心投资。'
+    getAdvice(dn, rank) {
+      // 获取投资意见
+      if (dn >= 3) return "当前用户的失信次数已达 " + dn + " 次，请谨慎投资。";
+      if (rank <= 5)
+        return "当前用户的信用评级为" + rank + "，处于较低水平，请谨慎投资。";
+      return "状况良好，请放心投资。";
+    },
+
+    getAdviceIcon(dn, rank) {
+      // 获取投资意见对应的图标
+      if (dn >= 3 || rank <= 5) return warningImg;
+      else return okImg;
     }
   },
 
