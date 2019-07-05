@@ -49,8 +49,13 @@
         </el-form-item>
 
         <el-form-item label="手机：" style="text-align:left">{{user.phoneNumber}}</el-form-item>
-        <el-form-item label="工龄：" style="text-align:left">{{user.lengthOfService}}年</el-form-item> 
-        <el-form-item label="工资：" style="text-align:left">￥{{user.salary}}</el-form-item>
+
+        <el-form-item label="工龄：" style="text-align:left" v-if="user.userId == null">{{user.lengthOfService}}</el-form-item> 
+        <el-form-item label="工龄：" style="text-align:left" v-else>{{user.lengthOfService}}年</el-form-item>
+
+        <el-form-item label="工资：" style="text-align:left" v-if="user.userId == null">{{user.salary}}</el-form-item>
+        <el-form-item label="工资：" style="text-align:left" v-else>￥{{user.salary}}</el-form-item>
+
         <el-form-item label="第三方账户号码：" style="text-align:left">{{user.paymentAccount}}</el-form-item>
         <el-form-item label="身份证号码：" style="text-align:left">{{user.idCardNumber}}</el-form-item>
         <!-- 中间加条横线 -->
@@ -123,16 +128,16 @@ export default {
       all_tableData: [],
 
       user:{
-      name:null,
-      gender:null,
-      salary: null,
-      phoneNumber: null,
-      paymentAccount: null,
-      bankAccount: null,
-      lengthOfService:null,
-      idCardNumber:null,
-      discreditedRecords:null,
-      rank:null,
+      name:'暂无数据',
+      gender:0,
+      salary: '暂无数据',
+      phoneNumber: '暂无数据',
+      paymentAccount: '暂无数据',
+      bankAccount: '暂无数据',
+      lengthOfService:'暂无数据',
+      idCardNumber:'暂无数据',
+      discreditedRecords:'暂无数据',
+      rank:'暂无数据',
       userId:null
       },
 
