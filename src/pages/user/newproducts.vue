@@ -96,12 +96,12 @@
               <el-form-item label="分期数">
                 <span
                   style="color:black;font-weigth:bold;font-size:15px"
-                >{{ props.row.installment_number }}</span>
+                >{{ props.row.installment_number }} <span style="color:gray;font-size:12px"> 期 </span></span>
               </el-form-item>
               <el-form-item label="每月还款日期">
                 <span
                   style="color:black;font-weigth:bold;font-size:15px"
-                >{{ props.row.pay_day_of_month }}</span>
+                >{{ props.row.pay_day_of_month }} <span style="color:gray;font-size:12px"> 号 </span></span>
               </el-form-item>
             </el-form>
           </div>
@@ -112,9 +112,13 @@
                 <span style="color:black;font-weigth:bold;font-size:15px">{{ props.row.name }}</span>
               </el-form-item>
               <el-form-item label="预计收入">
-                <span
-                  style="color:black;font-weigth:bold;font-size:15px"
-                >¥ {{ getExpectedIncome(props.row.amount, props.row.rate) }}</span>
+                <span style="color:orange;font-weigth:bold;font-size:15px">
+                  <span style="color:gray;font-size:12px">¥</span>
+                  {{ getExpectedIncome(props.row.amount, props.row.rate) }}
+                  <span
+                    style="color:gray;font-size:12px"
+                  >(本金 + 利息)</span>
+                </span>
               </el-form-item>
               <el-form-item label="投资意见">
                 <span
@@ -141,7 +145,10 @@
 
       <el-table-column align="center" width="180" label="利率" prop="rate">
         <template slot-scope="scope">
-          <span style="font-size:18px">{{ scope.row.rate }} %</span>
+          <span style="font-size:18px;color:#ad3618">
+            {{ scope.row.rate }}
+            <span style="font-size:12px;color:gray">%</span>
+          </span>
         </template>
       </el-table-column>
 
@@ -158,15 +165,13 @@
         <template slot="header">
           <span>借款人</span>
           <el-tooltip effect="dark" placement="top">
-            <div slot="content">
-              点击借款人名可以了解借款人的基本信息
-            </div>
+            <div slot="content">点击借款人名可以了解借款人的基本信息</div>
             <i class="el-icon-question" style="color:#409eff"></i>
           </el-tooltip>
         </template>
         <template slot-scope="scope">
           <el-button
-          type="info"
+            type="info"
             size="mini"
             plain
             round
