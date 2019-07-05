@@ -157,7 +157,7 @@
 
             <!-- 中间加条横线 -->
             <div
-              style="background:#gray; height:3px; margin-left: 100px; margin-bottom:25px"
+              style="background:#b6afaf; height:3px; margin-left: 100px; margin-bottom:25px"
             />
 
             <el-form-item style="text-align:left">
@@ -634,5 +634,9 @@ export default {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
+}
+
+.my{
+  color: #b6afaf
 }
 </style>
