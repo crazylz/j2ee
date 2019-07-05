@@ -4,7 +4,8 @@
     <el-container class="container">
       <!-- 顶栏 -->
       <el-header>
-        <span class="system-name">{{systemName}}</span>
+       
+        <span class="system-name" style="font-size:28px"> <img src="../assets/logo.png" style="width:25px"> {{systemName}} <span style="font-size:14px"> P2P小额贷款平台 </span></span>
         <span class="bell" @click="bell()">
           <big>
             <i class="el-icon-message-solid"></i>
@@ -197,7 +198,7 @@ export default {
       contactushtml: "",
       reporthtml: "",
       money_remain: 0,
-      systemName: "用户界面",
+      systemName: "时不我贷",
       userName: "null",
 
       RechargeList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],

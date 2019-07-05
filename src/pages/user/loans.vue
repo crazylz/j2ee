@@ -6,15 +6,26 @@
     >
       <el-breadcrumb-item :to="{ path: '/userhome' }">用户</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/userhome/loans'}">借款</el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <!-- 卡片布局 -->
+    <div style="margin-right:0px; padding: 10px;background:#fff;text-align:left">
+      <img src="../../assets/laba.png" style="width:20px;margin-top:10px;margin-right:10px" />
+      <span style="color:gray; font-size:14px">无抵押，信用贷款，资金快至当天到账，最高可申请10万</span>
+
+      <br />
+      <!-- 新建贷款button -->
       <el-button
         type="success"
         icon="el-icon-plus"
+        style="float:right;margin-right:20px"
         round
-        class="button_add"
         size="small"
         @click="addVisible = true"
       >新建贷款</el-button>
-    </el-breadcrumb>
+
+      <br/>
+    </div>
 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
       <el-menu-item index="1" @click="dataType=0">所有借款</el-menu-item>
@@ -140,6 +151,7 @@
       </el-form>
     </el-dialog>
 
+    <!-- 借款申请历史表格 -->
     <el-table ref="filterTable" :data="tableData.slice(pageIndex*10-10, pageIndex*10)" border>
       <el-table-column align="center" prop="userId" label="投资者id" sortable>
         <template slot-scope="scope">
@@ -155,38 +167,27 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        align="center"
-        label="金额"
-        sortable=""
-        prop="amount"
-      >
-
-      <!-- :filters="amountArray"
+      <el-table-column align="center" label="金额" sortable prop="amount">
+        <!-- :filters="amountArray"
         :filter-method="filterHandler_range"
         prop="amount"
         column-key="amount"
-        :filter-multiple="false" -->
-
+        :filter-multiple="false"-->
 
         <template slot-scope="scope">
-          <span>￥{{ scope.row.amount }}</span>
+          <span>
+            ￥
+            <span style="color:#5190bb;font-size:22px">{{ scope.row.amount }}</span>
+          </span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        align="center"
-        label="分期"
-        sortable
-        prop="installmentNumber">
-
-      <!-- :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
+      <el-table-column align="center" label="分期" sortable prop="installmentNumber">
+        <!-- :filters="[{text:'6', value:6},{text:'12', value:12},{text:'18', value:18},{text:'24', value:24}]"
         :filter-method="filterHandler"
         prop="installmentNumber"
         column-key="installmentNumber"
-        :filter-multiple="false" -->
-
-
+        :filter-multiple="false"-->
 
         <template slot-scope="scope">
           <span>{{ scope.row.installmentNumber }}</span>
@@ -201,7 +202,7 @@
 
       <el-table-column align="center" label="每月还款日期">
         <template slot-scope="scope">
-          <span>每月{{ scope.row.payDayOfMonth }}号</span>
+          <span>每月 {{ scope.row.payDayOfMonth }} 号</span>
         </template>
       </el-table-column>
 
@@ -211,7 +212,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="状态" width="150">
+      <el-table-column align="center" label="状态" width="150" fixed="right">
         <template slot-scope="scope">
           <!-- 更换为图片状态 -->
           <img :src="imgSrc(scope.row.state)" height="15px" style="margin-right:5px" />
@@ -480,10 +481,6 @@ export default {
   /* display:inline-block;
     text-align:center; */
   width: 100%;
-}
-
-.button_add {
-  float: right;
 }
 
 .loans {
