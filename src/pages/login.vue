@@ -76,7 +76,7 @@ let Base64 = require('js-base64').Base64
 					})
 					res.then(data => {
 						console.log(data);
-						console.log(localStorage.getItem('session'));
+						// console.log(localStorage.getItem('session'));
 						if(data.code == 0)
 						{
 							that.$router.push({path:'/userhome/personalinfo'});

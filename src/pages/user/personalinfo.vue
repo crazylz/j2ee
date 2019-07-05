@@ -53,7 +53,7 @@
       <el-button type="primary" @click="expiry">确认</el-button>
     </el-dialog>
 
-    <el-row gutter="10">
+    <el-row :gutter="10">
       <el-col :span="16">
         <!-- 基本资料卡片 -->
         <div class="card-div">
@@ -243,7 +243,7 @@
 
 
 <script>
-import { post, get, post2 } from "../../request/http.js";
+import { post, get, post2, getObj } from "../../request/http.js";
 let Base64 = require("js-base64").Base64;
 
 export default {
@@ -341,22 +341,23 @@ export default {
 
   methods: {
     getUser() {
-      var userres = get("/api/userProfile", {});
-      userres.then(user => {
-        this.user.name = user.data.name;
-        this.user.gender = user.data.gender;
-        this.user.salary = user.data.salary;
-        this.user.phoneNumber = user.data.phoneNumber;
-        this.user.paymentAccount = user.data.paymentAccount;
-        this.user.bankAccount = user.data.bankAccount;
-        this.user.lengthOfService = user.data.lengthOfService;
-        this.user.idCardNumber = user.data.idCardNumber;
-        this.user.discreditedRecords = user.data.discreditedRecords;
-        this.user.rank = user.data.rank;
-        this.user.qq = user.data.qq;
-        this.user.address = user.data.address;
-        this.user.employeeId = user.data.employeeId;
-      });
+      this.user = getObj("userinfo");
+      // var userres = get("/api/userProfile", {});
+      // userres.then(user => {
+      //   this.user.name = user.data.name;
+      //   this.user.gender = user.data.gender;
+      //   this.user.salary = user.data.salary;
+      //   this.user.phoneNumber = user.data.phoneNumber;
+      //   this.user.paymentAccount = user.data.paymentAccount;
+      //   this.user.bankAccount = user.data.bankAccount;
+      //   this.user.lengthOfService = user.data.lengthOfService;
+      //   this.user.idCardNumber = user.data.idCardNumber;
+      //   this.user.discreditedRecords = user.data.discreditedRecords;
+      //   this.user.rank = user.data.rank;
+      //   this.user.qq = user.data.qq;
+      //   this.user.address = user.data.address;
+      //   this.user.employeeId = user.data.employeeId;
+      // });
     },
 
     handleDetail() {

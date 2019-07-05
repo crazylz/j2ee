@@ -180,7 +180,7 @@
 
 
 <script>
-import { post, get } from "../request/http.js";
+import { post, get, storageObj, getObj } from "../request/http.js";
 let Base64 = require('js-base64').Base64
 
 export default {
@@ -329,7 +329,9 @@ export default {
       var userres = get("/api/userProfile", {});
       userres.then(user => {
         this.userName = user.data.name;
-        console.log(user.data);
+
+        storageObj("userinfo", user.data);
+        // console.log(getObj("userinfo"));
       });
     },
 

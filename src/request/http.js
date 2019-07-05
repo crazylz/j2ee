@@ -102,3 +102,12 @@ export function post_regist(url, params) {
             })
     });
 }
+
+export function storageObj(key, obj) {
+    var checkedIdStr = JSON.stringify(obj);
+    sessionStorage.setItem(key, checkedIdStr);
+}
+
+export function getObj(key) {
+    return JSON.parse(sessionStorage.getItem(key));
+}
