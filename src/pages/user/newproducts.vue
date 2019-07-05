@@ -78,46 +78,76 @@
       </div>
     </el-dialog>
 
-    <el-table
-      ref="filterTable"
-      cell-style="heigth:150px"
-      :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)"
-    >
-      <el-table-column type="expand">
+    <el-table ref="filterTable" :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)">
+      <el-table-column type="expand" width="100px">
         <template slot-scope="props">
-          <el-form class="table-expand">
-            <el-form-item>
-              <label style="color:gray;font-weigth:bold;font-size:18px;margin-right:100px">产品 ID</label>
-              <span style="color:black;font-weigth:bold;font-size:18px">{{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item>
-              <label style="color:gray;font-weigth:bold;font-size:18px;margin-right:105px">分期数</label>
-              <span style="color:black;font-weigth:bold;font-size:18px">{{ props.row.installment_number }}</span>
-            </el-form-item>
-            <el-form-item>
-              <label style="color:gray;font-weigth:bold;font-size:18px;margin-right:50px">每月还款日期</label>
-              <span style="color:black;font-weigth:bold;font-size:18px">{{ props.row.pay_day_of_month }}</span>
-            </el-form-item>
-          </el-form>
+          <div style="float:left;padding-left:70px;padding-right:70px">
+            <el-form
+              class="table-expand"
+              label-position="left"
+              label-width="150px"
+            >
+              <el-form-item label="产品 ID">
+                <span style="color:black;font-weigth:bold;font-size:15px">{{ props.row.id }}</span>
+              </el-form-item>
+              <el-form-item label="分期数">
+                <span
+                  style="color:black;font-weigth:bold;font-size:15px"
+                >{{ props.row.installment_number }}</span>
+              </el-form-item>
+              <el-form-item label="每月还款日期">
+                <span
+                  style="color:black;font-weigth:bold;font-size:15px"
+                >{{ props.row.pay_day_of_month }}</span>
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <div style="float:left;padding-left:70px;padding-right:70px">
+            <el-form
+              class="table-expand"
+              label-position="left"
+              label-width="150px"
+            >
+              <el-form-item label="产品发布人">
+                <span style="color:black;font-weigth:bold;font-size:15px">{{ props.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="预计收入">
+                <span
+                  style="color:black;font-weigth:bold;font-size:15px"
+                >¥ {{ getExpectedIncome(props.row.amount, props.row.rate) }}</span>
+              </el-form-item>
+              <el-form-item label="投资意见">
+                <span
+                  style="color:black;font-weigth:bold;font-size:15px"
+                >{{ getAdvice(props.row.discredited_records, props.row.rank) }}</span>
+              </el-form-item>
+            </el-form>
+          </div>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="金额" sortable prop="amount">
+      <el-table-column width="180" label="金额" sortable prop="amount">
         <template slot-scope="scope">
-          <span style="color:orange;font-size:25px"><span></span>{{ scope.row.amount }}</span>
+          <span style="color:green;font-size:25px">
+            <span style="font-size:12px;color:gray">¥</span>
+            {{ scope.row.amount }}
+          </span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="利率" sortable prop="rate">
+      <el-table-column align="center" width="180" label="利率" sortable prop="rate">
         <template slot-scope="scope">
-          <span>{{ scope.row.rate }}%</span>
+          <span style="font-size:18px">{{ scope.row.rate }} %</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="处理时间" sortable prop="process_time">
+      <el-table-column align="center" label="发布时间" sortable prop="process_time">
         <template slot-scope="scope">
           <i class="el-icon-time" style="color:black"></i>
-          <span>{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span
+            style="font-size:18px"
+          >{{ scope.row.process_time | dateformat('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
       </el-table-column>
 
@@ -130,9 +160,18 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" fixed="right" align="center" width="200px">
         <template slot-scope="scope">
-          <el-button size="mini" @click="investVisible=true;productId=scope.row.id">购买</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="investVisible=true;productId=scope.row.id"
+          >购买</el-button>
+          <el-button
+            type="info"
+            size="mini"
+            @click="removeProductFormTable(scope.$index + (pageIndex-1)*10)"
+          >不感兴趣</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -287,6 +326,20 @@ export default {
       this.borrower.length_of_service = row.length_of_service;
       this.borrower.rank = row.rank;
       this.borrower.discredited_records = row.discredited_records;
+    },
+
+    removeProductFormTable(index) { // 移除元素
+      this.all_tableData.splice(index, 1);
+    },
+
+    getExpectedIncome(amount, rate){  // 获取预期收入
+      return Math.round(amount * (1 + rate / 100) * 100)/100;
+    },
+
+    getAdvice(dn, rank){  // 获取投资意见
+      if(dn >= 3) return '当前用户的失信次数已达 ' + dn + ' 次，请谨慎投资。'
+      if(rank <= 5) return '当前用户的信用评级为' + rank + '，处于较低水平，请谨慎投资。'
+      return '状况良好，请放心投资。'
     }
   },
 
@@ -336,10 +389,9 @@ export default {
   border-right: 0px;
 }
 
-  .table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 100px;
-    width: 50%;
-  }
+.table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
 </style>
