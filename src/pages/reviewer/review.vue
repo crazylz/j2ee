@@ -2,24 +2,54 @@
   <div>
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
-      <!-- 顶栏 -->
-      <!-- <el-header >
-        <span  class="system-name">{{systemName}}</span>
-        <span class="bell" @click="bell()"><big><i class="el-icon-message-solid"></i></big></span>
-        <div class="reviewer">
-          <el-dropdown>
-            <span style="color: white">
-              <big><i class="el-icon-user-solid"></i></big>
-              审核员
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <a href="#/login">
-              <el-dropdown-item icon="el-icon-unlock">登出</el-dropdown-item>
-              </a>
-            </el-dropdown-menu>
-          </el-dropdown>
+
+      <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
+      <div class="card-div">
+        <div
+          style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
+        >| 基本资料</div>
+
+        <!-- 头像 -->
+        <div style="margin-top: 60px; float: left;">
+          <img src="../../assets/user.png" />
         </div>
-      </el-header>-->
+        <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+          <el-form-item>
+            <label style="float:left;margin-left:40px">用户名</label>
+            <br />
+            <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+            <label
+              style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080"
+            >{{borrower.name}}</label>
+          </el-form-item>
+
+          <el-form-item label="性别：" label-width="200px">
+            <!-- 根据性别动态显示图标 -->
+            <img
+              v-if="borrower.gender==0"
+              src="../../assets/hide.png"
+              style="width: 30px; float:left; margin-top:5px"
+            />
+            <img
+              v-else-if="borrower.gender==1"
+              src="../../assets/boy.png"
+              style="width: 30px; float:left; margin-top:5px"
+            />
+            <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+          </el-form-item>
+
+          <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
+          <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item>
+          <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+          <!-- 中间加条横线 -->
+          <div
+            style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
+          />
+          <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+          <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
 
       <el-dialog style=" font-size: 14px " :visible.sync="addVisible" :rules="rules">
         <h2 style="text-align: center;color: #606266; font-size:30px">审核</h2>
@@ -74,18 +104,9 @@
         >
           <el-table-column align="center" prop="userId" label="申请人id" sortable>
             <template slot-scope="scope">
-              <el-popover trigger="click" placement="bottom">
-                <p>姓名: {{ borrower.name}}</p>
-                <p>性别: {{ getGender(borrower.gender) }}</p>
-                <p>电话: {{ borrower.phoneNumber }}</p>
-                <p>工龄: {{ borrower.lengthOfService }}</p>
-                <p>工资: ￥{{ borrower.salary }}</p>
-                <p>失信记录次数: {{ borrower.discreditedRecords }}</p>
-                <p>信用评级: {{ borrower.rank }}</p>
                 <div slot="reference" class="name-wrapper">
-                  <el-button size="mini" @click="getBorrower(scope.row.userId)">{{scope.row.userId}}</el-button>
+                  <el-button size="mini" @click="getBorrower(scope.row.userId);detailVisible=true">{{scope.row.userId}}</el-button>
                 </div>
-              </el-popover>
             </template>
           </el-table-column>
 
@@ -151,6 +172,7 @@ import { post, get } from "../../request/http.js";
 export default {
   data() {
     return {
+      detailVisible: false,
       addVisible: false,
       systemName: "审核员界面",
       requestData: [],

@@ -10,44 +10,53 @@
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
         
-    <el-dialog :visible.sync='detailVisible' top="3vh">
-        <div class="card-div">
-      <div
-        style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 20px">| 基本资料</div>
-
-      <!-- 头像 -->
-      <div style="margin-top: 80px; float: left;">
-        <img src="../../assets/user.png" />
-      </div>
-
-      <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
-        <el-form-item>
-          <label style="float:left;margin-left:40px">用户名</label>
-          <br/>
-          <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
-          <label style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080">
-            {{borrower.name}}
-          </label>
-        </el-form-item>
-
-        <el-form-item label="性别：" label-width="200px">
-          <!-- 根据性别动态显示图标 -->
-          <img v-if="borrower.gender==0" src="../../assets/hide.png" style="width: 30px; float:left; margin-top:5px" />
-          <img v-else-if="borrower.gender==1" src="../../assets/boy.png" style="width: 30px; float:left; margin-top:5px" />
-          <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
-        </el-form-item>
-
-        <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
-        <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item> 
-        <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
-        <!-- 中间加条横线 -->
+    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
+      <div class="card-div">
         <div
-          style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"/>
-        <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
-        <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
-        </el-form>
+          style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
+        >| 基本资料</div>
+
+        <!-- 头像 -->
+        <div style="margin-top: 60px; float: left;">
+          <img src="../../assets/user.png" />
         </div>
-      </el-dialog>
+        <el-form ref="base-form" class="base-form" label-position="right" label-width="200px">
+          <el-form-item>
+            <label style="float:left;margin-left:40px">用户名</label>
+            <br />
+            <!-- 这里需要把“没有查询结果”替换为对应的用户名 -->
+            <label
+              style="font-size:30px; float:left; margin-top:5px; margin-left:40px; color:#2b3080"
+            >{{borrower.name}}</label>
+          </el-form-item>
+
+          <el-form-item label="性别：" label-width="200px">
+            <!-- 根据性别动态显示图标 -->
+            <img
+              v-if="borrower.gender==0"
+              src="../../assets/hide.png"
+              style="width: 30px; float:left; margin-top:5px"
+            />
+            <img
+              v-else-if="borrower.gender==1"
+              src="../../assets/boy.png"
+              style="width: 30px; float:left; margin-top:5px"
+            />
+            <img v-else src="../../assets/girl.png" style="width: 30px; float:left; margin-top:5px" />
+          </el-form-item>
+
+          <el-form-item label="手机：" style="text-align:left">{{borrower.phoneNumber}}</el-form-item>
+          <el-form-item label="工龄：" style="text-align:left">{{borrower.lengthOfService}}年</el-form-item>
+          <el-form-item label="工资：" style="text-align:left">￥{{borrower.salary}}</el-form-item>
+          <!-- 中间加条横线 -->
+          <div
+            style="background:#afaaaa; height:1px; margin-left: 100px; margin-right: 50px; margin-bottom:25px"
+          />
+          <el-form-item label="失信次数：" style="text-align:left">{{borrower.discreditedRecords}}</el-form-item>
+          <el-form-item label="信用评级：" style="text-align:left">{{borrower.rank}}</el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
 
 
       <el-main>
@@ -174,7 +183,7 @@ import {post, get} from '../../request/http.js'
         requestData:[],
         borrower: [],
         detailVisible:false,
-        pageIndex:1
+        pageIndex:1,
       }
     },
     methods:{
