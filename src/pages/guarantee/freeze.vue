@@ -163,20 +163,11 @@ export default {
         res.then(user=>{
           if(user.code == 0){
             console.log(user.data);
-            this.user.name = user.data.name;
-            this.user.gender = user.data.gender;
-            this.user.salary = user.data.salary;
-            this.user.phoneNumber = user.data.phoneNumber;
-            this.user.paymentAccount = user.data.paymentAccount;
-            this.user.bankAccount = user.data.bankAccount;
-            this.user.lengthOfService = user.data.lengthOfService;
-            this.user.idCardNumber = user.data.idCardNumber;
-            this.user.discreditedRecords = user.data.discreditedRecords;
-            this.user.rank = user.data.rank;
-            this.user.userId = user.data.userId;
+            if(user.data != null){
+              this.user = user.data;
 
-            var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
-            res1.then(result=>{
+              var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
+              res1.then(result=>{
               if(result.code == 0){
                 this.all_tableData = result.data;
               }
@@ -188,6 +179,29 @@ export default {
               });
               }
             })
+            }
+            else{
+              this.$msgbox({
+                title: '提示',
+                message: '没有此用户',
+                type: 'error'
+              });
+              this.user = {
+                name:'暂无数据',
+                gender:0,
+                salary: '暂无数据',
+                phoneNumber: '暂无数据',
+                paymentAccount: '暂无数据',
+                bankAccount: '暂无数据',
+                lengthOfService:'暂无数据',
+                idCardNumber:'暂无数据',
+                discreditedRecords:'暂无数据',
+                rank:'暂无数据',
+                userId:null
+                };
+                this.all_tableData = [];
+            }
+
           }
           else{
             this.$msgbox({
@@ -204,20 +218,11 @@ export default {
         str_res.then(user=>{
           if(user.code == 0){
             console.log(user.data);
-            this.user.name = user.data.name;
-            this.user.gender = user.data.gender;
-            this.user.salary = user.data.salary;
-            this.user.phoneNumber = user.data.phoneNumber;
-            this.user.paymentAccount = user.data.paymentAccount;
-            this.user.bankAccount = user.data.bankAccount;
-            this.user.lengthOfService = user.data.lengthOfService;
-            this.user.idCardNumber = user.data.idCardNumber;
-            this.user.discreditedRecords = user.data.discreditedRecords;
-            this.user.rank = user.data.rank;
-            this.user.userId = user.data.userId;
+            if(user.data != null){
+              this.user = user.data;
 
-            var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
-            res1.then(result=>{
+              var res1 = get("/api/guarantor/" + this.user.userId + "/repayRecordsToProcess");
+              res1.then(result=>{
               if(result.code == 0){
                 this.all_tableData = result.data;
               }
@@ -229,6 +234,31 @@ export default {
               });
               }
             })
+            }
+            else{
+              this.$msgbox({
+                title: '提示',
+                message: '没有此用户',
+                type: 'error'
+              });
+
+              this.user = {
+                name:'暂无数据',
+                gender:0,
+                salary: '暂无数据',
+                phoneNumber: '暂无数据',
+                paymentAccount: '暂无数据',
+                bankAccount: '暂无数据',
+                lengthOfService:'暂无数据',
+                idCardNumber:'暂无数据',
+                discreditedRecords:'暂无数据',
+                rank:'暂无数据',
+                userId:null
+                };
+
+                this.all_tableData = [];
+            }
+
           }
           else{
             this.$msgbox({

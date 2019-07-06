@@ -51,7 +51,7 @@
       </el-menu-item>
     </el-menu>
 
-    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
+    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%" v-if="investor!=null">
       <div class="card-div">
         <div
           style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
@@ -156,17 +156,13 @@
       <el-table-column align="center" prop="userId" label="投资者id" sortable>
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.investorId!=0"
             size="mini"
             plain
             round
             type="info"
-            @click="getInvestor(scope.row.investorId);detailVisible=true"
+            @click="getInvestor(scope.row.investorId);"
           >{{scope.row.investorId}}</el-button>
 
-          <el-button type="text" v-else size="mini">——</el-button>
-          <!-- </div>
-          </el-popover>-->
         </template>
       </el-table-column>
 
@@ -375,6 +371,7 @@ export default {
       res.then(bdata => {
         this.investor = bdata.data;
         console.log(this.investor);
+        this.investor == null ? this.detailVisible = false : this.detailVisible = true;
       });
     },
 

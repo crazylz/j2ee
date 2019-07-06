@@ -9,7 +9,7 @@
       <el-breadcrumb-item :to="{ path: '/userhome/producted'}">已购产品</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
+    <el-dialog :visible.sync="detailVisible" top="5vh" width="40%" v-if="borrower!=null">
       <div class="card-div">
         <div
           style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
@@ -67,7 +67,7 @@
             plain
             round
             type="info"
-            @click="getBorrower(scope.row.userId);detailVisible=true"
+            @click="getBorrower(scope.row.userId);"
           >{{scope.row.userId}}</el-button>
         </template>
       </el-table-column>
@@ -160,6 +160,7 @@ export default {
       res.then(bdata => {
         this.borrower = bdata.data;
         console.log(this.borrower);
+        this.borrower == null ? this.detailVisible = false : this.detailVisible = true;
       });
     },
 
