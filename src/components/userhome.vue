@@ -20,10 +20,10 @@
               {{userName}}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <div @click="investVisible=true;getBalance()">
+              <div @click="investVisible=true;getBalance();clearRecharge()">
                 <el-dropdown-item icon="el-icon-wallet">充值</el-dropdown-item>
               </div>
-              <div @click="withdrawVisible=true;getBalance()">
+              <div @click="withdrawVisible=true;getBalance();clearWithdraw()">
                 <el-dropdown-item icon="el-icon-wallet">提现</el-dropdown-item>
               </div>
               <a href="#/login">
@@ -55,6 +55,8 @@
               @keyup="nextFocusRecharge($event,index)" @keydown="changeValueRecharge(index)">
             </span>
           </el-form-item>
+
+          <div style="color:#f56c6c;">{{rechargeTxt}}</div>
           
           <el-button type="primary" @click="expiryRecharge()">确认</el-button>
 
@@ -82,6 +84,7 @@
             </span>
           </el-form-item>
 
+          <div style="color:#f56c6c;">{{withdrawTxt}}</div>
             
           <el-button type="primary" @click="expiryWithdraw()">确认</el-button>
         </el-form>
@@ -200,6 +203,8 @@ export default {
       money_remain: 0,
       systemName: "时不我贷",
       userName: "null",
+      rechargeTxt:'',
+      withdrawTxt:'',
 
       RechargeList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
       WithdrawList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
@@ -230,6 +235,18 @@ export default {
   methods: {
     bell: function() {
       this.$router.push({ path: "/userhome/message" });
+    },
+
+    clearWithdraw(){
+      this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+      this.withdrawTxt = '';
+      this.withdrawpassword = '';
+    },
+
+    clearRecharge(){
+      this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+      this.rechargeTxt = '';
+      this.rechargepassword = '';
     },
 
     nextFocusRecharge(el,index){
@@ -284,11 +301,15 @@ export default {
 
           for (let i = 0; i < rechargeInput.length; i++) {
             if (rechargeInput[i].value === '') {
-              this.hintTxt = '请填写完整的密码';
+              this.rechargeTxt = '请填写完整的密码';
+              this.rechargepassword='';
+              this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
               return;
             }
             if (!reg.test(rechargeInput[i].value)){
-              this.hintTxt = '请填写数字';
+              this.rechargeTxt = '请填写数字';
+              this.rechargepassword='';
+              this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
               return;
             }
           }
@@ -299,20 +320,27 @@ export default {
 
           this.handleInvest();
           this.rechargepassword='';
+          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.rechargeTxt = '';
          
       },
 
       expiryWithdraw(){
+
           let withdrawInput = document.getElementsByClassName('border-input-withdraw');
           let reg = /^[0-9]+$/;
 
           for (let i = 0; i < withdrawInput.length; i++) {
             if (withdrawInput[i].value === '') {
-              this.hintTxt = '请填写完整的密码';
+              this.withdrawTxt = '请填写完整的密码';
+              this.withdrawpassword='';
+              this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
               return;
             }
             if (!reg.test(withdrawInput[i].value)){
-              this.hintTxt = '请填写数字';
+              this.withdrawTxt = '请填写数字';
+              this.withdrawpassword='';
+              this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
               return;
             }
           }
@@ -323,6 +351,8 @@ export default {
 
           this.handleWithdraw();
           this.withdrawpassword='';
+          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.withdrawTxt='';
          
       },
 
@@ -354,12 +384,8 @@ export default {
             type: "success"
           });
           this.invest.number = null;
-          this.rechargepassword='';
-          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.investVisible = false;
         } else {
-          this.rechargepassword='';
-          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.$msgbox({
             title: "提示",
             message: data.msg,
@@ -382,12 +408,8 @@ export default {
             type: "success"
           });
           this.withdraw.money = null;
-          this.withdrawpassword='';
-          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.withdrawVisible = false;
         } else {
-          this.withdrawpassword='';
-          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.$msgbox({
             title: "提示",
             message: data.msg,

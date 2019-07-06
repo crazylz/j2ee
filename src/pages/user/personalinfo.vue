@@ -48,7 +48,7 @@
           />
         </span>
       </div>
-      <div>{{hintTxt}}</div>
+      <div style="color:#f56c6c;">{{hintTxt}}</div>
       <br />
       <el-button type="primary" @click="expiry">确认</el-button>
     </el-dialog>
@@ -231,7 +231,7 @@
               </el-form-item>
 
               <el-form-item label="支付密码：" style="text-align:left">
-                <el-button type="primary" round @click="editpassword = true">设置支付密码</el-button>
+                <el-button type="primary" round @click="editpassword = true;clear()">设置支付密码</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -371,6 +371,16 @@ export default {
       });
     },
 
+    clear(){
+      this.paypassword.oldpassword = "";
+      this.paypassword.newpassword = "";
+      this.paypassword.checkpassword = "";
+      this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.hintTxt = '';
+    },
+
     handleDetail() {
       console.log(this.user);
       var res = post("/api/userProfile", {
@@ -476,6 +486,7 @@ export default {
       this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
       this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
       this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.hintTxt = '';
     },
 
     nextFocusOld(el, index) {
