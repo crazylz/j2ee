@@ -91,7 +91,6 @@
     <el-table-column
     align='center'
       label="分期"
-      sortable
       prop="installment_number">
       <template slot-scope="scope">
         <span>{{ scope.row.installmentNumber }}</span>
@@ -101,7 +100,6 @@
     <el-table-column
     align='center'
       label="每月还款日期"
-      sortable
       prop="pay_day_of_month">
       <template slot-scope="scope">
         <span>{{ scope.row.payDayOfMonth }}号</span>

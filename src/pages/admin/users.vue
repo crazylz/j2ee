@@ -8,46 +8,79 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/users' }">管理用户</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-table ref="filterTable" :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)" border>
+    <el-table ref="filterTable" :data="all_tableData.slice(pageIndex*10-10, pageIndex*10)">
+      <el-table-column type="expand" width="100px">
+        <template slot-scope="props">
+          <div style="float:left;margin-left:70px;margin-right:70px;width:600px;">
+            <el-row>
+              <el-col span="5">
+                <lable>手机号码</lable>
+              </el-col>
+              <el-col span="7">
+                <span>{{ handleNull(props.row.phoneNumber) }}</span>
+              </el-col>
+              <el-col span="3">
+                <lable>QQ</lable>
+              </el-col>
+              <el-col span="9">
+                <span>{{ handleNull(props.row.qq) }}</span>
+              </el-col>
+              <el-col span="5">
+                <lable>身份证</lable>
+              </el-col>
+              <el-col span="7">
+                <span>{{ props.row.idCardNumber }}</span>
+              </el-col>
+              <el-col span="3">
+                <lable>地址</lable>
+              </el-col>
+              <el-col span="9">
+                <span>{{ handleNull(props.row.address) }}</span>
+              </el-col>
+              <el-col span="5">
+                <lable>第三方支付账号</lable>
+              </el-col>
+              <el-col span="7">
+                <span>{{ props.row.paymentAccount }}</span>
+              </el-col>
+              <el-col span="3">
+                <lable>银行卡</lable>
+              </el-col>
+              <el-col span="9">
+                <span>{{ props.row.bankAccount }}</span>
+              </el-col>
+              <el-col span="5">
+                <lable>失信次数</lable>
+              </el-col>
+              <el-col span="7">
+                <span>{{ props.row.discreditedRecords }}</span>
+              </el-col>
+            </el-row>
+          </div>
+        </template>
+      </el-table-column>
+
       <el-table-column label="用户id" align="center" sortable prop="userId">
         <template slot-scope="scope">
-          <span>{{scope.row.userId}}</span>
+          <span>{{ handleId(scope.row.bindId, scope.row.userId)}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="身份证" align="center">
+      <el-table-column label="姓名" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.idCardNumber}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="手机号码" align="center">
+      <el-table-column label="工号" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.phoneNumber}}</span>
+          <span>{{scope.row.employeeId}}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="性别" align="center" sortable prop="gender">
         <template slot-scope="scope">
           <span>{{getGender(scope.row.gender)}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="第三方支付帐号" align="center">
-        <template slot-scope="scope">
-          <span>{{scope.row.paymentAccount}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="银行卡帐号" align="center">
-        <template slot-scope="scope">
-          <span>{{scope.row.bankAccount}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="失信次数" align="center" sortable prop="discreditedRecords">
-        <template slot-scope="scope">
-          <span>{{scope.row.discreditedRecords}}</span>
         </template>
       </el-table-column>
 
@@ -59,13 +92,7 @@
 
       <el-table-column label="信用评级" align="center" sortable prop="rank">
         <template slot-scope="scope">
-          <span>{{scope.row.rank}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="姓名" align="center">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
+          <span>{{ handleRank(scope.row.rank) }}</span>
         </template>
       </el-table-column>
 
@@ -75,7 +102,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" fixed="right" width="200px">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleFrozen(scope.row)">冻结用户</el-button>
           <el-button size="mini" type="primary" @click="handleUnfrozen(scope.row)">解冻用户</el-button>
@@ -181,6 +208,22 @@ export default {
       } else {
         return state == 1 ? "男" : "女";
       }
+    },
+
+    handleNull(str) {
+      if (str == null || str == "") return "-";
+      else return str;
+    },
+
+    handleRank(rank) {
+      if (rank == 0) return "-";
+      else return rank;
+    },
+
+    handleId(bindId, id) {
+      if (bindId == 0) return "该员工未注册";
+      else if (id == 0) return "该账号被冻结";
+      else return id;
     }
   },
 
