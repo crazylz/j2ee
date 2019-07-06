@@ -355,14 +355,16 @@ export default {
             message: data.msg,
             type: "success"
           });
-          this.invest.number = 0;
+          this.invest.number = null;
+          this.rechargepassword='';
+          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.investVisible = false;
         } else {
           this.$msgbox({
             title: "提示",
             message: data.msg,
             type: "error"
           });
-          this.invest.number = 0;
         }
       });
     },
@@ -379,14 +381,16 @@ export default {
             message: data.msg,
             type: "success"
           });
-          this.withdraw.number = 0;
+          this.withdraw.money = null;
+          this.withdrawpassword='';
+          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
+          this.withdrawVisible = false;
         } else {
           this.$msgbox({
             title: "提示",
             message: data.msg,
             type: "error"
           });
-          this.withdraw.number = 0;
         }
       });
     },

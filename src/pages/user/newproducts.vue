@@ -16,7 +16,7 @@
         <el-form-item label="支付密码">
           <span v-for="(item,index) in List" :key="item.id">
             <input
-              type="text"
+              type="password"
               v-model="item.val"
               class="border-input"
               @keyup="nextFocus($event,index)"
@@ -253,7 +253,16 @@ export default {
       });
       res.then(data => {
         if (data.code == 0) {
-          this.detailVisible = false;
+          this.investVisible = false;
+          this.password = '';
+          this.List= [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }];
+        
           this.$msgbox({
             title: "提示",
             message: data.msg,
