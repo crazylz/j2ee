@@ -205,14 +205,14 @@ export default {
       }
 
       this.handleRepay();
+      this.password = '';
+      this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
     },
 
     handleRepay() {
         var res = get("/api/account/repay", { recordId: this.recordId ,password: Base64.encode(this.password)});
         res.then(data => {
             if (data.code == 0) {
-              this.password = '';
-              this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
               this.detailVisible = false;
               this.$msgbox({
                 title: "提示",
@@ -222,6 +222,7 @@ export default {
 
               this.getRepayData();
             } else {
+
               this.$msgbox({
                 title: "提示",
                 message: data.msg,

@@ -420,30 +420,6 @@ export default {
             message: result.msg,
             type: "success"
           });
-          this.newList = [
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" }
-          ];
-          this.oldList = [
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" }
-          ];
-          this.okList = [
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" },
-            { val: "" }
-          ];
           this.editpassword = false;
         } else {
           this.$msgbox({
@@ -496,6 +472,9 @@ export default {
       this.paypassword.oldpassword = "";
       this.paypassword.newpassword = "";
       this.paypassword.checkpassword = "";
+      this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+      this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
     },
 
     nextFocusOld(el, index) {
@@ -579,7 +558,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.getLocalUser();
   }
 };

@@ -360,6 +360,8 @@ export default {
           this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.investVisible = false;
         } else {
+          this.rechargepassword='';
+          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.$msgbox({
             title: "提示",
             message: data.msg,
@@ -386,6 +388,8 @@ export default {
           this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.withdrawVisible = false;
         } else {
+          this.withdrawpassword='';
+          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
           this.$msgbox({
             title: "提示",
             message: data.msg,

@@ -254,14 +254,6 @@ export default {
       res.then(data => {
         if (data.code == 0) {
           this.investVisible = false;
-          this.List= [
-          { val: "" },
-          { val: "" },
-          { val: "" },
-          { val: "" },
-          { val: "" },
-          { val: "" }];
-          this.password = '';
 
           this.$msgbox({
             title: "提示",
@@ -328,6 +320,8 @@ export default {
       }
 
       this.handleInvest();
+      this.List= [{ val: "" }, { val: "" }, { val: "" }, { val: "" },{ val: "" },{ val: "" }];
+      this.password = '';
     },
 
     handleSizeChange(val) {
