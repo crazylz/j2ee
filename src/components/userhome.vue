@@ -329,9 +329,7 @@ export default {
     getUser() {
       var userres = get("/api/userProfile", {});
       userres.then(user => {
-        this.userName = user.data.name;
-
-        storageObj("userinfo", user.data);
+        this.userName = getObj("userinfo").name;
         // console.log(getObj("userinfo"));
       });
     },

@@ -365,6 +365,7 @@ export default {
     getUser() {
       var userres = get("/api/userProfile", {});
       userres.then(user => {
+        this.user = user.data;
         storageObj("userinfo", user.data);
         // console.log(getObj("userinfo"));
       });
@@ -558,8 +559,8 @@ export default {
     }
   },
 
-  created() {
-    this.getLocalUser();
+  mounted() {
+      this.getUser();
   }
 };
 </script>
