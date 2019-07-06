@@ -153,7 +153,7 @@
 
     <!-- 借款申请历史表格 -->
     <el-table ref="filterTable" :data="tableData.slice(pageIndex*10-10, pageIndex*10)" border>
-      <el-table-column align="center" prop="userId" label="投资者id" sortable>
+      <el-table-column align="center" prop="userId" label="投资者id" sortable >
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -162,7 +162,6 @@
             type="info"
             @click="getInvestor(scope.row.investorId);"
           >{{scope.row.investorId}}</el-button>
-
         </template>
       </el-table-column>
 
@@ -321,7 +320,7 @@ export default {
 
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
+      // console.log(index, row);
     },
 
     classObject(state) {
@@ -370,13 +369,15 @@ export default {
       var res = get("/api/userProfile/" + id, {});
       res.then(bdata => {
         this.investor = bdata.data;
-        console.log(this.investor);
-        this.investor == null ? this.detailVisible = false : this.detailVisible = true;
+        // console.log(this.investor);
+        this.investor == null || this.investor.userId == 0
+          ? (this.detailVisible = false)
+          : (this.detailVisible = true);
       });
     },
 
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
 
     handleCurrentChange(val) {
@@ -393,7 +394,7 @@ export default {
         payDayOfMonth: this.Loan.payDayOfMonth
       });
       res.then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.code == 0) {
           this.$msgbox({
             title: "提示",
