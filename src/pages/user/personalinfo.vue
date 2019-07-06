@@ -456,6 +456,12 @@ export default {
           okInput[i].value === ""
         ) {
           this.hintTxt = "请填写完整的密码";
+          this.paypassword.oldpassword = "";
+          this.paypassword.newpassword = "";
+          this.paypassword.checkpassword = "";
+          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
           return;
         }
         if (
@@ -464,6 +470,12 @@ export default {
           !reg.test(okInput[i].value)
         ) {
           this.hintTxt = "请填写数字";
+          this.paypassword.oldpassword = "";
+          this.paypassword.newpassword = "";
+          this.paypassword.checkpassword = "";
+          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
           return;
         }
       }
@@ -475,6 +487,12 @@ export default {
 
         if (okInput[i].value != nInput[i].value) {
           this.hintTxt = "请检查两次输入是否一致";
+          this.paypassword.oldpassword = "";
+          this.paypassword.newpassword = "";
+          this.paypassword.checkpassword = "";
+          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
           return;
         }
       }

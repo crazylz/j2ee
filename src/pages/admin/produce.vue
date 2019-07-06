@@ -5,7 +5,7 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/produce' }">管理产品</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%">
+    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%" v-if="user!=null">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px">| 基本资料</div>
@@ -143,7 +143,7 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-          <el-button size="mini" @click="getUser(scope.row.userId);detailVisible=true;">
+          <el-button size="mini" @click="getUser(scope.row.userId);">
             {{scope.row.userId}}
           </el-button>
       </template>
@@ -156,7 +156,7 @@
       label="投资人id"
       sortable>
       <template slot-scope="scope">
-          <el-button size="mini"  @click="getUser(scope.row.investorId);detailVisible=true;">
+          <el-button size="mini"  @click="getUser(scope.row.investorId);">
             {{scope.row.investorId}}
           </el-button>
       </template>
@@ -246,6 +246,7 @@ import {post, get} from '../../request/http.js'
 
         })
       },
+
       getGender(state){
         if(state == 0){
           return '未设置';
@@ -255,13 +256,6 @@ import {post, get} from '../../request/http.js'
         }
       },
 
-      getBorrower(id){
-        var res = get("/api/userProfile/" + id, {});
-        res.then(bdata=>{
-          this.borrower = bdata.data;
-          console.log(this.borrower);
-        })
-      },
 
       classObject(state){
         if(state==1)return '待处理';
@@ -299,6 +293,8 @@ import {post, get} from '../../request/http.js'
         res.then(bdata=>{
           this.user = bdata.data;
           console.log(this.user);
+
+          this.user == null ? this.detailVisible = false : this.detailVisible = true;
         })
       },
 

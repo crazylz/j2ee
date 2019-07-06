@@ -201,10 +201,14 @@ export default {
       for (let i = 0; i < Input.length; i++) {
         if (Input[i].value === "") {
           this.hintTxt = "请填写完整的密码";
+          this.password = '';
+          this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
           return;
         }
         if (!reg.test(Input[i].value)) {
           this.hintTxt = "请填写数字";
+          this.password = '';
+          this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
           return;
         }
       }
