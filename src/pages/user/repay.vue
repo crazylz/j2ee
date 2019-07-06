@@ -9,6 +9,26 @@
       <el-breadcrumb-item :to="{ path: '/userhome/repay' }">还款</el-breadcrumb-item>
     </el-breadcrumb>
 
+
+    <el-dialog :visible.sync="detailVisible">
+      <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">请输入支付密码</h2>
+      <el-form ref="investForm" label-width="200px" label-position="right">
+        <el-form-item label="支付密码">
+          <span v-for="(item,index) in List" :key="item.id">
+            <input
+              type="password"
+              v-model="item.val"
+              class="border-input"
+              @keyup="nextFocus($event,index)"
+              @keydown="changeValue(index)"
+            />
+          </span>
+        </el-form-item>
+
+        <el-button type="primary" @click="expiry()">确认</el-button>
+      </el-form>
+    </el-dialog>
+
     <!-- 卡片布局 -->
     <div style="margin-right:0px; padding: 10px;background:#fff;text-align:left">
       <img src="../../assets/laba.png" style="width:20px;margin-top:10px;margin-right:10px" />
@@ -70,7 +90,7 @@
       </el-table-column>
       <el-table-column align="center" fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">还款</el-button>
+          <el-button @click="detailVisible=true;recordId=scope.row.id" type="text" size="small">还款</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -88,6 +108,8 @@
 
 <script>
 import { post, get } from "../../request/http.js";
+let Base64 = require("js-base64").Base64;
+
 export default {
   data() {
     return {
@@ -95,7 +117,11 @@ export default {
       pageIndex: 1,
       dataType: 0,
       activeIndex: "1",
-      outOfTimeDialigVisible: false
+      outOfTimeDialigVisible: false,
+      password:'',
+      List: [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }],
+      recordId: null,
+      detailVisible: false,
     };
   },
 
@@ -135,16 +161,59 @@ export default {
       };
     },
 
-    handleClick(row) {
-      this.$confirm("确定要对此产品还款吗？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        var res = get("/api/account/repay", { recordId: row.id });
-        res
-          .then(data => {
+
+    nextFocus(el, index) {
+      var dom = document.getElementsByClassName("border-input"),
+        currInput = dom[index],
+        nextInput = dom[index + 1],
+        lastInput = dom[index - 1];
+
+      if (el.keyCode != 8) {
+        if (index < this.List.length - 1) {
+          nextInput.focus();
+        } else {
+          currInput.blur();
+        }
+      } else {
+        if (index != 0) {
+          lastInput.focus();
+        }
+      }
+    },
+
+    changeValue(index) {
+      this.List[index].val = "";
+    },
+
+    expiry() {
+      let Input = document.getElementsByClassName("border-input");
+      let reg = /^[0-9]+$/;
+
+      for (let i = 0; i < Input.length; i++) {
+        if (Input[i].value === "") {
+          this.hintTxt = "请填写完整的密码";
+          return;
+        }
+        if (!reg.test(Input[i].value)) {
+          this.hintTxt = "请填写数字";
+          return;
+        }
+      }
+
+      for (let i = 0; i < Input.length; i++) {
+        this.password += Input[i].value;
+      }
+
+      this.handleRepay();
+    },
+
+    handleRepay() {
+        var res = get("/api/account/repay", { recordId: this.recordId ,password: Base64.encode(this.password)});
+        res.then(data => {
             if (data.code == 0) {
+              this.password = '';
+              this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
+              this.detailVisible = false;
               this.$msgbox({
                 title: "提示",
                 message: data.msg,
@@ -160,13 +229,6 @@ export default {
               });
             }
           })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消还款"
-            });
-          });
-      });
     }
   },
   computed: {
@@ -201,4 +263,19 @@ export default {
 .unpay {
   color: #e6a23c;
 }
+
+.border-input {
+  background: #ffffff;
+  width: 30px;
+  font-size: 30px;
+  height: 40px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
 </style>
