@@ -242,7 +242,7 @@ export default {
         if (file.code != 1) {
           const content = file;
           const blob = new Blob([content]);
-          const fileName = path;
+          const fileName = path.substring(path.lastIndexOf("/")+1);
           if ("download" in document.createElement("a")) {
             // 非IE下载
             const elink = document.createElement("a");

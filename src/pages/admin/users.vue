@@ -77,7 +77,8 @@
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="handleEdit(scope.row)">删除用户</el-button>
+          <el-button size="mini" type="danger" @click="handleFrozen(scope.row)">冻结用户</el-button>
+          <el-button size="mini" type="primary" @click="handleUnfrozen(scope.row)">解冻用户</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,13 +105,42 @@ export default {
     };
   },
   methods: {
-    handleEdit(row) {
-      this.$confirm("确认删除该用户？", "确认信息", {
+    handleFrozen(row) {
+      this.$confirm("确认冻结该用户？", "确认信息", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(() => {
-        var res = post("/api/admin/deleteAccount", { id: row.userId });
+        var res = post("/api/admin/frozenAccount", { id: row.userId });
+        res.then(result => {
+          if (result.code == 0) {
+            this.$msgbox({
+              title: "提示",
+              message: result.msg,
+              type: "success"
+            });
+            var res1 = get("/api/admin/users", {});
+            res1.then(user => {
+              this.all_tableData = user.data;
+            });
+          } else {
+            this.$msgbox({
+              title: "提示",
+              message: result.msg,
+              type: "error"
+            });
+          }
+        });
+      });
+    },
+
+    handleUnfrozen(row) {
+      this.$confirm("确认解冻该用户？", "确认信息", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      }).then(() => {
+        var res = post("/api/admin/unfrozenAccount", { id: row.bindId });
         res.then(result => {
           if (result.code == 0) {
             this.$msgbox({
