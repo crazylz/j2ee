@@ -25,6 +25,8 @@
           </span>
         </el-form-item>
 
+        <div style="color:#f56c6c;">{{hintTxt}}</div>
+
         <el-button type="primary" @click="expiry()">确认</el-button>
       </el-form>
     </el-dialog>
@@ -90,7 +92,7 @@
       </el-table-column>
       <el-table-column align="center" fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button @click="detailVisible=true;recordId=scope.row.id" type="text" size="small">还款</el-button>
+          <el-button @click="detailVisible=true;recordId=scope.row.id;clear()" type="text" size="small">还款</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -122,6 +124,7 @@ export default {
       List: [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }],
       recordId: null,
       detailVisible: false,
+      hintTxt:''
     };
   },
 
@@ -131,6 +134,12 @@ export default {
   },
 
   methods: {
+    clear(){
+      this.hintTxt = '';
+      this.password = '';
+      this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
+    },
+
     getRepayData() {
       var res = get("/api/borrower/repayRecordsToProcess", {});
       res.then(repay => {
@@ -207,6 +216,7 @@ export default {
       this.handleRepay();
       this.password = '';
       this.List = [{ val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }, { val: "" }];
+      this.hintTxt='';
     },
 
     handleRepay() {

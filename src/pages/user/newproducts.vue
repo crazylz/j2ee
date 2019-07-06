@@ -25,6 +25,8 @@
           </span>
         </el-form-item>
 
+        <div style="color:#f56c6c;">{{hintTxt}}</div>
+
         <el-button type="primary" @click="expiry()">确认</el-button>
       </el-form>
     </el-dialog>
@@ -186,7 +188,7 @@
             type="primary"
             round
             size="mini"
-            @click="investVisible=true;productId=scope.row.id"
+            @click="investVisible=true;productId=scope.row.id;clear()"
           >购买</el-button>
           <el-button
             type="info"
@@ -242,10 +244,23 @@ export default {
         { val: "" }
       ],
       password: "",
-      productId: null
+      productId: null,
+      hintTxt:''
     };
   },
   methods: {
+    clear(){
+      this.hintTxt = '';
+      this.password='';
+      this.List = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+    },
     handleInvest() {
       var res = post("/api/investor/invest", {
         id: this.productId,
@@ -322,6 +337,7 @@ export default {
       this.handleInvest();
       this.List= [{ val: "" }, { val: "" }, { val: "" }, { val: "" },{ val: "" },{ val: "" }];
       this.password = '';
+      this.hintTxt = '';
     },
 
     handleSizeChange(val) {
