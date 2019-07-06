@@ -5,7 +5,7 @@
       <el-breadcrumb-item :to="{ path: '/adminhome/operation' }">查看日志</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%">
+    <el-dialog :visible.sync='detailVisible' top="5vh" width="40%" v-if="user!=null">
         <div class="card-div">
       <div
         style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px">| 基本资料</div>
@@ -85,11 +85,7 @@
         align="center"
         prop="gender">
         <template slot-scope="scope">
-          <el-button size="mini"  @click="getUser(scope.row.opCreatorId);detailVisible=true;" v-if="scope.row.opCreatorType == 2">
-            {{scope.row.opCreatorId}}
-          </el-button>
-
-          <el-button size="mini" v-else>
+          <el-button size="mini"  @click="getUser(scope.row.opCreatorId)">
             {{scope.row.opCreatorId}}
           </el-button>
         </template>
@@ -183,6 +179,7 @@ import {post, get} from '../../request/http.js'
           res.then(bdata=>{
           this.user = bdata.data;
           console.log(this.user);
+          this.user == null ? this.detailVisible = false : this.detailVisible = true;
         })
       },
       

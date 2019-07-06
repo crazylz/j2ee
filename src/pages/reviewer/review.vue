@@ -3,7 +3,7 @@
     <!-- 需要将元素设置当一个容器里面 -->
     <el-container class="container">
 
-      <el-dialog :visible.sync="detailVisible" top="5vh" width="40%">
+      <el-dialog :visible.sync="detailVisible" top="5vh" width="40%" v-if="borrower!=null">
       <div class="card-div">
         <div
           style="font-weigth:bold; font-size: 20px; float: left; margin-left: 10px; margin-top: 10px"
@@ -105,7 +105,7 @@
           <el-table-column align="center" prop="userId" label="申请人id" sortable>
             <template slot-scope="scope">
                 <div slot="reference" class="name-wrapper">
-                  <el-button size="mini" @click="getBorrower(scope.row.userId);detailVisible=true">{{scope.row.userId}}</el-button>
+                  <el-button size="mini" @click="getBorrower(scope.row.userId);">{{scope.row.userId}}</el-button>
                 </div>
             </template>
           </el-table-column>
@@ -231,6 +231,7 @@ export default {
       res.then(bdata => {
         this.borrower = bdata.data;
         console.log(this.borrower);
+        this.borrower == null ? this.detailVisible = false : this.detailVisible = true;
       });
     },
 
