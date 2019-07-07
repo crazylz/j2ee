@@ -41,11 +41,17 @@
           </el-menu>
         </el-aside>
 
-        <el-main>
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
-        </el-main>
+        <el-container>
+          <el-main>
+            <transition name="fade" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </el-main>
+          <!-- 底部 -->
+          <el-footer>
+            <label style="color: #969696;">@ 2019 SCUT 软件学院</label>
+          </el-footer>
+        </el-container>
       </el-container>
     </el-container>
   </div>
@@ -96,6 +102,10 @@ export default {
   text-align: center;
   line-height: 30px;
   min-height: 90vh;
+}
+
+.el-footer {
+  background-color: #e9eef3;
 }
 
 .item {
