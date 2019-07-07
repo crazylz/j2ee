@@ -129,39 +129,61 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="primary" @click="handleAddOneEmployee()">确认导入</el-button>
       <el-button type="info" @click="addOneVisible=false">取消导入</el-button>
+      <el-button type="primary" @click="handleAddOneEmployee()">确认导入</el-button>
     </el-dialog>
 
     <!-- 批量导入用户弹窗 -->
-    <el-dialog style="font-size: 14px " :visible.sync="addBatchVisible">
+    <el-dialog style="font-size: 14px" :visible.sync="addBatchVisible" @close="closeUploadDialog">
       <h2 style="text-align: center;color: #606266; font-size:30px">批量导入用户</h2>
 
       <div style="text-align:left">
-      <p>请按照指定格式批量导入员工资料，选择类型为 xls 的文件上传，文件的格式如下：</p>
-      <img src="../../assets/upload_file_example.png" width="100%">
-      <p> 注意：为了文件能被正确解析，请确保所有字段都已经填写完毕，其中性别可选填“未设置／男／女”，“身份证／第三方支付账号／银行卡账号”的字段需要避免被识别为数字，可以输入半角单引号后键入回车，如 '441723199701010001。</p>
-      <el-upload
-        ref="upload"
-        action="/api/admin"
-        :headers="heads"
-        :data="paras"
-        :multiple="false"
-        :limit="1"
-        :on-exceed="handleExceed"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :on-success="handleSuccess"
-        :file-list="fileList"
-        :auto-upload="false"
-      >
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-      </el-upload>
-      <p style="color:gray;font-size:12px">最大上传10MB的文件</p>
+        <p>请按照指定格式批量导入员工资料，选择类型为 xls/xlsx 的文件上传，文件的格式如下：</p>
+        <img src="../../assets/upload_file_example.png" width="100%" />
+        <p>注意：为了文件能被正确解析，请确保所有字段都已经填写完毕，其中性别可选填“未设置／男／女”，“身份证／第三方支付账号／银行卡账号”的字段需要避免被识别为数字，可以输入半角单引号后键入回车，如 '441723199701010001。</p>
+        <el-upload
+          ref="upload"
+          action="/api/admin/batchImportUserProfile"
+          :headers="heads"
+          :data="paras"
+          :multiple="false"
+          :limit="1"
+          :on-exceed="handleExceed"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+          :file-list="fileList"
+          :auto-upload="false"
+        >
+          <el-button icon="el-icon-plus" slot="trigger" size="small" type="success">选取文件</el-button>
+        </el-upload>
+        <p style="color:gray;font-size:12px">最大上传10MB的文件</p>
       </div>
-      <el-button type="success" @click="uploadSummit()">确认导入</el-button>
       <el-button type="info" @click="addBatchVisible=false">取消导入</el-button>
+      <el-button type="primary" @click="uploadSummit()">确认导入</el-button>
+    </el-dialog>
 
+    <!-- 导入数据弹窗 -->
+    <el-dialog style="font-size: 14px " width="500px" :visible.sync="addBatchResVisible">
+      <h2 style="text-align: center;color: #606266; font-size:30px">文件解析处理完毕</h2>
+      <p>{{ addBatchResMsg }}</p>
+      <el-table :data="addBatchRes" max-height="435px">
+        <el-table-column label="工号" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.employeeId}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="信息" align="center">
+          <template slot-scope="scope">
+            <span>{{ scope.row.msg}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="导入结果" align="center">
+          <template slot-scope="scope">
+            <img :src="getCodeImg(scope.row.code)" height="15px"/>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-dialog>
 
     <!-- 所有用户信息表格 -->
@@ -281,6 +303,9 @@
 
 <script>
 import { post, get } from "../../request/http.js";
+import green_circle from "../../assets/green_circle.png";
+import red_circle from "../../assets/wrong.png";
+
 export default {
   data() {
     return {
@@ -288,7 +313,10 @@ export default {
       pageIndex: 1,
       addOneVisible: false,
       addBatchVisible: false,
+      addBatchResVisible: false,
       fileList: [],
+      addBatchRes: [],
+      addBatchResMsg: null,
 
       employeeInfo: {
         employeeId: null,
@@ -521,7 +549,23 @@ export default {
       this.$refs.upload.submit();
     },
 
-    handleSuccess() {
+    closeUploadDialog() {
+      this.fileList = [];
+    },
+
+    handleSuccess(response, file, fileList) {
+      if (response.code == 0) {
+        this.addBatchVisible = false;
+        this.addBatchRes = response.data;
+        this.addBatchResVisible = true;
+        this.addBatchResMsg = response.msg;
+      } else {
+        this.$msgbox({
+          title: "提示",
+          message: response.msg,
+          type: "error"
+        });
+      }
       return 0;
     },
 
@@ -532,12 +576,17 @@ export default {
         type: "error"
       });
     },
-     handleRemove(file, fileList) {
-      console.log(file, fileList);
+    handleRemove(file, fileList) {
+      // console.log(file, fileList);
     },
 
     handlePreview(file) {
-      console.log(file);
+      // console.log(file);
+    },
+
+    getCodeImg(code) {
+      if (code == 1) return red_circle;
+      else return green_circle;
     }
   },
 
