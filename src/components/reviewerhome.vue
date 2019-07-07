@@ -49,7 +49,7 @@
           </el-main>
           <!-- 底部 -->
           <el-footer>
-            <label style="color: #969696;">@ 2019 SCUT 软件学院</label>
+            <label style="color: #969696;">© 2019 SCUT 软件学院</label>
           </el-footer>
         </el-container>
       </el-container>

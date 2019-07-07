@@ -153,7 +153,7 @@
               @click="contactUsDialogVisible=true;getContactUsHtml()"
             >联系我们</label>
             <br />
-            <label style="color: #969696;">@ 2019 SCUT 软件学院</label>
+            <label style="color: #969696;">© 2019 SCUT 软件学院</label>
           </el-footer>
 
           <!-- 底部的四个弹窗 -->
