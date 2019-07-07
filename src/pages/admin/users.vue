@@ -559,6 +559,7 @@ export default {
         this.addBatchRes = response.data;
         this.addBatchResVisible = true;
         this.addBatchResMsg = response.msg;
+        this.getAllUser(); // 导入成功后还是重新拉一下数据
       } else {
         this.$msgbox({
           title: "提示",
