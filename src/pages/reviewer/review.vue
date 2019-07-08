@@ -105,7 +105,7 @@
           <el-table-column align="center" prop="userId" label="申请人id" sortable>
             <template slot-scope="scope">
                 <div slot="reference" class="name-wrapper">
-                  <el-button size="mini" @click="getBorrower(scope.row.userId);">{{scope.row.userId}}</el-button>
+                  <el-button size="mini" plain round type="info" @click="getBorrower(scope.row.userId);">{{scope.row.userId}}</el-button>
                 </div>
             </template>
           </el-table-column>

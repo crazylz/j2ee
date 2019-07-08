@@ -38,6 +38,7 @@ import freeze from '../pages/guarantee/freeze.vue'
 import reviewerhome from '../components/reviewerhome.vue'
 import review from '../pages/reviewer/review.vue'
 import reviewerinformation from '../pages/reviewer/reviewerinformation.vue'
+import reviewRecord from "../pages/reviewer/reviewRecord.vue"
 
 const router = new Router({
   routes: [
@@ -150,6 +151,9 @@ const router = new Router({
         {
           path:'/reviewerhome/review',
           component:review
+        },{
+          path:'/reviewerhome/reviewRecord',
+          component:reviewRecord
         }
       ]
     }

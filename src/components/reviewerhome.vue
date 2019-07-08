@@ -38,6 +38,9 @@
             <el-menu-item index="/reviewerhome/review" style="text-align:left" class="item">
               <i class="el-icon-s-custom"></i>审核
             </el-menu-item>
+            <el-menu-item index="/reviewerhome/reviewRecord" style="text-align:left" class="item">
+              <i class="el-icon-s-custom"></i>所有审核信息
+            </el-menu-item>
           </el-menu>
         </el-aside>
 
