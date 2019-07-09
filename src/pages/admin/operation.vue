@@ -82,7 +82,7 @@
 
       <el-table-column label="操作人Id" align="center" prop="gender">
         <template slot-scope="scope">
-          <el-button size="mini" @click="getUser(scope.row.opCreatorId)">{{scope.row.opCreatorId}}</el-button>
+          <el-button size="mini" type="info" plain round @click="getUser(scope.row.opCreatorId)">{{ handleId(scope.row.opCreatorId, scope.row.opCreatorType)}}</el-button>
         </template>
       </el-table-column>
 
@@ -209,6 +209,11 @@ export default {
         return "操作成功";
       }
       return "操作失败";
+    },
+
+    handleId(id, type){
+      if(id == 0 || type != 2) return '--';
+      else return id;
     },
 
     getOpLogByPage() {

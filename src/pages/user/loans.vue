@@ -21,7 +21,7 @@
         style="float:right;margin-right:20px"
         round
         size="small"
-        @click="addVisible = true;getLimit();"
+        @click="getLimit();"
       >新建贷款</el-button>
 
       <br />
@@ -153,7 +153,7 @@
 
     <!-- 借款申请历史表格 -->
     <el-table ref="filterTable" :data="tableData.slice(pageIndex*10-10, pageIndex*10)" border>
-      <el-table-column align="center" prop="userId" label="投资者id" sortable >
+      <el-table-column align="center" prop="userId" label="投资者id" sortable>
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -161,7 +161,7 @@
             round
             type="info"
             @click="getInvestor(scope.row.investorId);"
-          >{{scope.row.investorId}}</el-button>
+          >{{getInvestorId(scope.row.investorId)}}</el-button>
         </template>
       </el-table-column>
 
@@ -412,6 +412,11 @@ export default {
       });
     },
 
+    getInvestorId(id){
+      if(id == 0) return '--';
+      else return id;
+    },
+
     getGender(state) {
       if (state == 0) {
         return "未设置";
@@ -424,15 +429,30 @@ export default {
       var res = get("/api/borrower/allRequests", {});
       res.then(data => {
         this.all_tableData = data.data;
-        console.log(data);
+        // console.log(data);
       });
     },
 
     getLimit() {
       var limit = get("api/borrower/limit", {});
       limit.then(data => {
-        console.log(data);
-        this.limit = data.data;
+        // console.log(data);
+        if (data.code == 0) {
+          this.addVisible = true;
+          this.limit = data.data;
+        }else if(data.msg == '尚未填写征信资料'){
+          this.$msgbox({
+            title: "提示",
+            message: "尊敬的用户：您好，您必须完成用户征信后才能发布借款产品。",
+            type: "error"
+          });
+        }else{
+          this.$msgbox({
+            title: "提示",
+            message: data.msg,
+            type: "error"
+          });
+        }
       });
     }
   },

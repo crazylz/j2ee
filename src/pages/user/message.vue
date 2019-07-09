@@ -8,8 +8,8 @@
 
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
   <el-menu-item index="1" @click="dataType=2">全部消息</el-menu-item>
-  <el-menu-item index="2" @click="dataType=1">已读消息</el-menu-item>
   <el-menu-item index="3" @click="dataType=0">未读消息</el-menu-item>
+  <el-menu-item index="2" @click="dataType=1">已读消息</el-menu-item>
 </el-menu>
 
   <el-table
@@ -61,8 +61,8 @@
       align="center"
       label="操作">
       <template slot-scope="scope">
-        <el-button size="mini" @click="sign(scope.row)">
-            {{operate(scope.row.state)}}
+        <el-button type="text" style="font-size:14px" size="mini" @click="sign(scope.row)">
+            <u>{{operate(scope.row.state)}}</u>
         </el-button>
       </template>
     </el-table-column>
@@ -100,7 +100,7 @@ import {post, get} from '../../request/http.js'
       var res = get("/api/message", {state: 2})
       res.then(info=>{
         this.all_tableData = info.data;
-        console.log(info);
+        // console.log(info);
         }
       )
     },
@@ -109,7 +109,7 @@ import {post, get} from '../../request/http.js'
             var res = get("/api/message", {state: val})
             res.then(info=>{
             this.all_tableData = info.data;
-            console.log(info);
+            // console.log(info);
         }
         )
       }
@@ -117,11 +117,11 @@ import {post, get} from '../../request/http.js'
 
     methods:{
         sign(row){
-            console.log(row);
+            // console.log(row);
             if(row.state == 0){
                 var res = post("/api/message/state", {messageId: row.messageId});
                 res.then(result=>{
-                    console.log(result);
+                    // console.log(result);
                     
                     if(result.code == 0)
                     {
@@ -145,30 +145,27 @@ import {post, get} from '../../request/http.js'
             }
         },
 
-
         getData(){
           var res1 = get("/api/message", {state: this.dataType});
             res1.then(info=>{
             this.all_tableData = info.data;
-            console.log(info);
+            // console.log(info);
             });
         },
       
-
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
 
       handleCurrentChange(val) {
         this.pageIndex =val;
       },
 
-
       object(state){
-        return state == 0 ? '未读' : '已读';
+        return state == 0 ? '消息未读' : '消息已读';
       },
       operate(state){
-          return state == 1 ? '——' : '标记为已读';
+          return state == 1 ? '' : '标为已读';
       },
 
       textColor(state){

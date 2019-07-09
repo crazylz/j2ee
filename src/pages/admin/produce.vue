@@ -143,8 +143,8 @@
       label="借款人id"
       sortable>
       <template slot-scope="scope">
-          <el-button size="mini" @click="getUser(scope.row.userId);">
-            {{scope.row.userId}}
+          <el-button size="mini" type="info" plain round @click="getUser(scope.row.userId);">
+            {{handleId(scope.row.userId)}}
           </el-button>
       </template>
       </el-table-column>
@@ -156,8 +156,8 @@
       label="投资人id"
       sortable>
       <template slot-scope="scope">
-          <el-button size="mini"  @click="getUser(scope.row.investorId);">
-            {{scope.row.investorId}}
+          <el-button size="mini" type="info" plain round  @click="getUser(scope.row.investorId);">
+            {{handleId(scope.row.investorId)}}
           </el-button>
       </template>
       </el-table-column>
@@ -254,6 +254,11 @@ import {post, get} from '../../request/http.js'
         else{
           return state == 1 ? '男' : '女';
         }
+      },
+
+      handleId(id){
+        if(id == 0) return '--';
+        return id;
       },
 
 

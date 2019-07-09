@@ -4,13 +4,31 @@
     <el-container class="container">
       <!-- 顶栏 -->
       <el-header>
-       
-        <span class="system-name" style="font-size:28px"> <img src="../assets/logo.png" style="width:25px"> {{systemName}} <span style="font-size:14px"> P2P小额贷款平台 </span></span>
-        <span class="bell" @click="bell()">
-          <big>
-            <i class="el-icon-message-solid"></i>
-          </big>
+        <span class="system-name" style="font-size:28px">
+          <img src="../assets/logo.png" style="width:25px" />
+          {{systemName}}
+          <span style="font-size:14px">P2P小额贷款平台</span>
         </span>
+        <div class="bell">
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <big>
+                <i class="el-icon-message-solid" style="color:#ffffff"></i>
+              </big>
+              <!-- 点击获取未读消息 -->
+              <i class="el-icon-caret-bottom el-icon--right" @click="getNoReadMessage()"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <!-- 点击跳转 -->
+              <div @click="bell()">
+                <el-dropdown-item class="clearfix">
+                  未读消息
+                  <el-badge class="mark" :value="msgNum" :hidden="msgBadgeHidden" />
+                </el-dropdown-item>
+              </div>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
         <div class="users">
           <el-dropdown>
             <span style="color: white">
@@ -37,55 +55,70 @@
       <!--充值对话框  -->
       <el-dialog :visible.sync="investVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">充值</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额：￥<label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label></p>
+        <p style="color: #606266; font-size:18px">
+          第三方账户余额：￥
+          <label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label>
+        </p>
         <el-form
           ref="investForm"
           :model="invest"
           label-width="200px"
           :rules="investrules"
-          label-position="right">
-
+          label-position="right"
+        >
           <el-form-item label="充值金额" prop="number" class="input">
             <el-input v-model="invest.number" placeholder="请输入充值金额" clearable style="width:60%"></el-input>
           </el-form-item>
 
           <el-form-item label="支付密码">
             <span v-for="(item,index) in RechargeList" :key="item.id">
-              <input type="password" v-model="item.val" class="border-input-recharge" 
-              @keyup="nextFocusRecharge($event,index)" @keydown="changeValueRecharge(index)">
+              <input
+                type="password"
+                v-model="item.val"
+                class="border-input-recharge"
+                @keyup="nextFocusRecharge($event,index)"
+                @keydown="changeValueRecharge(index)"
+              />
             </span>
           </el-form-item>
 
           <div style="color:#f56c6c;">{{rechargeTxt}}</div>
-          
-          <el-button type="primary" @click="expiryRecharge()">确认</el-button>
 
+          <el-button type="primary" @click="expiryRecharge()">确认</el-button>
         </el-form>
       </el-dialog>
 
       <el-dialog :visible.sync="withdrawVisible">
         <h2 style="margin-top:-30px;text-align: center;color: #606266; font-size:30px">提现</h2>
-        <p style="color: #606266; font-size:18px">第三方账户余额 ¥ <label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label></p>
+        <p style="color: #606266; font-size:18px">
+          第三方账户余额 ¥
+          <label style="margin-left:10px;font-size:30px;color:orange">{{money_remain}}</label>
+        </p>
         <el-form
           ref="withdrawForm"
           :model="withdraw"
           label-width="200px"
           :rules="withdrawrules"
-          label-position="right">
-
+          label-position="right"
+        >
           <el-form-item label="提现金额" prop="money" class="input">
             <el-input v-model="withdraw.money" placeholder="请输入提现金额" clearable style="width:60%"></el-input>
           </el-form-item>
 
           <el-form-item label="支付密码">
             <span v-for="(item,index) in WithdrawList" :key="item.id">
-              <input type="password" v-model="item.val" class="border-input-withdraw" 
-              @keyup="nextFocusWithdraw($event,index)" @keydown="changeValueWithdraw(index)">
+              <input
+                type="password"
+                v-model="item.val"
+                class="border-input-withdraw"
+                @keyup="nextFocusWithdraw($event,index)"
+                @keydown="changeValueWithdraw(index)"
+              />
             </span>
           </el-form-item>
 
           <div style="color:#f56c6c;">{{withdrawTxt}}</div>
-            
+
           <el-button type="primary" @click="expiryWithdraw()">确认</el-button>
         </el-form>
       </el-dialog>
@@ -162,7 +195,11 @@
             <p v-html="aboutushtml" style="text-align:left" />
           </el-dialog>
 
-          <el-dialog class="footer-item-dialog" :visible.sync="lawDialogVisible" style="margin-top:-100px">
+          <el-dialog
+            class="footer-item-dialog"
+            :visible.sync="lawDialogVisible"
+            style="margin-top:-100px"
+          >
             <h2>法律声明及隐私权政策</h2>
             <p v-html="lawhtml" style="text-align:left"></p>
           </el-dialog>
@@ -185,7 +222,7 @@
 
 <script>
 import { post, get, storageObj, getObj } from "../request/http.js";
-let Base64 = require('js-base64').Base64
+let Base64 = require("js-base64").Base64;
 
 export default {
   data() {
@@ -196,6 +233,8 @@ export default {
       lawDialogVisible: false,
       reportDialogVisible: false,
       contactUsDialogVisible: false,
+      msgBadgeHidden: false,
+      msgNum: 0,
       lawhtml: "",
       aboutushtml: "",
       contactushtml: "",
@@ -203,13 +242,27 @@ export default {
       money_remain: 0,
       systemName: "时不我贷",
       userName: "null",
-      rechargeTxt:'',
-      withdrawTxt:'',
+      rechargeTxt: "",
+      withdrawTxt: "",
 
-      RechargeList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
-      WithdrawList: [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}],
-      rechargepassword:'',
-      withdrawpassword:'',
+      RechargeList: [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ],
+      WithdrawList: [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ],
+      rechargepassword: "",
+      withdrawpassword: "",
 
       invest: {
         number: null
@@ -237,124 +290,191 @@ export default {
       this.$router.push({ path: "/userhome/message" });
     },
 
-    clearWithdraw(){
-      this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-      this.withdrawTxt = '';
-      this.withdrawpassword = '';
+    getNoReadMessage() {
+      var res = get("/api/message", { state: 0 });
+      res.then(info => {
+        var msgArray = info.data;
+        this.msgNum = msgArray.length;
+        if (this.msgNum == 0) this.msgBadgeHidden = true;
+        else this.msgBadgeHidden = false;
+      });
     },
 
-    clearRecharge(){
-      this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-      this.rechargeTxt = '';
-      this.rechargepassword = '';
+    clearWithdraw() {
+      this.WithdrawList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.withdrawTxt = "";
+      this.withdrawpassword = "";
     },
 
-    nextFocusRecharge(el,index){
-        var dom = document.getElementsByClassName("border-input-recharge"),
+    clearRecharge() {
+      this.RechargeList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.rechargeTxt = "";
+      this.rechargepassword = "";
+    },
+
+    nextFocusRecharge(el, index) {
+      var dom = document.getElementsByClassName("border-input-recharge"),
         currInput = dom[index],
         nextInput = dom[index + 1],
         lastInput = dom[index - 1];
 
-        if (el.keyCode != 8) {
-          if (index < (this.RechargeList.length - 1)) {
-            nextInput.focus();
-          } else {
-            currInput.blur();
-          }
-        }else{
-          if (index !=0) {
-            lastInput.focus();
-          }
-         }
-      },
+      if (el.keyCode != 8) {
+        if (index < this.RechargeList.length - 1) {
+          nextInput.focus();
+        } else {
+          currInput.blur();
+        }
+      } else {
+        if (index != 0) {
+          lastInput.focus();
+        }
+      }
+    },
 
-      nextFocusWithdraw(el,index){
-        var dom = document.getElementsByClassName("border-input-withdraw"),
+    nextFocusWithdraw(el, index) {
+      var dom = document.getElementsByClassName("border-input-withdraw"),
         currInput = dom[index],
         nextInput = dom[index + 1],
         lastInput = dom[index - 1];
 
-        if (el.keyCode != 8) {
-          if (index < (this.WithdrawList.length - 1)) {
-            nextInput.focus();
-          } else {
-            currInput.blur();
-          }
-        }else{
-          if (index !=0) {
-            lastInput.focus();
-          }
-         }
-      },
+      if (el.keyCode != 8) {
+        if (index < this.WithdrawList.length - 1) {
+          nextInput.focus();
+        } else {
+          currInput.blur();
+        }
+      } else {
+        if (index != 0) {
+          lastInput.focus();
+        }
+      }
+    },
 
-      changeValueRecharge(index) {
-        this.RechargeList[index].val = "";
-      },
+    changeValueRecharge(index) {
+      this.RechargeList[index].val = "";
+    },
 
-      changeValueWithdraw(index) {
-        this.WithdrawList[index].val = "";
-      },
+    changeValueWithdraw(index) {
+      this.WithdrawList[index].val = "";
+    },
 
-      expiryRecharge(){
-          let rechargeInput = document.getElementsByClassName('border-input-recharge');
-          let reg = /^[0-9]+$/;
+    expiryRecharge() {
+      let rechargeInput = document.getElementsByClassName(
+        "border-input-recharge"
+      );
+      let reg = /^[0-9]+$/;
 
-          for (let i = 0; i < rechargeInput.length; i++) {
-            if (rechargeInput[i].value === '') {
-              this.rechargeTxt = '请填写完整的密码';
-              this.rechargepassword='';
-              this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-              return;
-            }
-            if (!reg.test(rechargeInput[i].value)){
-              this.rechargeTxt = '请填写数字';
-              this.rechargepassword='';
-              this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-              return;
-            }
-          }
-         
-          for (let i = 0; i < rechargeInput.length; i++) {
-            this.rechargepassword += rechargeInput[i].value;
-          }
+      for (let i = 0; i < rechargeInput.length; i++) {
+        if (rechargeInput[i].value === "") {
+          this.rechargeTxt = "请填写完整的密码";
+          this.rechargepassword = "";
+          this.RechargeList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          return;
+        }
+        if (!reg.test(rechargeInput[i].value)) {
+          this.rechargeTxt = "请填写数字";
+          this.rechargepassword = "";
+          this.RechargeList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          return;
+        }
+      }
 
-          this.handleInvest();
-          this.rechargepassword='';
-          this.RechargeList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-          this.rechargeTxt = '';
-         
-      },
+      for (let i = 0; i < rechargeInput.length; i++) {
+        this.rechargepassword += rechargeInput[i].value;
+      }
 
-      expiryWithdraw(){
+      this.handleInvest();
+      this.rechargepassword = "";
+      this.RechargeList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.rechargeTxt = "";
+    },
 
-          let withdrawInput = document.getElementsByClassName('border-input-withdraw');
-          let reg = /^[0-9]+$/;
+    expiryWithdraw() {
+      let withdrawInput = document.getElementsByClassName(
+        "border-input-withdraw"
+      );
+      let reg = /^[0-9]+$/;
 
-          for (let i = 0; i < withdrawInput.length; i++) {
-            if (withdrawInput[i].value === '') {
-              this.withdrawTxt = '请填写完整的密码';
-              this.withdrawpassword='';
-              this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-              return;
-            }
-            if (!reg.test(withdrawInput[i].value)){
-              this.withdrawTxt = '请填写数字';
-              this.withdrawpassword='';
-              this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-              return;
-            }
-          }
-         
-          for (let i = 0; i < withdrawInput.length; i++) {
-            this.withdrawpassword += withdrawInput[i].value;
-          }
+      for (let i = 0; i < withdrawInput.length; i++) {
+        if (withdrawInput[i].value === "") {
+          this.withdrawTxt = "请填写完整的密码";
+          this.withdrawpassword = "";
+          this.WithdrawList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          return;
+        }
+        if (!reg.test(withdrawInput[i].value)) {
+          this.withdrawTxt = "请填写数字";
+          this.withdrawpassword = "";
+          this.WithdrawList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          return;
+        }
+      }
 
-          this.handleWithdraw();
-          this.withdrawpassword='';
-          this.WithdrawList = [{val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}, {val: ""}];
-          this.withdrawTxt='';
-         
-      },
+      for (let i = 0; i < withdrawInput.length; i++) {
+        this.withdrawpassword += withdrawInput[i].value;
+      }
+
+      this.handleWithdraw();
+      this.withdrawpassword = "";
+      this.WithdrawList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.withdrawTxt = "";
+    },
 
     getUser() {
       var userres = get("/api/userProfile", {});
@@ -372,7 +492,10 @@ export default {
     },
 
     handleInvest: function() {
-      var res = post("/api/account/deposit", { amount: this.invest.number, password:Base64.encode(this.rechargepassword)});
+      var res = post("/api/account/deposit", {
+        amount: this.invest.number,
+        password: Base64.encode(this.rechargepassword)
+      });
       res.then(data => {
         console.log(data);
         if (data.code == 0) {
@@ -396,7 +519,10 @@ export default {
     },
 
     handleWithdraw: function() {
-      var res = post("/api/account/withdraw", { amount: this.withdraw.money ,password:Base64.encode(this.withdrawpassword)});
+      var res = post("/api/account/withdraw", {
+        amount: this.withdraw.money,
+        password: Base64.encode(this.withdrawpassword)
+      });
       res.then(data => {
         console.log(data);
         if (data.code == 0) {
@@ -420,21 +546,19 @@ export default {
     },
 
     getLawHtml() {
-      var res = get("/static/law.html",{});
-      res.then(
-        data =>{
-          this.lawhtml = data;
-        }
-      )
+      var res = get("/static/law.html", {});
+      res.then(data => {
+        this.lawhtml = data;
+      });
     },
     getReportHtml() {
-      var res = get("static/report.html",{});
+      var res = get("static/report.html", {});
       res.then(data => {
         this.reporthtml = data;
       });
     },
     getAboutUsHtml() {
-      var res = get("/static/aboutus.html",{});
+      var res = get("/static/aboutus.html", {});
       res.then(data => {
         // console.log(data);
         this.aboutushtml = data;
@@ -518,8 +642,7 @@ export default {
   margin-right: 30px;
 }
 
-
-.border-input-recharge{
+.border-input-recharge {
   background: #ffffff;
   width: 30px;
   font-size: 30px;
@@ -533,7 +656,7 @@ export default {
   border-right: 0px;
 }
 
-.border-input-withdraw{
+.border-input-withdraw {
   background: #ffffff;
   width: 30px;
   font-size: 30px;
