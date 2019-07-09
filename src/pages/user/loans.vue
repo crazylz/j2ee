@@ -21,7 +21,7 @@
         style="float:right;margin-right:20px"
         round
         size="small"
-        @click="addVisible = true"
+        @click="addVisible = true;getLimit();"
       >新建贷款</el-button>
 
       <br />
@@ -453,7 +453,6 @@ export default {
 
   mounted() {
     this.getLoanData();
-    this.getLimit();
   },
 
   watch: {

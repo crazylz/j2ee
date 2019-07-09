@@ -131,12 +131,12 @@
 
       <el-table-column align="center">
         <template slot="header">
-          <span>信用评级</span>
+          <span>评级</span>
           <el-tooltip effect="dark" placement="top">
             <div slot="content">
-              信用评级是审核员对用户资料真实性<br />
-              和资金状况的评价，范围在 1～5 内，<br/>
-              审核资料没有通过将不会显示本栏。
+              评级是审核员对用户资料的真实性
+              <br />和资金状况的评价，范围在 1～5 内，
+              <br />审核资料没有通过将不会显示本栏。
             </div>
             <i class="el-icon-question" style="color:#409eff"></i>
           </el-tooltip>
@@ -242,7 +242,7 @@ export default {
         if (file.code != 1) {
           const content = file;
           const blob = new Blob([content]);
-          const fileName = path.substring(path.lastIndexOf("/")+1);
+          const fileName = path.substring(path.lastIndexOf("/") + 1);
           if ("download" in document.createElement("a")) {
             // 非IE下载
             const elink = document.createElement("a");

@@ -156,18 +156,29 @@
             </el-form-item>
 
             <!-- 中间加条横线 -->
-            <div
-              style="background:#b6afaf; height:3px; margin-left: 100px; margin-bottom:25px"
-            />
+            <div style="background:#b6afaf; height:3px; margin-left: 100px; margin-bottom:25px" />
 
             <el-form-item style="text-align:left">
               <label style="color:gray;font-size:15px ">失信次数：</label>
-              <label v-if="editable == false" style="color:#f56c6c;font-size:30px">{{user.discreditedRecords}} <span style="color:gray;font-size:15px"> 次 </span> </label>
+              <label v-if="editable == false" style="color:#f56c6c;font-size:30px">
+                {{user.discreditedRecords}}
+                <span style="color:gray;font-size:15px">次</span>
+              </label>
               <el-input v-model="user.discreditedRecords" v-else disabled></el-input>
             </el-form-item>
 
             <el-form-item style="text-align:left">
-              <label style="color:gray;font-size:15px ">信用评级：</label>
+              <label style="color:gray;font-size:15px ">
+                信用评级
+                <el-tooltip effect="dark" placement="top">
+                  <div slot="content">
+                          信用评级是系统参考征信资料评级、职工
+                    <br />工龄、工资、失信次数等信息加权计算得
+                    <br />到的评分，直接影响用户的授信额度。
+                  </div>
+                  <i class="el-icon-question" style="color:#409eff"></i>
+                </el-tooltip>：
+              </label>
               <label v-if="editable == false" style="color:#67c23a;font-size:30px">{{user.rank}}</label>
               <el-input v-model="user.rank" v-else disabled></el-input>
             </el-form-item>
@@ -250,21 +261,20 @@ export default {
   data() {
     return {
       user: {
-      name:'暂无数据',
-      gender:0,
-      salary: '暂无数据',
-      phoneNumber: '暂无数据',
-      paymentAccount: '暂无数据',
-      bankAccount: '暂无数据',
-      lengthOfService:'暂无数据',
-      idCardNumber:'暂无数据',
-      discreditedRecords:'暂无数据',
-      rank:'暂无数据',
-      userId:null
+        name: "暂无数据",
+        gender: 0,
+        salary: "暂无数据",
+        phoneNumber: "暂无数据",
+        paymentAccount: "暂无数据",
+        bankAccount: "暂无数据",
+        lengthOfService: "暂无数据",
+        idCardNumber: "暂无数据",
+        discreditedRecords: "暂无数据",
+        rank: "暂无数据",
+        userId: null
       },
 
-
-      paypassword:{
+      paypassword: {
         oldpassword: "",
         newpassword: "",
         checkpassword: ""
@@ -371,14 +381,35 @@ export default {
       });
     },
 
-    clear(){
+    clear() {
       this.paypassword.oldpassword = "";
       this.paypassword.newpassword = "";
       this.paypassword.checkpassword = "";
-      this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.hintTxt = '';
+      this.newList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.oldList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.okList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.hintTxt = "";
     },
 
     handleDetail() {
@@ -459,9 +490,30 @@ export default {
           this.paypassword.oldpassword = "";
           this.paypassword.newpassword = "";
           this.paypassword.checkpassword = "";
-          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.newList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.oldList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.okList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
           return;
         }
         if (
@@ -473,9 +525,30 @@ export default {
           this.paypassword.oldpassword = "";
           this.paypassword.newpassword = "";
           this.paypassword.checkpassword = "";
-          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.newList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.oldList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.okList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
           return;
         }
       }
@@ -490,9 +563,30 @@ export default {
           this.paypassword.oldpassword = "";
           this.paypassword.newpassword = "";
           this.paypassword.checkpassword = "";
-          this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-          this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
+          this.newList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.oldList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
+          this.okList = [
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" },
+            { val: "" }
+          ];
           return;
         }
       }
@@ -501,10 +595,31 @@ export default {
       this.paypassword.oldpassword = "";
       this.paypassword.newpassword = "";
       this.paypassword.checkpassword = "";
-      this.newList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.oldList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.okList = [{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" },{ val: "" }];
-      this.hintTxt = '';
+      this.newList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.oldList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.okList = [
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" },
+        { val: "" }
+      ];
+      this.hintTxt = "";
     },
 
     nextFocusOld(el, index) {
@@ -589,7 +704,7 @@ export default {
   },
 
   mounted() {
-      this.getUser();
+    this.getUser();
   }
 };
 </script>
@@ -657,7 +772,7 @@ export default {
   border-right: 0px;
 }
 
-.my{
-  color: #b6afaf
+.my {
+  color: #b6afaf;
 }
 </style>
