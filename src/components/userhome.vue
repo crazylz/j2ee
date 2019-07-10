@@ -4,6 +4,11 @@
     <el-container class="container">
       <!-- 顶栏 -->
       <el-header>
+        <div style="float:left">
+          <big>
+          <i class="el-icon-menu" @mouseenter="mouseIn()" @mouseleave="mouseOut()" />
+          </big>
+        </div>
         <span class="system-name" style="font-size:28px">
           <img src="../assets/logo.png" style="width:25px" />
           {{systemName}}
@@ -126,7 +131,7 @@
       <!-- 需要将侧栏和主页面设置当一个容器里面 -->
       <el-container>
         <!-- 侧栏 -->
-        <el-aside width="200px">
+        <el-aside :style="{width:  widthVal + 'px'}">
           <el-menu :default-active="$route.path" router unique-opened>
             <el-menu-item index="/userhome/personalinfo" style="text-align:left" class="item">
               <i class="el-icon-user"></i>个人资料
@@ -244,6 +249,8 @@ export default {
       userName: "null",
       rechargeTxt: "",
       withdrawTxt: "",
+      sidebarVisible: false,
+      widthVal: 0,
 
       RechargeList: [
         { val: "" },
@@ -281,11 +288,42 @@ export default {
       }
     };
   },
+  watch: {
+  },
   mounted: function() {
-    // this.getBalance();
     this.getUser();
+    let that = this;
+    document.onmousemove = function(event) {
+      // 如果侧边栏不可见或者鼠标没有在侧边栏上
+      if (!that.sidebarVisible || event.x > 200) {
+        that.sidebarVisible = false;
+        that.widthVal = 0;
+      }
+    };
   },
   methods: {
+    changeBarWidth() {
+      if (this.sidebarVisible) {
+        this.widthVal = 200;
+      } else {
+        this.widthVal = 0;
+      }
+    },
+    mouseIn() {
+      this.sidebarVisible = true;
+      this.widthVal = 200;
+    },
+    mouseOut() {
+      this.sleep(1000).then(() => {
+        // 侧边栏可见，但是1秒之后如果鼠标没有在侧边栏就隐藏侧边栏
+        if (!this.sidebarVisible) this.widthVal = 0;
+      });
+    },
+
+    sleep(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
+    },
+
     bell: function() {
       this.$router.push({ path: "/userhome/message" });
     },
@@ -668,5 +706,13 @@ export default {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
+}
+
+.showBar {
+  width: 200px;
+}
+
+.hideBar {
+  width: 0px;
 }
 </style>
