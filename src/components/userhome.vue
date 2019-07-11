@@ -83,6 +83,7 @@
                 class="border-input-recharge"
                 @keyup="nextFocusRecharge($event,index)"
                 @keydown="changeValueRecharge(index)"
+                maxlength="1"
               />
             </span>
           </el-form-item>
@@ -118,6 +119,7 @@
                 class="border-input-withdraw"
                 @keyup="nextFocusWithdraw($event,index)"
                 @keydown="changeValueWithdraw(index)"
+                maxlength="1"
               />
             </span>
           </el-form-item>

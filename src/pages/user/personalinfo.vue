@@ -21,6 +21,7 @@
             class="border-input-old"
             @keyup="nextFocusOld($event,index)"
             @keydown="changeValueOld(index)"
+            maxlength="1"
           />
         </span>
       </div>
@@ -33,6 +34,7 @@
             class="border-input-new"
             @keyup="nextFocusNew($event,index)"
             @keydown="changeValueNew(index)"
+            maxlength="1"
           />
         </span>
       </div>
@@ -45,6 +47,7 @@
             class="border-input-ok"
             @keyup="nextFocusOk($event,index)"
             @keydown="changeValueOk(index)"
+            maxlength="1"
           />
         </span>
       </div>
