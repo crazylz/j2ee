@@ -21,6 +21,7 @@
             class="border-input-old"
             @keyup="nextFocusOld($event,index)"
             @keydown="changeValueOld(index)"
+            autocomplete="new-password"
             maxlength="1"
           />
         </span>

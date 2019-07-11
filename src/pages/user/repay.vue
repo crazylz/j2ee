@@ -21,6 +21,7 @@
               class="border-input"
               @keyup="nextFocus($event,index)"
               @keydown="changeValue(index)"
+              autocomplete="new-password"
               maxlength="1"
             />
           </span>
@@ -132,6 +133,7 @@ export default {
   // 必须加上this.tableData=[];才能够不被覆盖
   mounted() {
     this.getRepayData();
+    // this.clearCookie();
   },
 
   methods: {
@@ -145,7 +147,8 @@ export default {
       var res = get("/api/borrower/repayRecordsToProcess", {});
       res.then(repay => {
         this.all_tableData = repay.data;
-        console.log(repay);
+        // console.log(repay);
+        // console.log(document.cookie);
       });
     },
 

@@ -83,6 +83,7 @@
                 class="border-input-recharge"
                 @keyup="nextFocusRecharge($event,index)"
                 @keydown="changeValueRecharge(index)"
+                autocomplete="new-password"
                 maxlength="1"
               />
             </span>
@@ -119,6 +120,7 @@
                 class="border-input-withdraw"
                 @keyup="nextFocusWithdraw($event,index)"
                 @keydown="changeValueWithdraw(index)"
+                autocomplete="new-password"
                 maxlength="1"
               />
             </span>

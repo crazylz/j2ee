@@ -21,6 +21,7 @@
               class="border-input"
               @keyup="nextFocus($event,index)"
               @keydown="changeValue(index)"
+              autocomplete="new-password"
               maxlength="1"
             />
           </span>
