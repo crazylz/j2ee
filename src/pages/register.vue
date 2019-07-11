@@ -9,10 +9,10 @@
 					<el-input v-model='registerInfo.employeeId' placeholder='请输入工号' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='账号' prop='id'>
-					<el-input v-model='registerInfo.id' placeholder='请输入账号' autocomplete="off" id='userid' clearable></el-input>
+					<el-input v-model='registerInfo.id' placeholder='请输入 4~10 位数字或字母' autocomplete="off" id='userid' clearable></el-input>
 				</el-form-item>
 				<el-form-item label='密码' prop='password'>
-					<el-input v-model='registerInfo.password' type='password' placeholder='请输入密码'  clearable></el-input>
+					<el-input v-model='registerInfo.password' type='password' placeholder='请输入 6~10 位数字或字母'  clearable></el-input>
 				</el-form-item>
 				<el-form-item label='确认密码' prop='password_sure'>
 					<el-input v-model='registerInfo.password_sure' type='password'  placeholder='请再次输入密码' clearable></el-input>
